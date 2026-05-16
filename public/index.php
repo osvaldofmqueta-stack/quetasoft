@@ -24,9 +24,11 @@
 <?php include 'components/download.php'; ?>
 <?php include 'components/segments.php'; ?>
 <?php include 'components/blog.php'; ?>
+<?php include 'components/pricing.php'; ?>
 <?php include 'components/faq.php'; ?>
 <?php include 'components/trial.php'; ?>
 <?php include 'components/cta.php'; ?>
+<?php include 'components/payment-toast.php'; ?>
 <?php include 'components/footer.php'; ?>
 
 <script src="assets/js/main.js"></script>

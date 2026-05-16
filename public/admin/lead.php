@@ -51,6 +51,7 @@ $labels = ['novo' => '🔵 Novo', 'contactado' => '🟡 Contactado', 'convertido
       <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
       <a href="/admin/schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
       <a href="/admin/posts.php" class="snav-item">📝 Artigos do Blog</a>
+      <a href="/admin/pagamentos.php" class="snav-item">💳 Pagamentos</a>
       <a href="/admin/developer.php" class="snav-item">👤 Currículo</a>
       <a href="/admin/company.php" class="snav-item">🏢 Empresa</a>
     </nav>

@@ -142,6 +142,32 @@ function getDb(): PDO {
     try { $db->exec("ALTER TABLE posts ADD COLUMN intro TEXT DEFAULT ''"); } catch(Exception $e) {}
     try { $db->exec("ALTER TABLE posts ADD COLUMN pontos TEXT DEFAULT '[]'"); } catch(Exception $e) {}
 
+    $db->exec("CREATE TABLE IF NOT EXISTS pagamentos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        escola_nome TEXT NOT NULL,
+        cidade TEXT DEFAULT 'Angola',
+        pacote TEXT NOT NULL,
+        valor REAL DEFAULT 0,
+        metodo TEXT DEFAULT 'Transferência Bancária',
+        pago_em DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    $count_pag = $db->query("SELECT COUNT(*) FROM pagamentos")->fetchColumn();
+    if (!$count_pag) {
+        $sample_pag = [
+            ['Escola Primária Santo António', 'Luanda', 'Profissional', 499, 'Transferência Bancária', date('Y-m-d H:i:s', strtotime('-2 hours'))],
+            ['Instituto Técnico Comercial', 'Benguela', 'Básico', 299, 'TPA', date('Y-m-d H:i:s', strtotime('-5 hours'))],
+            ['Colégio São José', 'Cabinda', 'Completo', 799, 'Transferência Bancária', date('Y-m-d H:i:s', strtotime('-26 hours'))],
+            ['Academia Educativa Moderna', 'Malanje', 'Profissional', 499, 'Multicaixa', date('Y-m-d H:i:s', strtotime('-3 hours'))],
+            ['Escola Privada Aurora', 'Huambo', 'Básico', 299, 'TPA', date('Y-m-d H:i:s', strtotime('-8 hours'))],
+            ['Colégio Novo Horizonte', 'Namibe', 'Completo', 799, 'Transferência Bancária', date('Y-m-d H:i:s', strtotime('-2 days'))],
+            ['Instituto Politécnico Moderno', 'Luanda', 'Profissional', 499, 'Multicaixa', date('Y-m-d H:i:s', strtotime('-1 hour'))],
+            ['Escola de Arte e Tecnologia', 'Uíge', 'Básico', 299, 'TPA', date('Y-m-d H:i:s', strtotime('-4 days'))],
+        ];
+        $sp = $db->prepare("INSERT INTO pagamentos (escola_nome, cidade, pacote, valor, metodo, pago_em) VALUES (?,?,?,?,?,?)");
+        foreach ($sample_pag as $p) $sp->execute($p);
+    }
+
     // Default company data
     $has_company = $db->query("SELECT COUNT(*) FROM settings WHERE chave='company'")->fetchColumn();
     if (!$has_company) {
