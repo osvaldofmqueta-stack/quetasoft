@@ -31,6 +31,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// Showcase tab switching
+function switchTab(btn, id) {
+  document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.spanel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+}
+
 // FAQ toggle
 function toggleFaq(btn) {
   const item = btn.parentElement;
