@@ -21,6 +21,11 @@
         <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="/empresa.php">Sobre nós</a>
+        <a href="/cv.php">Desenvolvedor</a>
+      </div>
+      <div class="footer-col">
         <h4>Contacto</h4>
         <a href="https://wa.me/244926219731" target="_blank">+244 926 219 731</a>
         <a href="mailto:geral@superescola.ao">geral@superescola.ao</a>

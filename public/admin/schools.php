@@ -110,6 +110,8 @@ $escolas = $db->query("SELECT * FROM escolas ORDER BY ordem ASC, id ASC")->fetch
       <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
       <a href="/admin/schools.php" class="snav-item active">🏫 Escolas & Testemunhos</a>
       <a href="/admin/posts.php" class="snav-item">📝 Artigos do Blog</a>
+      <a href="/admin/developer.php" class="snav-item">👤 Currículo</a>
+      <a href="/admin/company.php" class="snav-item">🏢 Empresa</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>

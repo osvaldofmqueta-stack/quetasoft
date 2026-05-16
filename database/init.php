@@ -134,5 +134,26 @@ function getDb(): PDO {
         }
     }
 
+    $db->exec("CREATE TABLE IF NOT EXISTS settings (
+        chave TEXT PRIMARY KEY,
+        valor TEXT
+    )");
+
+    try { $db->exec("ALTER TABLE posts ADD COLUMN intro TEXT DEFAULT ''"); } catch(Exception $e) {}
+    try { $db->exec("ALTER TABLE posts ADD COLUMN pontos TEXT DEFAULT '[]'"); } catch(Exception $e) {}
+
     return $db;
+}
+
+function getSetting(PDO $db, string $key, array $default = []): array {
+    $s = $db->prepare("SELECT valor FROM settings WHERE chave = ?");
+    $s->execute([$key]);
+    $row = $s->fetch();
+    if (!$row || !$row['valor']) return $default;
+    return json_decode($row['valor'], true) ?: $default;
+}
+
+function saveSetting(PDO $db, string $key, array $value): void {
+    $db->prepare("INSERT OR REPLACE INTO settings (chave, valor) VALUES (?, ?)")
+       ->execute([$key, json_encode($value, JSON_UNESCAPED_UNICODE)]);
 }
