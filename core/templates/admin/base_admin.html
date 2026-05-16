@@ -27,6 +27,7 @@
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
+      <a href="{% url 'admin_change_password' %}" class="snav-item {% if active == 'change_password' %}active{% endif %}">🔐 Alterar senha</a>
       <a href="{% url 'admin_logout' %}" class="snav-item snav-logout">🚪 Sair</a>
     </div>
   </aside>

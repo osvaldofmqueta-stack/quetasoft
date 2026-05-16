@@ -1,0 +1,79 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Acesso — Super Escola Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+  <style>
+    .recover-box { background:#fff; border-radius:20px; padding:40px 36px; max-width:460px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+    .recover-icon { font-size:48px; text-align:center; margin-bottom:16px; }
+    .recover-title { font-size:22px; font-weight:800; color:#0f172a; text-align:center; margin-bottom:8px; }
+    .recover-sub { font-size:14px; color:#64748b; text-align:center; margin-bottom:28px; line-height:1.6; }
+    .step-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px 18px; margin-bottom:12px; }
+    .step-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; background:#4f46e5; color:#fff; border-radius:50%; font-size:12px; font-weight:700; margin-right:8px; flex-shrink:0; }
+    .step-text { font-size:14px; color:#374151; line-height:1.5; }
+    .step-row { display:flex; align-items:flex-start; gap:2px; }
+    code { background:#e2e8f0; padding:2px 7px; border-radius:4px; font-size:12px; font-family:monospace; color:#4f46e5; }
+    .wa-btn { display:flex; align-items:center; justify-content:center; gap:8px; padding:13px; background:#16a34a; color:#fff; border-radius:10px; font-size:14px; font-weight:700; text-decoration:none; margin-top:20px; transition:.2s; }
+    .wa-btn:hover { background:#15803d; }
+    .back-link { display:block; text-align:center; margin-top:16px; font-size:13px; color:#64748b; text-decoration:none; }
+    .back-link:hover { color:#4f46e5; }
+    .divider { height:1px; background:#f1f5f9; margin:20px 0; }
+    .badge-success { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); border-radius:20px; font-size:13px; color:#065f46; font-weight:600; margin-bottom:20px; }
+  </style>
+</head>
+<body class="login-page">
+  <div class="recover-box">
+    <div class="recover-icon">🔑</div>
+    <div class="recover-title">Recuperar acesso ao painel</div>
+    <div class="recover-sub">Não se preocupe — siga os passos abaixo para recuperar o acesso.</div>
+
+    {% if has_custom %}
+    <div style="text-align:center;">
+      <span class="badge-success">🔐 Credenciais personalizadas ativas</span>
+    </div>
+    <div class="step-card">
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <span class="step-text">As suas credenciais foram personalizadas dentro do painel. Se as esqueceu, precisa de repor os valores originais das variáveis de ambiente <code>ADMIN_USER</code> e <code>ADMIN_PASS</code> no Replit.</span>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <span class="step-text">Aceda ao painel do Replit → separador <strong>Secrets</strong> → verifique os valores de <code>ADMIN_USER</code> e <code>ADMIN_PASS</code> e use-os para entrar.</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="step-card">
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <span class="step-text">As suas credenciais estão guardadas como variáveis de ambiente no Replit. Aceda ao painel do Replit → separador <strong>Secrets</strong>.</span>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <span class="step-text">Procure as variáveis <code>ADMIN_USER</code> (utilizador) e <code>ADMIN_PASS</code> (senha). Use esses valores para entrar.</span>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-row">
+        <span class="step-num">3</span>
+        <span class="step-text">Se não tiver acesso ao Replit, entre em contacto com o suporte técnico pelo WhatsApp abaixo.</span>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="divider"></div>
+
+    <a href="https://wa.me/244926219731?text=Olá!+Não+consigo+entrar+no+painel+de+administração+do+Super+Escola.+Preciso+de+ajuda+urgente." target="_blank" class="wa-btn">
+      💬 Pedir ajuda pelo WhatsApp
+    </a>
+
+    <a href="{% url 'admin_login' %}" class="back-link">← Voltar ao login</a>
+  </div>
+</body>
+</html>

@@ -16,6 +16,15 @@ def admin_required(view_func):
     return wrapper
 
 
+def _check_credentials(user, pwd):
+    creds = Setting.get('admin_credentials', {})
+    custom_user = creds.get('username', '').strip()
+    custom_pass = creds.get('password', '').strip()
+    if custom_user and custom_pass:
+        return user == custom_user and pwd == custom_pass
+    return user == settings.ADMIN_USER and pwd == settings.ADMIN_PASS
+
+
 def admin_login(request):
     if request.session.get('admin_logged'):
         return redirect('admin_leads')
@@ -23,11 +32,57 @@ def admin_login(request):
     if request.method == 'POST':
         user = request.POST.get('username', '').strip()
         pwd = request.POST.get('password', '').strip()
-        if user == settings.ADMIN_USER and pwd == settings.ADMIN_PASS:
+        if _check_credentials(user, pwd):
             request.session['admin_logged'] = True
             return redirect('admin_leads')
         error = 'Credenciais incorretas. Tente novamente.'
     return render(request, 'admin/login.html', {'erro': error})
+
+
+def admin_forgot(request):
+    creds = Setting.get('admin_credentials', {})
+    has_custom = bool(creds.get('username') and creds.get('password'))
+    return render(request, 'admin/forgot.html', {'has_custom': has_custom})
+
+
+@admin_required
+def change_password(request):
+    msg_type, msg_text = '', ''
+    creds = Setting.get('admin_credentials', {})
+    current_user = creds.get('username') or settings.ADMIN_USER
+
+    if request.method == 'POST':
+        senha_atual = request.POST.get('senha_atual', '').strip()
+        novo_user = request.POST.get('novo_username', '').strip()
+        nova_senha = request.POST.get('nova_senha', '').strip()
+        confirmar = request.POST.get('confirmar_senha', '').strip()
+
+        if not _check_credentials(
+            creds.get('username') or settings.ADMIN_USER,
+            senha_atual
+        ):
+            msg_type, msg_text = 'error', 'Senha atual incorreta.'
+        elif not novo_user or not nova_senha:
+            msg_type, msg_text = 'error', 'Utilizador e nova senha são obrigatórios.'
+        elif nova_senha != confirmar:
+            msg_type, msg_text = 'error', 'A nova senha e a confirmação não coincidem.'
+        elif len(nova_senha) < 6:
+            msg_type, msg_text = 'error', 'A senha deve ter pelo menos 6 caracteres.'
+        else:
+            Setting.save_setting('admin_credentials', {
+                'username': novo_user,
+                'password': nova_senha,
+            })
+            request.session['admin_logged'] = True
+            msg_type, msg_text = 'success', 'Credenciais actualizadas com sucesso!'
+            current_user = novo_user
+
+    return render(request, 'admin/change_password.html', {
+        'msg_type': msg_type,
+        'msg_text': msg_text,
+        'current_user': current_user,
+        'active': 'change_password',
+    })
 
 
 def admin_logout(request):

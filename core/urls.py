@@ -27,4 +27,6 @@ urlpatterns = [
     path('painel/pagamentos/', admin_views.pagamentos, name='admin_pagamentos'),
     path('painel/empresa/', admin_views.empresa_edit, name='admin_empresa'),
     path('painel/developer/', admin_views.developer_edit, name='admin_developer'),
+    path('painel/alterar-senha/', admin_views.change_password, name='admin_change_password'),
+    path('painel/recuperar-acesso/', admin_views.admin_forgot, name='admin_forgot'),
 ]
