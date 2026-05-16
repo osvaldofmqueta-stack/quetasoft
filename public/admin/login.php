@@ -1,7 +1,7 @@
 <?php
 session_start();
-define('ADMIN_USER', 'admin');
-define('ADMIN_PASS', 'superescola2026');
+define('ADMIN_USER', getenv('ADMIN_USER') ?: 'admin');
+define('ADMIN_PASS', getenv('ADMIN_PASS') ?: 'superescola2026');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = trim($_POST['username'] ?? '');
