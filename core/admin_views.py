@@ -4,7 +4,8 @@ from django.conf import settings
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
-from .models import Lead, Escola, Post, Pagamento, Setting, Manual
+from django.views.decorators.http import require_POST
+from .models import Lead, Escola, Post, Pagamento, Setting, Manual, ChatSession, ChatMensagem
 
 
 def admin_required(view_func):
@@ -468,3 +469,69 @@ def developer_edit(request):
         'msg_text': msg_text,
         'active': 'developer',
     })
+
+
+# ─────────────────────────────────────────────
+# CHAT ADMIN VIEWS
+# ─────────────────────────────────────────────
+
+@admin_required
+def chat_list(request):
+    sessions = ChatSession.objects.prefetch_related('mensagens').order_by('-ultima_atividade')
+    total_nao_lidas = sum(s.nao_lidas() for s in sessions)
+    return render(request, 'admin/chat.html', {
+        'sessions': sessions,
+        'total_nao_lidas': total_nao_lidas,
+        'active': 'chat',
+    })
+
+
+@admin_required
+def chat_room(request, session_key):
+    session = get_object_or_404(ChatSession, session_key=session_key)
+    session.mensagens.filter(eh_admin=False, lido=False).update(lido=True)
+    mensagens = session.mensagens.order_by('criado_em')
+    return render(request, 'admin/chat_room.html', {
+        'session': session,
+        'mensagens': mensagens,
+        'active': 'chat',
+    })
+
+
+@admin_required
+@require_POST
+def chat_admin_send(request, session_key):
+    session = get_object_or_404(ChatSession, session_key=session_key)
+    try:
+        data = json.loads(request.body)
+        texto = data.get('texto', '').strip()
+    except Exception:
+        texto = request.POST.get('texto', '').strip()
+    if texto:
+        msg = ChatMensagem.objects.create(sessao=session, texto=texto, eh_admin=True, lido=True)
+        session.save()
+        return JsonResponse({'success': True, 'id': msg.id, 'hora': msg.criado_em.strftime('%H:%M')})
+    return JsonResponse({'success': False})
+
+
+@admin_required
+def chat_admin_poll(request, session_key):
+    session = get_object_or_404(ChatSession, session_key=session_key)
+    since = int(request.GET.get('since', 0))
+    msgs = session.mensagens.filter(id__gt=since)
+    msgs.filter(eh_admin=False, lido=False).update(lido=True)
+    data = []
+    for m in msgs:
+        data.append({
+            'id': m.id,
+            'texto': m.texto,
+            'eh_admin': m.eh_admin,
+            'hora': m.criado_em.strftime('%H:%M'),
+        })
+    return JsonResponse({'mensagens': data})
+
+
+@admin_required
+def chat_badge(request):
+    total = sum(s.nao_lidas() for s in ChatSession.objects.prefetch_related('mensagens'))
+    return JsonResponse({'total': total})

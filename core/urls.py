@@ -17,6 +17,9 @@ urlpatterns = [
 
     # API
     path('api/submit-lead/', views.submit_lead, name='submit_lead'),
+    path('api/chat/init/', views.chat_init, name='chat_init'),
+    path('api/chat/send/', views.chat_send, name='chat_send'),
+    path('api/chat/poll/', views.chat_poll, name='chat_poll'),
 
     # Admin panel
     path('painel/login/', admin_views.admin_login, name='admin_login'),
@@ -32,4 +35,9 @@ urlpatterns = [
     path('painel/developer/', admin_views.developer_edit, name='admin_developer'),
     path('painel/alterar-senha/', admin_views.change_password, name='admin_change_password'),
     path('painel/recuperar-acesso/', admin_views.admin_forgot, name='admin_forgot'),
+    path('painel/chat/', admin_views.chat_list, name='admin_chat'),
+    path('painel/chat/<str:session_key>/', admin_views.chat_room, name='admin_chat_room'),
+    path('painel/chat/<str:session_key>/send/', admin_views.chat_admin_send, name='admin_chat_send'),
+    path('painel/chat/<str:session_key>/poll/', admin_views.chat_admin_poll, name='admin_chat_poll'),
+    path('painel/chat-badge/', admin_views.chat_badge, name='admin_chat_badge'),
 ]

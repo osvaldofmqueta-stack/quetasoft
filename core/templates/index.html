@@ -662,6 +662,41 @@
 </script>
 {% endif %}
 
+<!-- CHAT WIDGET -->
+<div class="chat-widget" id="chatWidget">
+  <button class="chat-toggle" onclick="seToggleChat()" aria-label="Chat ao vivo">
+    <span>💬</span>
+    <span class="chat-notif-dot" id="chatNotifDot"></span>
+  </button>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+      <div class="chat-panel-info">
+        <div class="chat-av">🎓</div>
+        <div>
+          <div class="chat-header-name">Super Escola</div>
+          <div class="chat-header-status"><span class="chat-status-dot"></span> Online agora</div>
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="seToggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="seMessages">
+      <div class="chat-msg admin">
+        <div class="chat-bubble">👋 Olá! Bem-vindo ao <strong>Super Escola</strong>.<br>Como posso ajudar?</div>
+        <div class="chat-ts">Agora</div>
+      </div>
+    </div>
+    <div id="seInitForm" class="chat-init-form">
+      <p>Diga o seu nome para começar:</p>
+      <input type="text" id="seNome" class="chat-name-input" placeholder="O seu nome..." onkeydown="if(event.key==='Enter')seInitChat()">
+      <button class="chat-start-btn" onclick="seInitChat()">Iniciar conversa →</button>
+    </div>
+    <div id="seInputArea" class="chat-input-area" style="display:none">
+      <input type="text" id="seInput" class="chat-text-input" placeholder="Escreva a sua mensagem..." onkeydown="if(event.key==='Enter')seSend()">
+      <button class="chat-send-btn" onclick="seSend()">➤</button>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container footer-inner">
@@ -701,6 +736,111 @@
       });
     });
   });
+})();
+</script>
+
+<script>
+/* ── SUPER ESCOLA — CHAT WIDGET ── */
+(function() {
+  'use strict';
+  let seKey = localStorage.getItem('seChat_key');
+  let seOpen = false;
+  let seLastId = 0;
+  let sePollTimer = null;
+
+  function getCsrf() {
+    const m = document.cookie.match(/csrftoken=([^;]+)/);
+    return m ? m[1] : '';
+  }
+
+  function seAppendMsg(texto, isAdmin, hora) {
+    const box = document.getElementById('seMessages');
+    if (!box) return;
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + (isAdmin ? 'admin' : 'visitor');
+    const safe = texto.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    div.innerHTML = '<div class="chat-bubble">' + safe + '</div><div class="chat-ts">' + (hora || '') + '</div>';
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function seStartPoll() {
+    seStopPoll();
+    sePollTimer = setInterval(function() {
+      if (!seKey) return;
+      fetch('/api/chat/poll/?session=' + encodeURIComponent(seKey) + '&since=' + seLastId)
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          d.mensagens.forEach(function(m) {
+            if (m.id > seLastId) {
+              seLastId = m.id;
+              seAppendMsg(m.texto, true, m.hora);
+              if (!seOpen) {
+                var dot = document.getElementById('chatNotifDot');
+                if (dot) dot.classList.add('visible');
+              }
+            }
+          });
+        }).catch(function(){});
+    }, 3000);
+  }
+
+  function seStopPoll() {
+    if (sePollTimer) { clearInterval(sePollTimer); sePollTimer = null; }
+  }
+
+  window.seToggleChat = function() {
+    seOpen = !seOpen;
+    var panel = document.getElementById('chatPanel');
+    if (panel) panel.classList.toggle('open', seOpen);
+    var dot = document.getElementById('chatNotifDot');
+    if (seOpen && dot) dot.classList.remove('visible');
+    if (seOpen && seKey) seStartPoll();
+    else if (!seOpen) seStopPoll();
+  };
+
+  window.seInitChat = function() {
+    var nomeFld = document.getElementById('seNome');
+    var nome = nomeFld ? nomeFld.value.trim() : '';
+    if (!nome) { if (nomeFld) nomeFld.focus(); return; }
+
+    fetch('/api/chat/init/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+      body: JSON.stringify({ nome: nome })
+    }).then(function(r){ return r.json(); })
+      .then(function(d) {
+        seKey = d.session_key;
+        localStorage.setItem('seChat_key', seKey);
+        var initForm = document.getElementById('seInitForm');
+        var inputArea = document.getElementById('seInputArea');
+        if (initForm) initForm.style.display = 'none';
+        if (inputArea) inputArea.style.display = 'flex';
+        seAppendMsg('Olá ' + d.nome + '! Estou aqui para ajudar. 😊', true, 'Agora');
+        seStartPoll();
+      }).catch(function(){});
+  };
+
+  window.seSend = function() {
+    var fld = document.getElementById('seInput');
+    var texto = fld ? fld.value.trim() : '';
+    if (!texto || !seKey) return;
+    if (fld) fld.value = '';
+    seAppendMsg(texto, false, 'Agora');
+    fetch('/api/chat/send/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+      body: JSON.stringify({ session_key: seKey, texto: texto })
+    }).catch(function(){});
+  };
+
+  // Restore session from localStorage
+  if (seKey) {
+    var initForm = document.getElementById('seInitForm');
+    var inputArea = document.getElementById('seInputArea');
+    if (initForm) initForm.style.display = 'none';
+    if (inputArea) inputArea.style.display = 'flex';
+  }
 })();
 </script>
 {% endblock %}

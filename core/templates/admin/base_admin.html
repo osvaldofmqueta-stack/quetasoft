@@ -18,6 +18,7 @@
       <a href="{% url 'admin_leads' %}?estado=contactado" class="snav-item">🟡 Contactados <span class="badge badge-yellow">{{ totais.contactado|default:0 }}</span></a>
       <a href="{% url 'admin_leads' %}?estado=convertido" class="snav-item">🟢 Convertidos <span class="badge badge-green">{{ totais.convertido|default:0 }}</span></a>
       <a href="{% url 'admin_leads' %}?estado=cancelado" class="snav-item">🔴 Cancelados <span class="badge badge-red">{{ totais.cancelado|default:0 }}</span></a>
+      <a href="{% url 'admin_chat' %}" class="snav-item {% if active == 'chat' %}active{% endif %}" id="chatNavLink">💬 Chat ao vivo <span class="badge badge-blue" id="chatNavBadge" style="display:none">0</span></a>
       <a href="{% url 'admin_stats' %}" class="snav-item {% if active == 'stats' %}active{% endif %}">📊 Estatísticas</a>
       <a href="{% url 'admin_schools' %}" class="snav-item {% if active == 'schools' %}active{% endif %}">🏫 Escolas & Testemunhos</a>
       <a href="{% url 'admin_posts' %}" class="snav-item {% if active == 'posts' %}active{% endif %}">📝 Artigos do Blog</a>
@@ -36,5 +37,26 @@
     {% block content %}{% endblock %}
   </main>
 {% block extra_js %}{% endblock %}
+<script>
+(function pollChatBadge() {
+  function check() {
+    fetch('/painel/chat-badge/').then(r=>r.json()).then(d=>{
+      const badge = document.getElementById('chatNavBadge');
+      if (!badge) return;
+      if (d.total > 0) {
+        badge.textContent = d.total;
+        badge.style.display = 'inline-block';
+        document.title = document.title.replace(/^\(\d+\) /, '');
+        document.title = '(' + d.total + ') ' + document.title;
+      } else {
+        badge.style.display = 'none';
+        document.title = document.title.replace(/^\(\d+\) /, '');
+      }
+    }).catch(()=>{});
+  }
+  check();
+  setInterval(check, 6000);
+})();
+</script>
 </body>
 </html>

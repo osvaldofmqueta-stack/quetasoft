@@ -118,6 +118,37 @@ class Manual(models.Model):
         return self.resumo[:130] if self.resumo else ''
 
 
+class ChatSession(models.Model):
+    session_key = models.CharField(max_length=64, unique=True, db_index=True)
+    visitor_nome = models.TextField(blank=True, default='')
+    visitor_email = models.TextField(blank=True, default='')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    ultima_atividade = models.DateTimeField(auto_now=True)
+    encerrado = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'chat_sessions'
+        ordering = ['-ultima_atividade']
+
+    def nao_lidas(self):
+        return self.mensagens.filter(eh_admin=False, lido=False).count()
+
+    def ultima_mensagem(self):
+        return self.mensagens.order_by('-criado_em').first()
+
+
+class ChatMensagem(models.Model):
+    sessao = models.ForeignKey(ChatSession, on_delete=models.CASCADE, related_name='mensagens')
+    texto = models.TextField()
+    eh_admin = models.BooleanField(default=False)
+    lido = models.BooleanField(default=False)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'chat_mensagens'
+        ordering = ['criado_em']
+
+
 class Setting(models.Model):
     chave = models.TextField(primary_key=True)
     valor = models.TextField(blank=True, default='')

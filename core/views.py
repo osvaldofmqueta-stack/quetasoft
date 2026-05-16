@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from .models import Lead, Escola, Post, Pagamento, Setting, Manual
+import uuid
+from .models import Lead, Escola, Post, Pagamento, Setting, Manual, ChatSession, ChatMensagem
 
 
 def index(request):
@@ -122,3 +123,68 @@ def submit_lead(request):
         return JsonResponse({'success': True, 'message': 'Pedido enviado com sucesso!'})
     except Exception:
         return JsonResponse({'success': False, 'message': 'Erro ao guardar. Tente novamente.'})
+
+
+# ─────────────────────────────────────────────
+# CHAT API — VISITOR SIDE
+# ─────────────────────────────────────────────
+
+@csrf_exempt
+@require_POST
+def chat_init(request):
+    try:
+        data = json.loads(request.body)
+    except Exception:
+        data = {}
+    nome = data.get('nome', 'Visitante').strip() or 'Visitante'
+    email = data.get('email', '').strip()
+    key = str(uuid.uuid4()).replace('-', '')
+    session = ChatSession.objects.create(session_key=key, visitor_nome=nome, visitor_email=email)
+    ChatMensagem.objects.create(
+        sessao=session,
+        texto=f'Olá {nome}! Como posso ajudar?',
+        eh_admin=True,
+        lido=True,
+    )
+    return JsonResponse({'session_key': key, 'nome': nome})
+
+
+@csrf_exempt
+@require_POST
+def chat_send(request):
+    try:
+        data = json.loads(request.body)
+    except Exception:
+        data = {}
+    key = data.get('session_key', '').strip()
+    texto = data.get('texto', '').strip()
+    if not key or not texto:
+        return JsonResponse({'success': False})
+    try:
+        session = ChatSession.objects.get(session_key=key)
+    except ChatSession.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'sessão não encontrada'})
+    msg = ChatMensagem.objects.create(sessao=session, texto=texto, eh_admin=False)
+    session.save()  # triggers auto_now on ultima_atividade
+    return JsonResponse({'success': True, 'id': msg.id})
+
+
+def chat_poll(request):
+    key = request.GET.get('session', '').strip()
+    since = int(request.GET.get('since', 0))
+    if not key:
+        return JsonResponse({'mensagens': []})
+    try:
+        session = ChatSession.objects.get(session_key=key)
+    except ChatSession.DoesNotExist:
+        return JsonResponse({'mensagens': []})
+    msgs = session.mensagens.filter(id__gt=since, eh_admin=True)
+    data = []
+    for m in msgs:
+        data.append({
+            'id': m.id,
+            'texto': m.texto,
+            'eh_admin': m.eh_admin,
+            'hora': m.criado_em.strftime('%H:%M'),
+        })
+    return JsonResponse({'mensagens': data})

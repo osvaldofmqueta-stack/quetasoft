@@ -1,0 +1,84 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Chat em Tempo Real — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .chat-list-wrap { margin: 24px 32px; }
+  .chat-sessions { display: flex; flex-direction: column; gap: 8px; }
+  .chat-session-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; transition: all 0.18s; cursor: pointer; }
+  .chat-session-card:hover { border-color: #4f46e5; box-shadow: 0 4px 20px rgba(79,70,229,0.1); transform: translateY(-1px); }
+  .chat-session-card.unread { border-left: 4px solid #4f46e5; }
+  .chat-av-adm { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg,#4f46e5,#7c3aed); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; font-weight: 700; flex-shrink: 0; }
+  .chat-session-info { flex: 1; min-width: 0; }
+  .chat-session-name { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .chat-session-preview { font-size: 13px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .chat-session-meta { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .chat-session-time { font-size: 11px; color: #94a3b8; }
+  .chat-unread-badge { background: #4f46e5; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+  .chat-empty { text-align: center; padding: 80px 0; color: #94a3b8; }
+  .chat-empty-icon { font-size: 56px; margin-bottom: 16px; }
+  .chat-empty h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+  .chat-empty p { font-size: 14px; }
+  .badge-total { background: #4f46e5; color: #fff; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-left: 8px; }
+  .chat-refresh-btn { background: #f1f5f9; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; color: #374151; transition: background 0.15s; }
+  .chat-refresh-btn:hover { background: #e0e7ff; color: #4f46e5; }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Chat em Tempo Real
+      {% if total_nao_lidas > 0 %}
+      <span class="badge-total">{{ total_nao_lidas }} não lidas</span>
+      {% endif %}
+    </h1>
+    <p class="admin-subtitle">Conversas iniciadas pelos visitantes do site</p>
+  </div>
+  <button onclick="location.reload()" class="chat-refresh-btn">🔄 Atualizar</button>
+</header>
+
+<div class="chat-list-wrap">
+  {% if sessions %}
+  <div class="chat-sessions">
+    {% for s in sessions %}
+    {% with ultima=s.ultima_mensagem nao_lidas=s.nao_lidas %}
+    <a href="{% url 'admin_chat_room' s.session_key %}" class="chat-session-card {% if nao_lidas > 0 %}unread{% endif %}">
+      <div class="chat-av-adm">{{ s.visitor_nome|slice:":1"|upper }}</div>
+      <div class="chat-session-info">
+        <div class="chat-session-name">{{ s.visitor_nome }}{% if s.visitor_email %} <span style="font-weight:400;color:#94a3b8;font-size:12px;">— {{ s.visitor_email }}</span>{% endif %}</div>
+        <div class="chat-session-preview">
+          {% if ultima %}
+            {% if ultima.eh_admin %}🎓 {% else %}👤 {% endif %}{{ ultima.texto|truncatechars:80 }}
+          {% else %}
+            Nenhuma mensagem ainda
+          {% endif %}
+        </div>
+      </div>
+      <div class="chat-session-meta">
+        <div class="chat-session-time">{{ s.ultima_atividade|date:"d M, H:i" }}</div>
+        {% if nao_lidas > 0 %}
+        <div class="chat-unread-badge">{{ nao_lidas }}</div>
+        {% endif %}
+      </div>
+    </a>
+    {% endwith %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="chat-empty">
+    <div class="chat-empty-icon">💬</div>
+    <h3>Nenhuma conversa ainda</h3>
+    <p>Quando um visitante iniciar uma conversa no site,<br>aparece aqui em tempo real.</p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  setInterval(() => {
+    fetch('{% url "admin_chat_badge" %}').then(r=>r.json()).then(d=>{
+      if (d.total > 0) document.title = '(' + d.total + ') Chat — Super Escola';
+    });
+  }, 5000);
+</script>
+{% endblock %}
