@@ -1,7 +1,12 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from . import views, admin_views
 
 urlpatterns = [
+    # Compatibilidade com URL antiga do PHP
+    path('admin/', RedirectView.as_view(url='/painel/', permanent=True)),
+    path('admin/<path:rest>', RedirectView.as_view(url='/painel/', permanent=True)),
+
     # Public pages
     path('', views.index, name='index'),
     path('empresa/', views.empresa, name='empresa'),
