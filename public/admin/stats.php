@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['admin_logged'])) {
-    header('Location: login.php');
+    header('Location: /admin/login.php');
     exit;
 }
 require_once '../../database/init.php';

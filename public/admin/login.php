@@ -8,14 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = trim($_POST['password'] ?? '');
     if ($user === ADMIN_USER && $pass === ADMIN_PASS) {
         $_SESSION['admin_logged'] = true;
-        header('Location: index.php');
+        header('Location: /admin/index.php');
         exit;
     }
     $erro = 'Credenciais incorretas. Tente novamente.';
 }
 
 if (!empty($_SESSION['admin_logged'])) {
-    header('Location: index.php');
+    header('Location: /admin/index.php');
     exit;
 }
 ?>
