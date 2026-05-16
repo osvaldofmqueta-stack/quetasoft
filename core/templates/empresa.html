@@ -1,0 +1,95 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if co.nome %}{{ co.nome }} — Sobre nós{% else %}Sobre nós — Super Escola{% endif %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+</head>
+<body>
+<header class="header scrolled" id="header">
+  <div class="container header-inner">
+    <a href="/" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+    <nav class="nav" id="nav">
+      <a href="/#funcionalidades" class="nav-link">Funcionalidades</a>
+      <a href="/#segmentos" class="nav-link">Segmentos</a>
+      <a href="/#depoimentos" class="nav-link">Depoimentos</a>
+      <a href="/#artigos" class="nav-link">Artigos</a>
+      <a href="/#faq" class="nav-link">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://wa.me/244926219731" class="btn btn-outline" target="_blank">Fale Connosco</a>
+      <a href="https://wa.me/244926219731?text=Quero+uma+demonstração" class="btn btn-primary" target="_blank">Pedir Demonstração</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div style="max-width:860px;margin:100px auto 80px;padding:0 20px;">
+
+{% if not co.nome %}
+<div style="text-align:center;padding:80px 0;color:#64748b;">
+  <div style="font-size:60px;margin-bottom:16px;">🏢</div>
+  <h2 style="font-size:22px;margin-bottom:10px;">Página da empresa ainda não configurada</h2>
+  <p>Aceda ao painel de administração para preencher os dados da empresa.</p>
+  <a href="{% url 'admin_empresa' %}" style="display:inline-block;margin-top:20px;padding:10px 24px;background:#4f46e5;color:#fff;border-radius:8px;font-weight:600;">Configurar agora →</a>
+</div>
+{% else %}
+
+<div style="display:flex;align-items:center;gap:20px;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid #e2e8f0;">
+  {% if co.logo_url %}<img src="{{ co.logo_url }}" alt="{{ co.nome }}" style="height:60px;object-fit:contain;">{% endif %}
+  <div>
+    <h1 style="font-size:28px;font-weight:800;color:#0f172a;">{{ co.nome }}</h1>
+    {% if co.slogan %}<p style="color:#4f46e5;font-weight:600;">{{ co.slogan }}</p>{% endif %}
+  </div>
+</div>
+
+{% if co.descricao %}
+<div style="background:#fff;border-radius:12px;padding:28px;border:1px solid #e2e8f0;margin-bottom:20px;">
+  <h3 style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;">Sobre nós</h3>
+  <p style="font-size:16px;color:#374151;line-height:1.75;">{{ co.descricao }}</p>
+</div>
+{% endif %}
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+  {% if co.missao %}
+  <div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e8f0;">
+    <h3 style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Missão</h3>
+    <p style="font-size:14px;color:#374151;line-height:1.7;">{{ co.missao }}</p>
+  </div>
+  {% endif %}
+  {% if co.visao %}
+  <div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e8f0;">
+    <h3 style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Visão</h3>
+    <p style="font-size:14px;color:#374151;line-height:1.7;">{{ co.visao }}</p>
+  </div>
+  {% endif %}
+</div>
+
+{% if co.valores %}
+<div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e8f0;margin-bottom:20px;">
+  <h3 style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Valores</h3>
+  <p style="font-size:14px;color:#374151;line-height:1.7;">{{ co.valores }}</p>
+</div>
+{% endif %}
+
+<div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e8f0;">
+  <h3 style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;">Contactos</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;">
+    {% if co.morada %}<div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#374151;"><span>📍</span>{{ co.morada }}</div>{% endif %}
+    {% if co.telefone %}<a href="https://wa.me/{{ co.telefone|cut:' '|cut:'+'|cut:'-' }}" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:14px;color:#16a34a;text-decoration:none;"><span>💬</span>{{ co.telefone }}</a>{% endif %}
+    {% if co.email %}<a href="mailto:{{ co.email }}" style="display:flex;align-items:center;gap:8px;font-size:14px;color:#3b82f6;text-decoration:none;"><span>📧</span>{{ co.email }}</a>{% endif %}
+    {% if co.website %}<a href="{{ co.website }}" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:14px;color:#4f46e5;text-decoration:none;"><span>🌐</span>{{ co.website }}</a>{% endif %}
+    {% if co.facebook %}<a href="{{ co.facebook }}" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:14px;color:#1877f2;text-decoration:none;"><span>📘</span>Facebook</a>{% endif %}
+    {% if co.instagram %}<a href="{{ co.instagram }}" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:14px;color:#e1306c;text-decoration:none;"><span>📷</span>Instagram</a>{% endif %}
+  </div>
+</div>
+
+{% endif %}
+</div>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

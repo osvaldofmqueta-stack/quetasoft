@@ -1,0 +1,141 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Artigos do Blog — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-modal{background:#fff;border-radius:16px;border:1px solid #e2e8f0;padding:28px;margin:24px 32px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+  .form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#4f46e5;}
+  .btn-admin-primary{background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .btn-admin-secondary{background:#f1f5f9;color:#374151;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;}
+  .alert{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:500;}
+  .alert-success{background:rgba(16,185,129,.1);color:#065f46;border:1px solid rgba(16,185,129,.2);}
+  .alert-error{background:rgba(239,68,68,.08);color:#991b1b;border:1px solid rgba(239,68,68,.15);}
+  .pontos-list{display:flex;flex-direction:column;gap:8px;}
+  .ponto-row{display:flex;gap:8px;align-items:center;}
+  .ponto-row input{flex:1;padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;}
+  .ponto-row button{background:#f1f5f9;border:none;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:14px;}
+  .media-tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .media-tab{padding:6px 16px;border-radius:6px;border:1.5px solid #e2e8f0;font-size:13px;font-weight:600;cursor:pointer;background:#fff;transition:.15s;}
+  .media-tab.active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Artigos do Blog</h1>
+    <p class="admin-subtitle">Publique e gira artigos sobre gestão escolar</p>
+  </div>
+  <a href="{% url 'admin_posts' %}?action=new" class="btn-admin-primary">+ Novo artigo</a>
+</header>
+
+{% if msg_text %}
+<div style="margin:16px 32px 0;">
+  <div class="alert alert-{{ msg_type }}">{{ msg_text }}</div>
+</div>
+{% endif %}
+
+{% if edit or request.GET.action == 'new' %}
+<div class="form-modal">
+  <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;">{% if edit %}Editar{% else %}Novo{% endif %} artigo</h2>
+  <form method="POST" id="postForm">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{% if edit %}edit{% else %}create{% endif %}">
+    {% if edit %}<input type="hidden" name="id" value="{{ edit.id }}">{% endif %}
+
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1;"><label>Título *</label><input name="titulo" value="{{ edit.titulo|default:'' }}" required placeholder="Título do artigo"></div>
+      <div class="form-group"><label>Categoria</label>
+        <select name="categoria">
+          {% for cat in cats %}<option value="{{ cat }}" {% if edit.categoria == cat or not edit and cat == 'Outros' %}selected{% endif %}>{{ cat }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="form-group"><label>Autor</label><input name="autor" value="{{ edit.autor|default:'Equipa Super Escola' }}"></div>
+      <div class="form-group" style="grid-column:1/-1;"><label>Resumo</label><textarea name="resumo" rows="2" placeholder="Breve descrição para aparecer na lista...">{{ edit.resumo|default:'' }}</textarea></div>
+      <div class="form-group" style="grid-column:1/-1;">
+        <div class="form-group" style="display:flex;align-items:center;gap:8px;"><input type="checkbox" name="ativo" id="ativo" {% if edit %}{% if edit.ativo %}checked{% endif %}{% else %}checked{% endif %} style="width:auto;"><label for="ativo" style="margin:0;">Publicado (visível no site)</label></div>
+      </div>
+    </div>
+
+    <div style="margin:20px 0;">
+      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Tipo de media</label>
+      <div class="media-tabs">
+        <button type="button" class="media-tab {% if not edit or not edit.video_url %}active{% endif %}" onclick="setMedia('imagem',this)">🖼 Imagem</button>
+        <button type="button" class="media-tab {% if edit and edit.video_url %}active{% endif %}" onclick="setMedia('video',this)">▶️ Vídeo YouTube</button>
+      </div>
+      <input type="hidden" name="media_type" id="mediaType" value="{% if edit and edit.video_url %}video{% else %}imagem{% endif %}">
+      <div id="imgField" {% if edit and edit.video_url %}style="display:none"{% endif %}>
+        <div class="form-group"><label>URL da imagem</label><input name="imagem_url" value="{{ edit.imagem_url|default:'' }}" placeholder="https://..."></div>
+      </div>
+      <div id="vidField" {% if not edit or not edit.video_url %}style="display:none"{% endif %}>
+        <div class="form-group"><label>URL do vídeo YouTube</label><input name="video_url" value="{{ edit.video_url|default:'' }}" placeholder="https://youtu.be/..."></div>
+      </div>
+    </div>
+
+    <div style="margin:20px 0;">
+      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Introdução (texto de abertura)</label>
+      <textarea name="intro" rows="4" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">{{ edit.intro|default:'' }}</textarea>
+    </div>
+
+    <div style="margin:20px 0;">
+      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Pontos / tópicos do artigo</label>
+      <div class="pontos-list" id="pontosList">
+        {% if edit %}{% for pt in edit.get_pontos %}<div class="ponto-row"><input type="text" name="pontos" value="{{ pt }}" placeholder="Ponto {{ forloop.counter }}"><button type="button" onclick="this.parentElement.remove()">🗑</button></div>{% endfor %}{% endif %}
+        <div class="ponto-row"><input type="text" name="pontos" placeholder="Ponto..."><button type="button" onclick="this.parentElement.remove()">🗑</button></div>
+      </div>
+      <button type="button" onclick="addPonto()" style="margin-top:8px;padding:6px 14px;border:1.5px dashed #e2e8f0;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;">+ Adicionar ponto</button>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <button type="submit" class="btn-admin-primary">💾 Guardar artigo</button>
+      <a href="{% url 'admin_posts' %}" class="btn-admin-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endif %}
+
+<div class="table-wrap">
+  {% if not posts %}
+  <div class="empty-state">
+    <div class="empty-icon">📝</div>
+    <h3>Nenhum artigo publicado</h3>
+    <p>Comece a criar conteúdo para o blog do Super Escola.</p>
+  </div>
+  {% else %}
+  <table class="admin-table">
+    <thead><tr><th>#</th><th>Título</th><th>Categoria</th><th>Autor</th><th>Estado</th><th>Data</th><th>Ações</th></tr></thead>
+    <tbody>
+      {% for post in posts %}
+      <tr>
+        <td class="td-id">#{{ post.id }}</td>
+        <td><div style="font-weight:600;">{{ post.titulo|truncatechars:55 }}</div>{% if post.resumo %}<div style="font-size:12px;color:#94a3b8;margin-top:2px;">{{ post.resumo|truncatechars:80 }}</div>{% endif %}</td>
+        <td><span style="background:#f1f5f9;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">{{ post.categoria }}</span></td>
+        <td style="font-size:13px;color:#64748b;">{{ post.autor }}</td>
+        <td>{% if post.ativo %}<span class="estado-badge estado-convertido">✅ Publicado</span>{% else %}<span class="estado-badge estado-cancelado">❌ Rascunho</span>{% endif %}</td>
+        <td class="td-date">{{ post.publicado_em|date:"d/m/Y" }}</td>
+        <td>
+          <div class="action-btns">
+            <a href="{% url 'post_detail' post.id %}" target="_blank" class="abtn" title="Ver no site">👁</a>
+            <a href="?edit={{ post.id }}" class="abtn" title="Editar">✏️</a>
+            <form method="POST" style="display:inline;">{% csrf_token %}<input type="hidden" name="action" value="toggle"><input type="hidden" name="id" value="{{ post.id }}"><button type="submit" class="abtn abtn-yellow" title="Toggle">{% if post.ativo %}🚫{% else %}✅{% endif %}</button></form>
+            <form method="POST" style="display:inline;" onsubmit="return confirm('Apagar este artigo?')">{% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="{{ post.id }}"><button type="submit" class="abtn abtn-red" title="Apagar">🗑</button></form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function addPonto(){const list=document.getElementById('pontosList');const d=document.createElement('div');d.className='ponto-row';d.innerHTML='<input type="text" name="pontos" placeholder="Ponto..."><button type="button" onclick="this.parentElement.remove()">🗑</button>';list.appendChild(d);}
+function setMedia(type,btn){document.getElementById('mediaType').value=type;document.querySelectorAll('.media-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('imgField').style.display=type==='imagem'?'':'none';document.getElementById('vidField').style.display=type==='video'?'':'none';}
+</script>
+{% endblock %}

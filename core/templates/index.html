@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Super<strong>Escola</strong></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#funcionalidades" class="nav-link">Funcionalidades</a>
+      <a href="#segmentos" class="nav-link">Segmentos</a>
+      <a href="#depoimentos" class="nav-link">Depoimentos</a>
+      <a href="#artigos" class="nav-link">Artigos</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://wa.me/244926219731?text=Olá!+Vim+pelo+site+e+quero+saber+mais+sobre+o+Super+Escola." class="btn btn-outline" target="_blank">Fale Connosco</a>
+      <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+do+Super+Escola." class="btn btn-primary" target="_blank">Pedir Demonstração</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">✨ A solução completa para a sua escola</div>
+      <h1 class="hero-title">A sua escola merece uma gestão <span class="gradient-text">profissional e moderna</span></h1>
+      <p class="hero-desc">Deixe as planilhas para trás. Com o <strong>Super Escola</strong>, gere matrículas, turmas, mensalidades e comunicação tudo num só lugar — de forma simples, rápida e segura.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+gratuita+do+Super+Escola." class="btn btn-primary btn-lg" target="_blank">🚀 Quero uma demonstração gratuita</a>
+        <a href="#funcionalidades" class="btn btn-ghost btn-lg">Ver funcionalidades →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">+500</span><span class="stat-label">Escolas ativas</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">+10k</span><span class="stat-label">Alunos geridos</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">99.9%</span><span class="stat-label">Disponibilidade</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="dashboard-mock">
+        <div class="mock-header">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <span class="mock-title">Super Escola — Dashboard</span>
+        </div>
+        <div class="mock-body">
+          <div class="mock-sidebar">
+            <div class="mock-menu-item active">📊 Dashboard</div>
+            <div class="mock-menu-item">👥 Alunos</div>
+            <div class="mock-menu-item">📚 Turmas</div>
+            <div class="mock-menu-item">💰 Financeiro</div>
+            <div class="mock-menu-item">📅 Horários</div>
+            <div class="mock-menu-item">🔔 Notificações</div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-cards">
+              <div class="mock-card blue"><div class="mock-card-num">248</div><div class="mock-card-label">Alunos</div></div>
+              <div class="mock-card green"><div class="mock-card-num">18</div><div class="mock-card-label">Turmas</div></div>
+              <div class="mock-card purple"><div class="mock-card-num">94%</div><div class="mock-card-label">Pagamentos</div></div>
+            </div>
+            <div class="mock-chart">
+              <div class="mock-chart-bar" style="height:60%"></div>
+              <div class="mock-chart-bar" style="height:80%"></div>
+              <div class="mock-chart-bar" style="height:50%"></div>
+              <div class="mock-chart-bar" style="height:90%"></div>
+              <div class="mock-chart-bar" style="height:70%"></div>
+              <div class="mock-chart-bar" style="height:95%"></div>
+              <div class="mock-chart-bar" style="height:65%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8fafc"/>
+    </svg>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients">
+  <div class="container">
+    <p class="clients-label">Já confiam no Super Escola</p>
+    <div class="clients-logos">
+      <div class="client-logo">🏫 Colégio Estrela</div>
+      <div class="client-logo">📖 Academia Saber</div>
+      <div class="client-logo">🎵 Escola de Música Nota</div>
+      <div class="client-logo">💻 Centro TechLearn</div>
+      <div class="client-logo">🌍 Instituto Global</div>
+      <div class="client-logo">🎭 Arte & Cultura</div>
+    </div>
+  </div>
+</section>
+
+<!-- CAROUSEL -->
+<section class="app-carousel" id="sistema">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">O sistema em detalhe</div>
+      <h2 class="section-title">Conheça o Super Escola por dentro</h2>
+      <p class="section-desc">Um sistema moderno, rápido e intuitivo — funciona em qualquer dispositivo, sem instalar nada.</p>
+    </div>
+  </div>
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-login"><div class="app-brasao">🇦🇴</div><div class="app-brand">SUPER ESCOLA</div><div class="app-brand-sub">Sistema de Gestão Académica</div><div class="app-login-form"><div class="app-input"><span class="app-input-icon">👤</span><span class="app-input-text">Utilizador</span></div><div class="app-input"><span class="app-input-icon">🔒</span><span class="app-input-text">Palavra-passe</span></div><div class="app-btn-login">ENTRAR</div></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">01 / 06</div><h3>Acesso seguro e rápido</h3><p>Login protegido com credenciais únicas para cada utilizador. Aceda de qualquer browser — computador, tablet ou telemóvel — sem instalar nada.</p><div class="slide-tags"><span class="tag">🔐 Login seguro</span><span class="tag">📱 Responsivo</span><span class="tag">☁️ Online 24/7</span></div></div>
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📊 Dashboard</span><span style="color:#4a6fa5;font-size:11px;">Ano 2025/2026</span></div><div class="app-kpis"><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#7ec8e3;">248</div><div class="app-kpi-l">Alunos</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#4ade80;">18</div><div class="app-kpi-l">Turmas</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#f59e0b;">94%</div><div class="app-kpi-l">Pagamentos</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#c084fc;">12</div><div class="app-kpi-l">Professores</div></div></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">02 / 06</div><h3>Dashboard em tempo real</h3><p>Tenha uma visão completa da sua escola num só ecrã. Alunos, turmas, pagamentos, atividade recente — tudo atualizado em tempo real.</p><div class="slide-tags"><span class="tag">📊 Gráficos</span><span class="tag">⚡ Tempo real</span><span class="tag">🔔 Atividade</span></div></div>
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">👥 Alunos</span></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">03 / 06</div><h3>Gestão de alunos simplificada</h3><p>Registo completo de cada aluno com ficha pessoal, histórico académico, documentos, encarregado de educação e estado da matrícula.</p><div class="slide-tags"><span class="tag">📋 Fichas completas</span><span class="tag">🔍 Pesquisa rápida</span><span class="tag">📁 Documentos</span></div></div>
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">💰 Financeiro</span></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">04 / 06</div><h3>Controlo financeiro total</h3><p>Acompanhe mensalidades, pagamentos em atraso e cobranças pendentes em tempo real. Envie lembretes automáticos por WhatsApp.</p><div class="slide-tags"><span class="tag">💳 Cobranças</span><span class="tag">📈 Relatórios</span><span class="tag">💬 Lembretes</span></div></div>
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📅 Horários</span></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">05 / 06</div><h3>Quadro de horários visual</h3><p>Monte e visualize os horários de todas as turmas e professores. O sistema deteta conflitos automaticamente e apresenta uma vista semanal clara.</p><div class="slide-tags"><span class="tag">📅 Vista semanal</span><span class="tag">⚠️ Anti-conflitos</span><span class="tag">📄 Exportar PDF</span></div></div>
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📝 Boletins</span></div></div></div></div></div>
+        <div class="slide-info"><div class="slide-num">06 / 06</div><h3>Notas e boletins automáticos</h3><p>Lance notas por trimestre, acompanhe presenças e gere boletins em PDF personalizados com a identidade visual da sua escola.</p><div class="slide-tags"><span class="tag">📝 Lançamento de notas</span><span class="tag">📄 Boletim PDF</span><span class="tag">✅ Aprovação auto</span></div></div>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-prev" onclick="moveCarousel(-1)" aria-label="Anterior">&#8592;</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-next" onclick="moveCarousel(1)" aria-label="Seguinte">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="funcionalidades">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Funcionalidades</div>
+      <h2 class="section-title">Tudo o que a sua escola precisa, num só sistema</h2>
+      <p class="section-desc">Desenvolvido especificamente para escolas, o Super Escola cobre todas as áreas da sua gestão.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card feature-card--dark"><div class="feature-icon">👥</div><h3>Gestão de Alunos</h3><p>Registe e acompanhe o historial completo de cada aluno: matrículas, notas, presenças e documentos — tudo organizado e acessível.</p><ul class="feature-list"><li>✓ Ficha completa do aluno</li><li>✓ Histórico académico</li><li>✓ Gestão de documentos</li></ul></div>
+      <div class="feature-card feature-card--light"><div class="feature-icon">📅</div><h3>Quadro de Horários</h3><p>Organize os horários de turmas, professores e salas de forma simples e visual. Sem conflitos, sem dores de cabeça.</p><ul class="feature-list"><li>✓ Vista semanal e mensal</li><li>✓ Deteção de conflitos</li><li>✓ Exportação em PDF</li></ul></div>
+      <div class="feature-card feature-card--accent"><div class="feature-icon">💰</div><h3>Módulo Financeiro</h3><p>Controle mensalidades, gere cobranças automáticas e acompanhe recebimentos em tempo real. Diga adeus às planilhas!</p><ul class="feature-list"><li>✓ Cobranças automáticas</li><li>✓ Relatórios financeiros</li><li>✓ Controlo de inadimplência</li></ul></div>
+      <div class="feature-card feature-card--light"><div class="feature-icon">🔔</div><h3>Notificações</h3><p>Comunique com alunos e encarregados por WhatsApp, SMS, email ou push notification. Mensagens certas, no momento certo.</p><ul class="feature-list"><li>✓ WhatsApp integrado</li><li>✓ Envio em massa</li><li>✓ Automatizações</li></ul></div>
+      <div class="feature-card feature-card--dark"><div class="feature-icon">📊</div><h3>Relatórios & Dashboard</h3><p>Tome decisões com dados reais. Dashboards interativos com métricas de desempenho académico e financeiro da sua escola.</p><ul class="feature-list"><li>✓ Dashboard em tempo real</li><li>✓ Relatórios personalizados</li><li>✓ Exportação Excel/PDF</li></ul></div>
+      <div class="feature-card feature-card--light"><div class="feature-icon">🎓</div><h3>Portal do Aluno</h3><p>O aluno acede ao seu boletim, horários, mensagens e documentos diretamente pelo telemóvel — sem instalar nada.</p><ul class="feature-list"><li>✓ Acesso via browser</li><li>✓ Notas e presenças</li><li>✓ Comunicados</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="container">
+    <div class="benefits-inner">
+      <div class="benefits-text">
+        <div class="section-badge">Por que escolher o Super Escola?</div>
+        <h2 class="section-title">Uma plataforma pensada para o sucesso da sua escola</h2>
+        <p class="section-desc">Mais de 500 escolas já transformaram a sua gestão. Veja o porquê:</p>
+        <div class="benefits-list">
+          <div class="benefit-item"><div class="benefit-icon">🔒</div><div><h4>Segurança total dos dados</h4><p>Os dados dos seus alunos armazenados com encriptação de ponta a ponta e backups diários automáticos.</p></div></div>
+          <div class="benefit-item"><div class="benefit-icon">☁️</div><div><h4>100% na nuvem</h4><p>Aceda ao sistema de qualquer dispositivo, em qualquer lugar. Sem instalações, sem servidores locais.</p></div></div>
+          <div class="benefit-item"><div class="benefit-icon">🎨</div><div><h4>Personalização completa</h4><p>Coloque a identidade visual da sua escola no sistema e no portal do aluno — é a sua marca!</p></div></div>
+          <div class="benefit-item"><div class="benefit-icon">🤝</div><div><h4>Suporte dedicado</h4><p>A nossa equipa está disponível para ajudar na implementação, formação e sempre que precisar.</p></div></div>
+        </div>
+      </div>
+      <div class="benefits-visual">
+        <div class="benefits-card">
+          <div class="benefits-card-header"><span>📈 Crescimento médio após adoção</span></div>
+          <div class="benefits-stats">
+            <div class="b-stat"><div class="b-stat-bar"><div class="b-stat-fill" style="width:85%">85%</div></div><span>Redução de trabalho manual</span></div>
+            <div class="b-stat"><div class="b-stat-bar"><div class="b-stat-fill green" style="width:70%">70%</div></div><span>Aumento na satisfação dos pais</span></div>
+            <div class="b-stat"><div class="b-stat-bar"><div class="b-stat-fill purple" style="width:60%">60%</div></div><span>Melhoria na taxa de pagamento</span></div>
+            <div class="b-stat"><div class="b-stat-bar"><div class="b-stat-fill orange" style="width:90%">90%</div></div><span>Escolas que renovam o contrato</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="depoimentos">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Escolas que já aderiram</div>
+      <h2 class="section-title">O que dizem os nossos <span class="gradient-text">diretores</span></h2>
+      <p class="section-desc">Mais de 50 escolas em Angola já confiam no Super Escola para gerir o seu dia-a-dia académico.</p>
+    </div>
+    <div class="school-logos-strip">
+      {% for e in escolas %}
+      <div class="school-logo-item">
+        <div class="school-logo-av" style="background:{{ e.cor_avatar }};">
+          {% if e.foto_url %}<img src="{{ e.foto_url }}" alt="{{ e.nome_escola }}">{% else %}{{ e.iniciais }}{% endif %}
+        </div>
+        <span class="school-logo-name">{{ e.nome_escola }}</span>
+        <span class="school-logo-city">{{ e.cidade }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="testimonials-grid">
+      {% for e in escolas %}
+      <div class="testimonial-card {% if forloop.counter == 2 %}testimonial-card--featured{% endif %}">
+        <div class="testimonial-stars">{{ e.stars_display }}</div>
+        <p class="testimonial-text">{{ e.depoimento }}</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar-wrap">
+            {% if e.foto_url %}<img class="testimonial-photo" src="{{ e.foto_url }}" alt="{{ e.nome_diretor }}">
+            {% else %}<div class="testimonial-avatar" style="background:{{ e.cor_avatar }};">{{ e.iniciais }}</div>{% endif %}
+          </div>
+          <div>
+            <strong>{{ e.nome_diretor }}</strong>
+            <span>{{ e.cargo }} — {{ e.nome_escola }}, {{ e.cidade }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="testimonials-cta">
+      <p>A sua escola ainda não está aqui? <a href="#pedido-gratuito" class="link-highlight">Junte-se a nós →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- SEGMENTS -->
+<section class="segments" id="segmentos">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Segmentos</div>
+      <h2 class="section-title">Para que tipo de escola é indicado?</h2>
+      <p class="section-desc">O Super Escola adapta-se a qualquer formato de escola ou centro de ensino.</p>
+    </div>
+    <div class="segments-grid">
+      <div class="segment-card"><div class="segment-icon">🏫</div><h3>Escolas Regulares</h3><p>Ensino pré-escolar, básico e secundário. Notas, presenças e comunicação com encarregados.</p></div>
+      <div class="segment-card"><div class="segment-icon">🎵</div><h3>Escolas de Arte</h3><p>Música, dança, teatro, artes plásticas. Gestão de turmas e horários flexíveis.</p></div>
+      <div class="segment-card"><div class="segment-icon">💻</div><h3>Cursos Profissionais</h3><p>Informática, idiomas, formação profissional e cursos livres de curta duração.</p></div>
+      <div class="segment-card"><div class="segment-icon">🏊</div><h3>Escolas Desportivas</h3><p>Natação, futebol, ginástica e desportos em geral com controlo de mensalidades.</p></div>
+      <div class="segment-card"><div class="segment-icon">👶</div><h3>Creches & Berçários</h3><p>Comunicação diária com os pais, relatórios de desenvolvimento e gestão de vagas.</p></div>
+      <div class="segment-card"><div class="segment-icon">🌍</div><h3>Escolas de Idiomas</h3><p>Controlo de turmas por nível, progresso dos alunos e certificações.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog" id="artigos">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Artigos</div>
+      <h2 class="section-title">Conhecimento para gerir melhor a sua escola</h2>
+      <p class="section-desc">Dicas práticas, estratégias e novidades sobre gestão escolar, finanças e tecnologia educacional.</p>
+    </div>
+    <div class="blog-filters">
+      {% for cat in categorias %}
+      <button class="blog-filter-btn {% if forloop.first %}active{% endif %}" data-cat="{{ cat }}">{{ cat }}</button>
+      {% endfor %}
+    </div>
+    <div class="blog-grid" id="blogGrid">
+      {% for post in posts %}
+      <article class="blog-card" data-cat="{{ post.categoria }}">
+        <a href="{% url 'post_detail' post.id %}" class="blog-card-img-wrap">
+          {% if post.imagem_url %}<img src="{{ post.imagem_url }}" alt="{{ post.titulo }}" loading="lazy">
+          {% else %}<div class="blog-card-img-placeholder"></div>{% endif %}
+          <span class="blog-card-badge">{{ post.categoria }}</span>
+        </a>
+        <div class="blog-card-body">
+          <h3 class="blog-card-title"><a href="{% url 'post_detail' post.id %}">{{ post.titulo }}</a></h3>
+          <p class="blog-card-excerpt">{{ post.resumo_curto }}...</p>
+          <a href="{% url 'post_detail' post.id %}" class="blog-card-link">Leia o post completo →</a>
+          <div class="blog-card-meta">
+            <span>👤 {{ post.autor }}</span>
+            <span>🗓 {{ post.publicado_em|date:"d M Y" }}</span>
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <div style="text-align:center;padding:80px 0;color:#94a3b8;"><div style="font-size:48px;margin-bottom:16px;">📝</div><p>Em breve novos artigos. Fique atento!</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precos">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Planos & Preços</span>
+      <h2 class="section-title">Pagamento único. Sem mensalidades.</h2>
+      <p class="section-subtitle">Escolha o pacote que melhor se adapta ao tamanho da sua escola. Instalação completa e suporte incluídos.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-header"><div class="pricing-icon">🏫</div><h3 class="pricing-name">Básico</h3><p class="pricing-desc">Ideal para escolas pequenas a começar a digitalizar</p></div>
+        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">299</span><span class="pricing-period">pagamento único</span></div>
+        <ul class="pricing-features"><li><span class="pf-check">✓</span> 1 campus / filial</li><li><span class="pf-check">✓</span> Até 300 alunos</li><li><span class="pf-check">✓</span> Matrículas e pagamentos</li><li><span class="pf-check">✓</span> Cobranças automáticas WhatsApp</li><li><span class="pf-check">✓</span> Gestão de turmas e notas</li><li><span class="pf-check">✓</span> Suporte por email (48h)</li><li class="pf-no"><span class="pf-cross">✗</span> Portal do encarregado</li><li class="pf-no"><span class="pf-cross">✗</span> Relatórios avançados</li></ul>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Básico+($299)." target="_blank" class="pricing-btn btn btn-outline">Adquirir agora</a>
+      </div>
+      <div class="pricing-card pricing-popular">
+        <div class="pricing-badge">⭐ Mais popular</div>
+        <div class="pricing-header"><div class="pricing-icon">🎓</div><h3 class="pricing-name">Profissional</h3><p class="pricing-desc">Para escolas em crescimento com múltiplas turmas</p></div>
+        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">499</span><span class="pricing-period">pagamento único</span></div>
+        <ul class="pricing-features"><li><span class="pf-check">✓</span> Até 3 campus / filiais</li><li><span class="pf-check">✓</span> Alunos ilimitados</li><li><span class="pf-check">✓</span> Tudo do Básico incluído</li><li><span class="pf-check">✓</span> Portal do encarregado</li><li><span class="pf-check">✓</span> Relatórios e estatísticas</li><li><span class="pf-check">✓</span> Calendário académico</li><li><span class="pf-check">✓</span> Suporte prioritário (24h)</li><li class="pf-no"><span class="pf-cross">✗</span> Treinamento presencial</li></ul>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Profissional+($499)." target="_blank" class="pricing-btn btn btn-primary">Adquirir agora</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-header"><div class="pricing-icon">🏆</div><h3 class="pricing-name">Completo</h3><p class="pricing-desc">Para grupos escolares e instituições de grande porte</p></div>
+        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">799</span><span class="pricing-period">pagamento único</span></div>
+        <ul class="pricing-features"><li><span class="pf-check">✓</span> Filiais ilimitadas</li><li><span class="pf-check">✓</span> Alunos ilimitados</li><li><span class="pf-check">✓</span> Tudo do Profissional</li><li><span class="pf-check">✓</span> Personalização da marca</li><li><span class="pf-check">✓</span> Treinamento completo da equipa</li><li><span class="pf-check">✓</span> API de integração</li><li><span class="pf-check">✓</span> Suporte dedicado WhatsApp 24/7</li><li><span class="pf-check">✓</span> Actualizações gratuitas 1 ano</li></ul>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Completo+($799)." target="_blank" class="pricing-btn btn btn-outline">Adquirir agora</a>
+      </div>
+    </div>
+    <div class="pricing-footer">
+      <div class="pricing-trust">
+        {% if total_installs > 0 %}<span class="ptrust-item">✅ <strong>{{ total_installs }}+ escolas</strong> já instalaram</span>{% endif %}
+        <span class="ptrust-item">🔒 <strong>Pagamento seguro</strong> via transferência ou TPA</span>
+        <span class="ptrust-item">🛠 <strong>Instalação em 24h</strong> após confirmação</span>
+        <span class="ptrust-item">📞 <strong>Suporte local</strong> em Angola</span>
+      </div>
+      <p class="pricing-note">Preços em USD. Aceitamos transferência bancária, TPA, Multicaixa e referência. <a href="https://wa.me/244926219731" target="_blank">Fale connosco</a> para condições especiais.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">FAQ</div>
+      <h2 class="section-title">Perguntas Frequentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Preciso de instalar algum programa?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Não! O Super Escola funciona 100% no browser — Chrome, Firefox, Safari ou qualquer outro. Basta ter internet e já pode aceder em qualquer dispositivo.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Os meus dados estão seguros?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Sim. Utilizamos encriptação de ponta a ponta e os dados são armazenados em servidores certificados com backups automáticos diários.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Tenho suporte para implementar o sistema?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Sim! Oferecemos formação completa para a sua equipa e acompanhamento durante toda a implementação.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Posso migrar os meus dados atuais para o Super Escola?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Sim. A nossa equipa faz a migração dos seus dados (planilhas, outros sistemas) de forma rápida e eficiente.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Funciona no telemóvel?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Totalmente! O sistema está otimizado para telemóvel e tablet. Aceda por qualquer dispositivo, sem precisar instalar app.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">Como posso começar?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Basta entrar em contacto pelo WhatsApp ou preencher o formulário. Fazemos uma demonstração gratuita e personalizada para a sua escola, sem qualquer compromisso.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAL FORM -->
+<section class="trial" id="pedido-gratuito">
+  <div class="container">
+    <div class="trial-inner">
+      <div class="trial-info">
+        <div class="section-badge">Grátis para começar</div>
+        <h2 class="section-title">Experimente o Super Escola <span class="gradient-text">sem compromisso</span></h2>
+        <p class="section-desc">Preencha o formulário e a nossa equipa entra em contacto em menos de 24 horas para agendar a sua demonstração gratuita e personalizada.</p>
+        <div class="trial-promises">
+          <div class="trial-promise"><span class="tp-icon">✓</span><span>Demonstração gratuita e personalizada</span></div>
+          <div class="trial-promise"><span class="tp-icon">✓</span><span>Sem contrato — experimente sem risco</span></div>
+          <div class="trial-promise"><span class="tp-icon">✓</span><span>Configuração e formação incluídas</span></div>
+          <div class="trial-promise"><span class="tp-icon">✓</span><span>Resposta em menos de 24 horas</span></div>
+        </div>
+      </div>
+      <div class="trial-form-wrap">
+        <form class="trial-form" id="trialForm" onsubmit="submitLead(event)">
+          <h3>Pedir demonstração gratuita</h3>
+          <div class="form-group"><label>Nome completo <span class="required">*</span></label><input type="text" name="nome" placeholder="O seu nome" required></div>
+          <div class="form-row">
+            <div class="form-group"><label>Telefone / WhatsApp <span class="required">*</span></label><input type="tel" name="telefone" placeholder="+244 9XX XXX XXX" required></div>
+            <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="email@escola.ao"></div>
+          </div>
+          <div class="form-group"><label>Nome da escola <span class="required">*</span></label><input type="text" name="escola" placeholder="Ex: Colégio Estrela" required></div>
+          <div class="form-group"><label>Mensagem (opcional)</label><textarea name="mensagem" rows="3" placeholder="Diga-nos mais sobre a sua escola e o que precisa..."></textarea></div>
+          <button type="submit" class="btn btn-primary btn-lg btn-full" id="submitBtn">🚀 Quero a minha demonstração gratuita</button>
+          <p class="form-note">Os seus dados são confidenciais e nunca serão partilhados com terceiros.</p>
+          <div class="form-success" id="formSuccess" style="display:none">
+            <div class="success-icon">🎉</div>
+            <h4>Pedido enviado com sucesso!</h4>
+            <p>A nossa equipa irá entrar em contacto em breve pelo WhatsApp ou email.</p>
+            <div class="success-actions">
+              <a href="https://wa.me/244926219731?text=Olá!+Acabei+de+preencher+o+formulário+no+site+Super+Escola." target="_blank" class="success-wa-btn">💬 Falar no WhatsApp</a>
+            </div>
+          </div>
+          <div class="form-error" id="formError" style="display:none"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="container cta-inner">
+    <h2 class="cta-title">Pronto para transformar a gestão da sua escola?</h2>
+    <p class="cta-desc">Junte-se a mais de 500 escolas que já simplificaram a sua gestão com o Super Escola. Comece hoje — é grátis para experimentar!</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+gratuita+do+Super+Escola." class="btn btn-white btn-lg" target="_blank">💬 Falar pelo WhatsApp</a>
+      <a href="mailto:geral@superescola.ao?subject=Pedido de demonstração" class="btn btn-outline-white btn-lg">📧 Enviar email</a>
+    </div>
+    <p class="cta-note">Sem compromisso · Demonstração gratuita · Resposta em menos de 24h</p>
+  </div>
+</section>
+
+<!-- PAYMENT TOAST -->
+{% if toast_payments_json != "[]" %}
+<div id="paymentToast" class="payment-toast hidden" role="alert" aria-live="polite">
+  <button class="toast-close" onclick="closeToast()" aria-label="Fechar">✕</button>
+  <div class="toast-icon">🛍</div>
+  <div class="toast-body">
+    <div class="toast-school"></div>
+    <div class="toast-pkg"></div>
+    <div class="toast-meta">
+      <span class="toast-time"></span>
+      <span class="toast-verified">✅ Verificado por <span class="toast-method"></span></span>
+    </div>
+  </div>
+</div>
+<script>
+(function() {
+  const toasts = {{ toast_payments_json|safe }};
+  let current = 0, timer = null, dismissed = false;
+  function timeAgo(dt) {
+    const diff = (Date.now() - new Date(dt).getTime()) / 1000;
+    if (diff < 120) return 'há 1 minuto';
+    if (diff < 3600) return 'há ' + Math.round(diff/60) + ' minutos';
+    if (diff < 86400) return 'há ' + Math.round(diff/3600) + ' horas';
+    return 'há ' + Math.round(diff/86400) + ' dias';
+  }
+  function showToast(idx) {
+    if (dismissed) return;
+    const t = toasts[idx], el = document.getElementById('paymentToast');
+    if (!el) return;
+    el.querySelector('.toast-school').textContent = t.escola_nome + ' — ' + t.cidade;
+    el.querySelector('.toast-pkg').textContent = 'adquiriu o Pacote ' + t.pacote;
+    el.querySelector('.toast-time').textContent = timeAgo(t.pago_em);
+    el.querySelector('.toast-method').textContent = t.metodo;
+    el.classList.remove('hidden');
+    timer = setTimeout(() => { el.classList.add('hiding'); setTimeout(() => { el.classList.add('hidden'); el.classList.remove('hiding'); current = (current+1)%toasts.length; if (!dismissed) setTimeout(() => showToast(current), 4000); }, 500); }, 5500);
+  }
+  window.closeToast = function() { dismissed=true; clearTimeout(timer); const el=document.getElementById('paymentToast'); if(el){el.classList.add('hiding');setTimeout(()=>el.classList.add('hidden'),400);} };
+  setTimeout(() => showToast(0), 4000);
+})();
+</script>
+{% endif %}
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+      <p>O sistema de gestão académica que simplifica e profissionaliza a sua escola.</p>
+      <div class="footer-social">
+        <a href="https://wa.me/244926219731" target="_blank" class="social-btn">💬 WhatsApp</a>
+        <a href="mailto:geral@superescola.ao" class="social-btn">📧 Email</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Produto</h4><a href="#funcionalidades">Funcionalidades</a><a href="#segmentos">Segmentos</a><a href="#depoimentos">Depoimentos</a><a href="#artigos">Artigos</a><a href="#faq">FAQ</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a href="{% url 'empresa' %}">Sobre nós</a><a href="{% url 'cv' %}">Desenvolvedor</a></div>
+      <div class="footer-col"><h4>Contacto</h4><a href="https://wa.me/244926219731" target="_blank">+244 926 219 731</a><a href="mailto:geral@superescola.ao">geral@superescola.ao</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container"><p>© {% now "Y" %} Super Escola. Todos os direitos reservados.</p></div>
+  </div>
+</footer>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  const btns = document.querySelectorAll('.blog-filter-btn');
+  const cards = document.querySelectorAll('#blogGrid .blog-card');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      cards.forEach(card => {
+        card.classList.toggle('hidden', !(cat === 'Todos' || card.dataset.cat === cat));
+      });
+    });
+  });
+})();
+</script>
+{% endblock %}

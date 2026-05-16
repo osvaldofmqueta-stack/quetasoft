@@ -1,0 +1,92 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Pedidos / Leads — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .filter-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+  .ftab{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none;border:1.5px solid #e2e8f0;color:#64748b;transition:.15s;}
+  .ftab:hover,.ftab.active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Pedidos de Demonstração</h1>
+    <p class="admin-subtitle">Gerencie os pedidos recebidos através do site</p>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <form class="search-form" method="GET" action="{% url 'admin_leads' %}">
+      <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar nome, escola...">
+      {% if estado %}<input type="hidden" name="estado" value="{{ estado }}">{% endif %}
+      <button type="submit">Pesquisar</button>
+    </form>
+  </div>
+</header>
+
+<div style="padding:16px 32px 0;">
+  <div class="filter-tabs">
+    <a href="{% url 'admin_leads' %}" class="ftab {% if not estado %}active{% endif %}">Todos ({{ total_all }})</a>
+    <a href="{% url 'admin_leads' %}?estado=novo" class="ftab {% if estado == 'novo' %}active{% endif %}">🔵 Novos ({{ totais.novo|default:0 }})</a>
+    <a href="{% url 'admin_leads' %}?estado=contactado" class="ftab {% if estado == 'contactado' %}active{% endif %}">🟡 Contactados ({{ totais.contactado|default:0 }})</a>
+    <a href="{% url 'admin_leads' %}?estado=convertido" class="ftab {% if estado == 'convertido' %}active{% endif %}">🟢 Convertidos ({{ totais.convertido|default:0 }})</a>
+    <a href="{% url 'admin_leads' %}?estado=cancelado" class="ftab {% if estado == 'cancelado' %}active{% endif %}">🔴 Cancelados ({{ totais.cancelado|default:0 }})</a>
+  </div>
+</div>
+
+<div class="table-wrap">
+  {% if not leads %}
+  <div class="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>Nenhum pedido encontrado</h3>
+    <p>Quando alguém preencher o formulário no site, aparece aqui.</p>
+  </div>
+  {% else %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome / Escola</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th>Estado</th>
+        <th>Data</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lead in leads %}
+      <tr>
+        <td class="td-id">#{{ lead.id }}</td>
+        <td class="td-name">
+          <div class="lead-avatar">{{ lead.initials }}</div>
+          <div><div>{{ lead.nome }}</div><div style="font-size:12px;color:#94a3b8;font-weight:400;">{{ lead.escola }}</div></div>
+        </td>
+        <td><a href="https://wa.me/{{ lead.wa_number }}?text=Olá+{{ lead.nome }}!+Vim+na+sequência+do+seu+pedido+de+demonstração+do+Super+Escola." target="_blank" class="wa-link">{{ lead.telefone }}</a></td>
+        <td style="font-size:13px;color:#64748b;">{{ lead.email|default:"—" }}</td>
+        <td>
+          {% if lead.estado == 'novo' %}<span class="estado-badge estado-novo">🔵 Novo</span>
+          {% elif lead.estado == 'contactado' %}<span class="estado-badge estado-contactado">🟡 Contactado</span>
+          {% elif lead.estado == 'convertido' %}<span class="estado-badge estado-convertido">🟢 Convertido</span>
+          {% else %}<span class="estado-badge estado-cancelado">🔴 Cancelado</span>{% endif %}
+        </td>
+        <td class="td-date">{{ lead.criado_em|date:"d/m/Y H:i" }}</td>
+        <td>
+          <div class="action-btns">
+            <a href="{% url 'admin_lead_detail' lead.id %}" class="abtn" title="Ver detalhe">👁</a>
+            <a href="https://wa.me/{{ lead.wa_number }}?text=Olá+{{ lead.nome }}!+Vim+na+sequência+do+seu+pedido." target="_blank" class="abtn abtn-wa" title="WhatsApp">💬</a>
+            <a href="?acao=contactado&id={{ lead.id }}{% if estado %}&estado={{ estado }}{% endif %}" class="abtn abtn-yellow" title="Marcar contactado">📞</a>
+            <a href="?acao=convertido&id={{ lead.id }}{% if estado %}&estado={{ estado }}{% endif %}" class="abtn abtn-green" title="Marcar convertido">✅</a>
+            <a href="?acao=apagar&id={{ lead.id }}{% if estado %}&estado={{ estado }}{% endif %}" class="abtn abtn-red" title="Apagar" onclick="return confirm('Apagar este lead?')">🗑</a>
+          </div>
+        </td>
+      </tr>
+      {% if lead.mensagem %}
+      <tr class="tr-msg"><td></td><td colspan="6"><span class="msg-label">Mensagem: </span>{{ lead.mensagem }}</td></tr>
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

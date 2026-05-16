@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin — Super Escola{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">🎓 <strong>Super</strong>Escola</div>
+    <nav class="sidebar-nav">
+      <a href="{% url 'admin_leads' %}" class="snav-item {% if active == 'leads' %}active{% endif %}">📋 Pedidos / Leads</a>
+      <a href="{% url 'admin_leads' %}?estado=novo" class="snav-item">🔵 Novos <span class="badge badge-blue">{{ totais.novo|default:0 }}</span></a>
+      <a href="{% url 'admin_leads' %}?estado=contactado" class="snav-item">🟡 Contactados <span class="badge badge-yellow">{{ totais.contactado|default:0 }}</span></a>
+      <a href="{% url 'admin_leads' %}?estado=convertido" class="snav-item">🟢 Convertidos <span class="badge badge-green">{{ totais.convertido|default:0 }}</span></a>
+      <a href="{% url 'admin_leads' %}?estado=cancelado" class="snav-item">🔴 Cancelados <span class="badge badge-red">{{ totais.cancelado|default:0 }}</span></a>
+      <a href="{% url 'admin_stats' %}" class="snav-item {% if active == 'stats' %}active{% endif %}">📊 Estatísticas</a>
+      <a href="{% url 'admin_schools' %}" class="snav-item {% if active == 'schools' %}active{% endif %}">🏫 Escolas & Testemunhos</a>
+      <a href="{% url 'admin_posts' %}" class="snav-item {% if active == 'posts' %}active{% endif %}">📝 Artigos do Blog</a>
+      <a href="{% url 'admin_pagamentos' %}" class="snav-item {% if active == 'pagamentos' %}active{% endif %}">💳 Pagamentos</a>
+      <a href="{% url 'admin_developer' %}" class="snav-item {% if active == 'developer' %}active{% endif %}">👤 Currículo</a>
+      <a href="{% url 'admin_empresa' %}" class="snav-item {% if active == 'empresa' %}active{% endif %}">🏢 Empresa</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
+      <a href="{% url 'admin_logout' %}" class="snav-item snav-logout">🚪 Sair</a>
+    </div>
+  </aside>
+  <main class="admin-main">
+    {% block content %}{% endblock %}
+  </main>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

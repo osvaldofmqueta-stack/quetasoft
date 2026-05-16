@@ -1,0 +1,114 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Pagamentos — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-modal{background:#fff;border-radius:16px;border:1px solid #e2e8f0;padding:28px;margin:24px 32px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+  .form-group input,.form-group select{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;}
+  .form-group input:focus,.form-group select:focus{border-color:#4f46e5;}
+  .btn-admin-primary{background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .alert{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:500;}
+  .alert-success{background:rgba(16,185,129,.1);color:#065f46;border:1px solid rgba(16,185,129,.2);}
+  .alert-error{background:rgba(239,68,68,.08);color:#991b1b;border:1px solid rgba(239,68,68,.15);}
+  .breakdown-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:16px 32px 0;}
+  .bk-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px;}
+  .bk-pacote{font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .bk-valor{font-size:28px;font-weight:800;color:#0f172a;}
+  .bk-n{font-size:13px;color:#94a3b8;margin-top:4px;}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Registo de Pagamentos</h1>
+    <p class="admin-subtitle">Acompanhe os pagamentos recebidos das escolas</p>
+  </div>
+</header>
+
+{% if msg_text %}
+<div style="margin:16px 32px 0;">
+  <div class="alert alert-{{ msg_type }}">{{ msg_text }}</div>
+</div>
+{% endif %}
+
+<div class="kpi-row">
+  <div class="kpi-card green"><div class="kpi-n">${{ total_recebido|floatformat:0 }}</div><div class="kpi-l">Total Recebido</div></div>
+  <div class="kpi-card blue"><div class="kpi-n">{{ count_total }}</div><div class="kpi-l">Pagamentos Registados</div></div>
+</div>
+
+{% if breakdown %}
+<div class="breakdown-grid">
+  {% for b in breakdown %}
+  <div class="bk-card">
+    <div class="bk-pacote">📦 {{ b.pacote }}</div>
+    <div class="bk-valor">${{ b.total|floatformat:0 }}</div>
+    <div class="bk-n">{{ b.n }} escola{{ b.n|pluralize:"s" }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="form-modal">
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:16px;">+ Registar novo pagamento</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="create">
+    <div class="form-grid">
+      <div class="form-group"><label>Nome da escola *</label><input name="escola_nome" required placeholder="Ex: Colégio Estrela"></div>
+      <div class="form-group"><label>Cidade</label><input name="cidade" placeholder="Luanda"></div>
+      <div class="form-group"><label>Pacote *</label>
+        <select name="pacote" id="pacoteSelect" onchange="updateValor(this)">
+          {% for nome,val in pacotes.items %}<option value="{{ nome }}" data-valor="{{ val }}">{{ nome }} — ${{ val }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="form-group"><label>Valor ($)</label><input type="number" name="valor" id="valorInput" value="299" step="0.01"></div>
+      <div class="form-group"><label>Método de pagamento</label>
+        <select name="metodo">{% for m in metodos %}<option>{{ m }}</option>{% endfor %}</select>
+      </div>
+    </div>
+    <button type="submit" class="btn-admin-primary" style="margin-top:16px;">💾 Registar pagamento</button>
+  </form>
+</div>
+
+<div class="table-wrap">
+  {% if not pagamentos %}
+  <div class="empty-state">
+    <div class="empty-icon">💳</div>
+    <h3>Nenhum pagamento registado</h3>
+    <p>Registe os pagamentos recebidos das escolas aqui.</p>
+  </div>
+  {% else %}
+  <table class="admin-table">
+    <thead><tr><th>#</th><th>Escola</th><th>Cidade</th><th>Pacote</th><th>Valor</th><th>Método</th><th>Data</th><th>Ações</th></tr></thead>
+    <tbody>
+      {% for pag in pagamentos %}
+      <tr>
+        <td class="td-id">#{{ pag.id }}</td>
+        <td style="font-weight:600;">{{ pag.escola_nome }}</td>
+        <td style="font-size:13px;color:#64748b;">{{ pag.cidade }}</td>
+        <td><span style="background:#f1f5f9;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">{{ pag.pacote }}</span></td>
+        <td style="font-weight:700;color:#10b981;">${{ pag.valor|floatformat:0 }}</td>
+        <td style="font-size:13px;color:#64748b;">{{ pag.metodo }}</td>
+        <td class="td-date">{{ pag.pago_em|date:"d/m/Y H:i" }}</td>
+        <td>
+          <form method="POST" style="display:inline;" onsubmit="return confirm('Apagar este registo?')">
+            {% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="{{ pag.id }}">
+            <button type="submit" class="abtn abtn-red" title="Apagar">🗑</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateValor(sel){const opt=sel.options[sel.selectedIndex];document.getElementById('valorInput').value=opt.dataset.valor||'';}
+</script>
+{% endblock %}

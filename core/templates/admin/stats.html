@@ -1,0 +1,116 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Estatísticas — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:24px 32px;}
+  .stats-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:24px;}
+  .stats-card h3{font-size:14px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;}
+  .big-stat{font-size:52px;font-weight:900;line-height:1;}
+  .big-stat.blue{color:#4f46e5;}.big-stat.green{color:#10b981;}.big-stat.yellow{color:#f59e0b;}
+  .big-stat-label{font-size:14px;color:#64748b;margin-top:8px;}
+  .progress-bar{height:10px;background:#f1f5f9;border-radius:5px;margin:8px 0 4px;overflow:hidden;}
+  .progress-fill{height:100%;border-radius:5px;transition:.5s;}
+  .bar-row{margin-bottom:14px;}
+  .bar-label{display:flex;justify-content:space-between;font-size:13px;color:#374151;font-weight:500;}
+  .funil{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+  .funil-item{display:flex;align-items:center;gap:12px;}
+  .funil-bar{flex:1;height:28px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:700;color:#fff;}
+  .funil-n{font-size:18px;font-weight:800;width:36px;text-align:right;}
+  .funil-l{font-size:12px;color:#64748b;width:80px;}
+  .recent-list{display:flex;flex-direction:column;gap:10px;}
+  .recent-item{display:flex;align-items:center;gap:12px;padding:10px;background:#f8fafc;border-radius:8px;}
+  .recent-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#818cf8);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .recent-info{flex:1;}
+  .recent-name{font-size:13px;font-weight:600;}
+  .recent-meta{font-size:11px;color:#94a3b8;}
+  .recent-estado{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Estatísticas & Conversão</h1>
+    <p class="admin-subtitle">Acompanhe o desempenho dos seus pedidos de demonstração</p>
+  </div>
+</header>
+
+<div class="kpi-row">
+  <div class="kpi-card"><div class="kpi-n">{{ total }}</div><div class="kpi-l">Total de Pedidos</div></div>
+  <div class="kpi-card blue"><div class="kpi-n">{{ novos }}</div><div class="kpi-l">Novos (por contactar)</div></div>
+  <div class="kpi-card yellow"><div class="kpi-n">{{ contactados }}</div><div class="kpi-l">Contactados</div></div>
+  <div class="kpi-card green"><div class="kpi-n">{{ convertidos }}</div><div class="kpi-l">Convertidos (clientes)</div></div>
+</div>
+
+<div class="stats-grid">
+  <div class="stats-card">
+    <h3>Taxa de Conversão</h3>
+    <div class="big-stat green">{{ taxa_conv }}%</div>
+    <div class="big-stat-label">dos pedidos viraram clientes</div>
+    <div style="margin-top:20px;">
+      <div class="bar-row">
+        <div class="bar-label"><span>🔵 Contactados</span><span>{{ taxa_cont }}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:{{ taxa_cont }}%;background:#3b82f6;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>🟢 Convertidos</span><span>{{ taxa_conv }}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:{{ taxa_conv }}%;background:#10b981;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>🔴 Cancelados</span><span>{{ taxa_cancel }}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:{{ taxa_cancel }}%;background:#ef4444;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-card">
+    <h3>Funil de Pedidos</h3>
+    <div class="funil">
+      <div class="funil-item">
+        <div class="funil-n">{{ total }}</div>
+        <div class="funil-bar" style="background:#4f46e5;width:100%;">📨 Total recebidos</div>
+      </div>
+      <div class="funil-item">
+        <div class="funil-n">{{ funil_cont }}</div>
+        <div class="funil-bar" style="background:#3b82f6;width:{{ funil_pct }}%;">📞 Contactados</div>
+      </div>
+      <div class="funil-item">
+        <div class="funil-n">{{ convertidos }}</div>
+        <div class="funil-bar" style="background:#10b981;width:{{ conv_pct }}%;">✅ Convertidos</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f1f5f9;font-size:13px;color:#64748b;">
+      {% if total > 0 and taxa_conv > 0 %}
+      Cada <strong>{% widthratio 100 taxa_conv 1 %} pedidos</strong> gera em média <strong>1 cliente</strong>.
+      {% else %}
+      Ainda sem dados suficientes para calcular.
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="stats-card">
+    <h3>Últimos 5 Pedidos</h3>
+    {% if recentes %}
+    <div class="recent-list" style="margin-top:8px;">
+      {% for r in recentes %}
+      <div class="recent-item">
+        <div class="recent-av">{{ r.initials }}</div>
+        <div class="recent-info">
+          <div class="recent-name">{{ r.nome }} — {{ r.escola }}</div>
+          <div class="recent-meta">📞 {{ r.telefone }} · {{ r.criado_em|date:"d/m/Y H:i" }}</div>
+        </div>
+        {% if r.estado == 'novo' %}<span class="recent-estado" style="background:rgba(59,130,246,.12);color:#3b82f6;">🔵 Novo</span>
+        {% elif r.estado == 'contactado' %}<span class="recent-estado" style="background:rgba(245,158,11,.12);color:#f59e0b;">🟡 Contactado</span>
+        {% elif r.estado == 'convertido' %}<span class="recent-estado" style="background:rgba(16,185,129,.12);color:#10b981;">🟢 Convertido</span>
+        {% else %}<span class="recent-estado" style="background:rgba(239,68,68,.1);color:#ef4444;">🔴 Cancelado</span>{% endif %}
+        <a href="{% url 'admin_lead_detail' r.id %}" style="margin-left:8px;font-size:13px;color:#4f46e5;font-weight:600;">Ver →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align:center;color:#94a3b8;padding:32px 0;">Sem pedidos ainda.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ post.titulo }} — Super Escola{% endblock %}
+{% block description %}{{ post.resumo|truncatechars:160 }}{% endblock %}
+
+{% block body %}
+<header class="header scrolled" id="header">
+  <div class="container header-inner">
+    <a href="/" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+    <nav class="nav" id="nav">
+      <a href="/#funcionalidades" class="nav-link">Funcionalidades</a>
+      <a href="/#segmentos" class="nav-link">Segmentos</a>
+      <a href="/#depoimentos" class="nav-link">Depoimentos</a>
+      <a href="/#artigos" class="nav-link">Artigos</a>
+      <a href="/#faq" class="nav-link">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://wa.me/244926219731?text=Olá!+Vim+pelo+site+e+quero+saber+mais+sobre+o+Super+Escola." class="btn btn-outline" target="_blank">Fale Connosco</a>
+      <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+do+Super+Escola." class="btn btn-primary" target="_blank">Pedir Demonstração</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="post-page">
+  <div class="post-layout">
+    <article class="post-article">
+      <div class="post-breadcrumb">
+        <a href="/">Início</a><span>›</span>
+        <a href="/#artigos">Artigos</a><span>›</span>
+        <span>{{ post.categoria }}</span>
+      </div>
+      <span class="post-category">{{ post.categoria }}</span>
+      <h1 class="post-title">{{ post.titulo }}</h1>
+      <div class="post-meta-bar">
+        <span class="pmet">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          {{ post.autor }}
+        </span>
+        <span class="pmet">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          {{ post.publicado_em|date:"d M Y" }}
+        </span>
+      </div>
+
+      {% if post.imagem_url and not embed_url %}
+      <div class="post-hero-img">
+        <img src="{{ post.imagem_url }}" alt="{{ post.titulo }}">
+      </div>
+      {% endif %}
+
+      {% if embed_url %}
+      <div class="post-video-wrap">
+        <iframe src="{{ embed_url }}" title="Vídeo" allowfullscreen loading="lazy"></iframe>
+      </div>
+      {% endif %}
+
+      {% if has_structured %}
+        <p class="post-intro">{{ post.intro|linebreaksbr }}</p>
+        {% if pontos %}
+        <div class="post-points">
+          {% for pt in pontos %}
+          <div class="post-point">
+            <div class="pp-num">{{ forloop.counter }}</div>
+            <div class="pp-text">{{ pt }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% else %}
+      <div class="post-content">
+        {{ post.conteudo|safe }}
+      </div>
+      {% endif %}
+
+      <div class="post-cta-box">
+        <div class="pcta-icon">🎓</div>
+        <div class="pcta-text">
+          <strong>Pronto para transformar a gestão da sua escola?</strong>
+          <span>Fale connosco hoje e receba uma demonstração gratuita.</span>
+        </div>
+        <a href="https://wa.me/244926219731?text=Olá!+Li+um+artigo+e+quero+saber+mais+sobre+o+Super+Escola." target="_blank" class="btn btn-primary">💬 Falar no WhatsApp</a>
+      </div>
+    </article>
+
+    <aside class="post-sidebar">
+      {% if related %}
+      <div class="ps-block">
+        <h4 class="ps-title">Artigos relacionados</h4>
+        {% for r in related %}
+        <a href="{% url 'post_detail' r.id %}" class="ps-item">
+          {% if r.imagem_url %}<img src="{{ r.imagem_url }}" alt="" class="ps-thumb">
+          {% else %}<div class="ps-thumb-ph"></div>{% endif %}
+          <div class="ps-item-info">
+            <span class="ps-item-cat">{{ r.categoria }}</span>
+            <span class="ps-item-title">{{ r.titulo }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="ps-block ps-cta-mini">
+        <div style="font-size:28px;margin-bottom:10px;">🎓</div>
+        <strong>Experimente grátis</strong>
+        <p>Demonstração sem compromisso para a sua escola.</p>
+        <a href="https://wa.me/244926219731?text=Quero+uma+demonstração+gratuita." target="_blank" class="btn btn-primary" style="width:100%;text-align:center;margin-top:14px;font-size:14px;">Pedir demonstração</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+      <p>O sistema de gestão académica que simplifica e profissionaliza a sua escola.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Produto</h4><a href="/#funcionalidades">Funcionalidades</a><a href="/#precos">Preços</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a href="{% url 'empresa' %}">Sobre nós</a><a href="{% url 'cv' %}">Desenvolvedor</a></div>
+      <div class="footer-col"><h4>Contacto</h4><a href="https://wa.me/244926219731" target="_blank">+244 926 219 731</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container"><p>© {% now "Y" %} Super Escola. Todos os direitos reservados.</p></div>
+  </div>
+</footer>
+{% endblock %}

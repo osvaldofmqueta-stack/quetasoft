@@ -1,0 +1,69 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Lead #{{ lead.id }} — Super Escola Admin{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <a href="{% url 'admin_leads' %}" class="back-link">← Voltar à lista</a>
+    <h1 class="admin-title">Detalhe do Pedido #{{ lead.id }}</h1>
+    <p class="admin-subtitle">{{ lead.criado_em|date:"d/m/Y H:i" }}</p>
+  </div>
+</header>
+
+<div class="lead-detail-grid">
+  <div>
+    <div class="lead-detail-card">
+      <div class="detail-avatar">{{ lead.initials }}</div>
+      <h2>{{ lead.nome }}</h2>
+      <div class="detail-escola">{{ lead.escola }}</div>
+      <div class="detail-date">{{ lead.criado_em|date:"d \d\e F \d\e Y, H:i" }}</div>
+      <div class="detail-contacts">
+        <a href="https://wa.me/{{ wa_num }}?text=Olá+{{ lead.nome }}!+Vim+na+sequência+do+seu+pedido+de+demonstração+do+Super+Escola." target="_blank" class="contact-btn wa">💬 {{ lead.telefone }} — WhatsApp</a>
+        {% if lead.email %}<a href="mailto:{{ lead.email }}" class="contact-btn email">📧 {{ lead.email }}</a>{% endif %}
+      </div>
+      {% if lead.mensagem %}
+      <div class="detail-msg">
+        <div class="detail-msg-label">Mensagem</div>
+        <p>{{ lead.mensagem }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div>
+    <div class="lead-detail-card">
+      <div class="detail-section-title">Estado do pedido</div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="estado-options">
+          {% for val,label,icon in estado_choices %}
+          <label class="estado-option {% if lead.estado == val %}selected{% endif %}">
+            <input type="radio" name="estado" value="{{ val }}" {% if lead.estado == val %}checked{% endif %}>
+            {{ icon }} {{ label }}
+          </label>
+          {% endfor %}
+        </div>
+        <button type="submit" class="quick-btn green" style="width:100%;">💾 Guardar estado</button>
+      </form>
+    </div>
+    <div class="lead-detail-card">
+      <div class="detail-section-title">Acções rápidas</div>
+      <div class="quick-actions">
+        <a href="https://wa.me/{{ wa_num }}?text=Olá+{{ lead.nome }}!+A+nossa+equipa+do+Super+Escola+está+a+entrar+em+contacto+sobre+o+seu+pedido+de+demonstração.+Quando+tem+disponibilidade?" target="_blank" class="quick-btn green">💬 Enviar WhatsApp de follow-up</a>
+        {% if lead.email %}<a href="mailto:{{ lead.email }}?subject=Demonstração Super Escola&body=Olá {{ lead.nome }},%0D%0A%0D%0A..." class="quick-btn blue">📧 Enviar email</a>{% endif %}
+        <a href="{% url 'admin_leads' %}?acao=apagar&id={{ lead.id }}" class="quick-btn red" onclick="return confirm('Apagar este lead permanentemente?')">🗑 Apagar registo</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.estado-option').forEach(opt => {
+  opt.querySelector('input').addEventListener('change', function() {
+    document.querySelectorAll('.estado-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Currículo — Super Escola Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-modal{background:#fff;border-radius:16px;border:1px solid #e2e8f0;padding:28px;margin:24px 32px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-section{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid #f1f5f9;}
+  .form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+  .form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;}
+  .form-group input:focus,.form-group textarea:focus{border-color:#4f46e5;}
+  .btn-admin-primary{background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .alert{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:500;}
+  .alert-success{background:rgba(16,185,129,.1);color:#065f46;border:1px solid rgba(16,185,129,.2);}
+  .exp-row,.proj-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:start;padding:12px;background:#f8fafc;border-radius:8px;margin-bottom:8px;position:relative;}
+  .remove-row-btn{position:absolute;top:8px;right:8px;background:#fef2f2;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;color:#ef4444;}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div>
+    <h1 class="admin-title">Currículo do Desenvolvedor</h1>
+    <p class="admin-subtitle">Informações que aparecem em <a href="{% url 'cv' %}" target="_blank">/cv/</a></p>
+  </div>
+</header>
+
+{% if msg_text %}
+<div style="margin:0 32px;">
+  <div class="alert alert-{{ msg_type }}">{{ msg_text }}</div>
+</div>
+{% endif %}
+
+<div class="form-modal">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-section">Informações pessoais</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Nome completo</label><input name="nome" value="{{ dev.nome|default:'' }}" placeholder="João Silva"></div>
+      <div class="form-group"><label>Cargo / título</label><input name="cargo" value="{{ dev.cargo|default:'' }}" placeholder="Desenvolvedor Full-Stack"></div>
+      <div class="form-group"><label>URL da foto</label><input name="foto_url" value="{{ dev.foto_url|default:'' }}" placeholder="https://..."></div>
+      <div class="form-group"><label>Localização</label><input name="localizacao" value="{{ dev.localizacao|default:'' }}" placeholder="Luanda, Angola"></div>
+      <div class="form-group"><label>WhatsApp</label><input name="whatsapp" value="{{ dev.whatsapp|default:'' }}" placeholder="+244 9XX XXX XXX"></div>
+      <div class="form-group"><label>Email</label><input name="email" value="{{ dev.email|default:'' }}" placeholder="email@example.com"></div>
+      <div class="form-group"><label>LinkedIn</label><input name="linkedin" value="{{ dev.linkedin|default:'' }}" placeholder="https://linkedin.com/in/..."></div>
+      <div class="form-group"><label>GitHub</label><input name="github" value="{{ dev.github|default:'' }}" placeholder="https://github.com/..."></div>
+      <div class="form-group" style="grid-column:1/-1;"><label>Bio / Sobre mim</label><textarea name="bio" rows="4" placeholder="Uma breve descrição sobre si...">{{ dev.bio|default:'' }}</textarea></div>
+      <div class="form-group" style="grid-column:1/-1;"><label>Competências (separadas por vírgula)</label><input name="skills" value="{{ dev.skills|join:', '|default:'' }}" placeholder="Python, Django, JavaScript, ..."></div>
+    </div>
+
+    <div class="form-section">Experiência profissional</div>
+    <div id="expList">
+      {% for exp in dev.experiencias %}
+      <div class="exp-row">
+        <div class="form-group"><label>Cargo</label><input name="exp_cargo" value="{{ exp.cargo|default:'' }}"></div>
+        <div class="form-group"><label>Empresa</label><input name="exp_empresa" value="{{ exp.empresa|default:'' }}"></div>
+        <div class="form-group"><label>Período</label><input name="exp_periodo" value="{{ exp.periodo|default:'' }}"></div>
+        <div class="form-group" style="grid-column:1/-1;"><label>Descrição</label><input name="exp_descricao" value="{{ exp.descricao|default:'' }}"></div>
+        <button type="button" class="remove-row-btn" onclick="this.parentElement.remove()">✕</button>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" onclick="addExp()" style="padding:6px 14px;border:1.5px dashed #e2e8f0;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;margin-bottom:8px;">+ Adicionar experiência</button>
+
+    <div class="form-section">Projectos</div>
+    <div id="projList">
+      {% for proj in dev.projetos %}
+      <div class="proj-row">
+        <div class="form-group"><label>Nome</label><input name="proj_nome" value="{{ proj.nome|default:'' }}"></div>
+        <div class="form-group"><label>URL</label><input name="proj_url" value="{{ proj.url|default:'' }}" placeholder="https://..."></div>
+        <div class="form-group"><label>Descrição</label><input name="proj_descricao" value="{{ proj.descricao|default:'' }}"></div>
+        <button type="button" class="remove-row-btn" onclick="this.parentElement.remove()">✕</button>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" onclick="addProj()" style="padding:6px 14px;border:1.5px dashed #e2e8f0;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;margin-bottom:8px;">+ Adicionar projecto</button>
+
+    <div style="margin-top:24px;">
+      <button type="submit" class="btn-admin-primary">💾 Guardar currículo</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function addExp(){const l=document.getElementById('expList');const d=document.createElement('div');d.className='exp-row';d.innerHTML='<div class="form-group"><label>Cargo</label><input name="exp_cargo"></div><div class="form-group"><label>Empresa</label><input name="exp_empresa"></div><div class="form-group"><label>Período</label><input name="exp_periodo"></div><div class="form-group" style="grid-column:1/-1;"><label>Descrição</label><input name="exp_descricao"></div><button type="button" class="remove-row-btn" onclick="this.parentElement.remove()">✕</button>';l.appendChild(d);}
+function addProj(){const l=document.getElementById('projList');const d=document.createElement('div');d.className='proj-row';d.innerHTML='<div class="form-group"><label>Nome</label><input name="proj_nome"></div><div class="form-group"><label>URL</label><input name="proj_url" placeholder="https://..."></div><div class="form-group"><label>Descrição</label><input name="proj_descricao"></div><button type="button" class="remove-row-btn" onclick="this.parentElement.remove()">✕</button>';l.appendChild(d);}
+</script>
+{% endblock %}
