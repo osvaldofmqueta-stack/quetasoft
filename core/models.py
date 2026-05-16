@@ -92,6 +92,32 @@ class Pagamento(models.Model):
         ordering = ['-pago_em']
 
 
+class Manual(models.Model):
+    titulo = models.TextField()
+    categoria = models.TextField(default='Geral')
+    resumo = models.TextField(blank=True, default='')
+    intro = models.TextField(blank=True, default='')
+    passos = models.TextField(blank=True, default='[]')
+    conteudo = models.TextField(blank=True, default='')
+    imagem_url = models.TextField(blank=True, default='')
+    autor = models.TextField(default='Equipa Super Escola')
+    publicado_em = models.DateTimeField(auto_now_add=True)
+    ativo = models.IntegerField(default=1)
+
+    class Meta:
+        db_table = 'manuais'
+        ordering = ['-publicado_em']
+
+    def get_passos(self):
+        try:
+            return [p for p in json.loads(self.passos or '[]') if p]
+        except Exception:
+            return []
+
+    def resumo_curto(self):
+        return self.resumo[:130] if self.resumo else ''
+
+
 class Setting(models.Model):
     chave = models.TextField(primary_key=True)
     valor = models.TextField(blank=True, default='')

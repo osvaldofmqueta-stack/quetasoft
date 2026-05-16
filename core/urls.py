@@ -12,6 +12,8 @@ urlpatterns = [
     path('empresa/', views.empresa, name='empresa'),
     path('cv/', views.cv, name='cv'),
     path('artigo/<int:post_id>/', views.post_detail, name='post_detail'),
+    path('manuais/', views.manuais_list, name='manuais'),
+    path('manual/<int:manual_id>/', views.manual_detail, name='manual_detail'),
 
     # API
     path('api/submit-lead/', views.submit_lead, name='submit_lead'),
@@ -24,6 +26,7 @@ urlpatterns = [
     path('painel/stats/', admin_views.stats, name='admin_stats'),
     path('painel/schools/', admin_views.schools, name='admin_schools'),
     path('painel/posts/', admin_views.posts, name='admin_posts'),
+    path('painel/manuais/', admin_views.manuais, name='admin_manuais'),
     path('painel/pagamentos/', admin_views.pagamentos, name='admin_pagamentos'),
     path('painel/empresa/', admin_views.empresa_edit, name='admin_empresa'),
     path('painel/developer/', admin_views.developer_edit, name='admin_developer'),

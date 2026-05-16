@@ -1,0 +1,143 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Manuais — Admin Super Escola{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">📖 Manuais</h1>
+    <p class="page-subtitle">Crie e gira os manuais de ajuda do sistema.</p>
+  </div>
+  <a href="/manuais/" target="_blank" class="btn-admin-secondary">🌐 Ver manuais públicos</a>
+</div>
+
+{% if msg_text %}
+<div class="alert alert-{{ msg_type }}">{{ msg_text }}</div>
+{% endif %}
+
+<div class="admin-two-col">
+  <div class="admin-form-card">
+    <h2 class="form-card-title">{% if edit %}✏️ Editar Manual{% else %}➕ Novo Manual{% endif %}</h2>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="{% if edit %}edit{% else %}create{% endif %}">
+      {% if edit %}<input type="hidden" name="id" value="{{ edit.id }}">{% endif %}
+
+      <div class="form-group">
+        <label>Título *</label>
+        <input type="text" name="titulo" value="{% if edit %}{{ edit.titulo }}{% endif %}" required class="form-control" placeholder="Ex: Como registar um aluno">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoria</label>
+          <select name="categoria" class="form-control">
+            {% for cat in cats %}
+            <option value="{{ cat }}" {% if edit and edit.categoria == cat %}selected{% elif not edit and cat == 'Outros' %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Autor</label>
+          <input type="text" name="autor" value="{% if edit %}{{ edit.autor }}{% else %}Equipa Super Escola{% endif %}" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Resumo (aparece na listagem)</label>
+        <textarea name="resumo" class="form-control" rows="2" placeholder="Breve descrição do que este manual explica…">{% if edit %}{{ edit.resumo }}{% endif %}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Introdução (texto antes dos passos)</label>
+        <textarea name="intro" class="form-control" rows="3" placeholder="Texto introdutório opcional…">{% if edit %}{{ edit.intro }}{% endif %}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Passos (passo-a-passo) — um por linha</label>
+        <div id="passos-container">
+          {% if edit %}
+            {% for passo in edit.get_passos %}
+            <div class="passo-row">
+              <input type="text" name="passos" value="{{ passo }}" class="form-control" placeholder="Descreva este passo…">
+              <button type="button" class="btn-rm-passo" onclick="this.parentElement.remove()">✕</button>
+            </div>
+            {% endfor %}
+          {% endif %}
+          <div class="passo-row">
+            <input type="text" name="passos" class="form-control" placeholder="Descreva este passo…">
+            <button type="button" class="btn-rm-passo" onclick="this.parentElement.remove()">✕</button>
+          </div>
+        </div>
+        <button type="button" class="btn-add-passo" onclick="addPasso()">+ Adicionar passo</button>
+      </div>
+
+      <div class="form-group">
+        <label>Imagem (URL opcional — screenshot ou diagrama)</label>
+        <input type="url" name="imagem_url" value="{% if edit %}{{ edit.imagem_url }}{% endif %}" class="form-control" placeholder="https://…">
+      </div>
+
+      <div class="form-group form-check-row">
+        <label class="check-label">
+          <input type="checkbox" name="ativo" value="1" {% if not edit or edit.ativo %}checked{% endif %}>
+          Publicado (visível no site)
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-admin-primary">{% if edit %}💾 Guardar alterações{% else %}📖 Publicar manual{% endif %}</button>
+        {% if edit %}<a href="{% url 'admin_manuais' %}" class="btn-admin-ghost">Cancelar</a>{% endif %}
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-list-card">
+    <h2 class="form-card-title">Todos os manuais <span class="badge badge-blue">{{ manuais|length }}</span></h2>
+    {% if manuais %}
+    <div class="posts-list">
+      {% for m in manuais %}
+      <div class="post-item {% if not m.ativo %}post-item-inactive{% endif %}">
+        <div class="post-item-info">
+          <span class="post-cat-badge">{{ m.categoria }}</span>
+          <a href="{% url 'admin_manuais' %}?edit={{ m.id }}" class="post-item-title">{{ m.titulo }}</a>
+          <span class="post-item-meta">{{ m.autor }} · {{ m.publicado_em|date:"d M Y" }}</span>
+        </div>
+        <div class="post-item-actions">
+          <a href="/manual/{{ m.id }}/" target="_blank" class="pa-btn pa-view" title="Ver">👁️</a>
+          <a href="{% url 'admin_manuais' %}?edit={{ m.id }}" class="pa-btn pa-edit" title="Editar">✏️</a>
+          <form method="post" style="display:inline">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="toggle">
+            <input type="hidden" name="id" value="{{ m.id }}">
+            <button type="submit" class="pa-btn pa-toggle" title="{% if m.ativo %}Despublicar{% else %}Publicar{% endif %}">
+              {% if m.ativo %}🟢{% else %}⚫{% endif %}
+            </button>
+          </form>
+          <form method="post" style="display:inline" onsubmit="return confirm('Apagar este manual?')">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" value="{{ m.id }}">
+            <button type="submit" class="pa-btn pa-delete" title="Apagar">🗑️</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>📭 Ainda não há manuais. Crie o primeiro!</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+function addPasso() {
+  const container = document.getElementById('passos-container');
+  const div = document.createElement('div');
+  div.className = 'passo-row';
+  div.innerHTML = '<input type="text" name="passos" class="form-control" placeholder="Descreva este passo…"><button type="button" class="btn-rm-passo" onclick="this.parentElement.remove()">✕</button>';
+  container.appendChild(div);
+  div.querySelector('input').focus();
+}
+</script>
+{% endblock %}

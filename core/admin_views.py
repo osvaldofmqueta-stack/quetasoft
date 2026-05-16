@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
-from .models import Lead, Escola, Post, Pagamento, Setting
+from .models import Lead, Escola, Post, Pagamento, Setting, Manual
 
 
 def admin_required(view_func):
@@ -293,6 +293,58 @@ def posts(request):
         'msg_type': msg_type,
         'msg_text': msg_text,
         'active': 'posts',
+    })
+
+
+@admin_required
+def manuais(request):
+    msg_type, msg_text = '', ''
+    edit = None
+    cats = ['Matrículas', 'Financeiro', 'Pedagógico', 'Comunicação', 'Relatórios', 'Configurações', 'Outros']
+    if request.method == 'POST':
+        action = request.POST.get('action', '')
+        if action in ('create', 'edit'):
+            titulo = request.POST.get('titulo', '').strip()
+            categoria = request.POST.get('categoria', 'Outros').strip()
+            resumo = request.POST.get('resumo', '').strip()
+            intro = request.POST.get('intro', '').strip()
+            passos_raw = [p.strip() for p in request.POST.getlist('passos') if p.strip()]
+            passos_json = json.dumps(passos_raw, ensure_ascii=False)
+            autor = request.POST.get('autor', 'Equipa Super Escola').strip()
+            imagem_url = request.POST.get('imagem_url', '').strip()
+            ativo = 1 if request.POST.get('ativo') else 0
+            if not titulo:
+                msg_type, msg_text = 'error', 'O título é obrigatório.'
+            else:
+                data = dict(titulo=titulo, categoria=categoria, resumo=resumo,
+                            intro=intro, passos=passos_json, autor=autor,
+                            imagem_url=imagem_url, ativo=ativo)
+                if action == 'create':
+                    Manual.objects.create(**data)
+                    msg_type, msg_text = 'success', 'Manual publicado com sucesso!'
+                else:
+                    mid = int(request.POST.get('id', 0))
+                    Manual.objects.filter(id=mid).update(**data)
+                    msg_type, msg_text = 'success', 'Manual actualizado com sucesso!'
+        elif action == 'delete':
+            Manual.objects.filter(id=int(request.POST.get('id', 0))).delete()
+            msg_type, msg_text = 'success', 'Manual removido.'
+        elif action == 'toggle':
+            mid = int(request.POST.get('id', 0))
+            m = Manual.objects.get(id=mid)
+            m.ativo = 0 if m.ativo else 1
+            m.save()
+            return redirect('admin_manuais')
+    if request.GET.get('edit'):
+        edit = get_object_or_404(Manual, id=int(request.GET['edit']))
+    all_manuais = Manual.objects.all().order_by('-publicado_em')
+    return render(request, 'admin/manuais.html', {
+        'manuais': all_manuais,
+        'edit': edit,
+        'cats': cats,
+        'msg_type': msg_type,
+        'msg_text': msg_text,
+        'active': 'manuais',
     })
 
 

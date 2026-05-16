@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from .models import Lead, Escola, Post, Pagamento, Setting
+from .models import Lead, Escola, Post, Pagamento, Setting, Manual
 
 
 def index(request):
@@ -48,6 +48,47 @@ def post_detail(request, post_id):
         'embed_url': embed_url,
         'has_structured': has_structured,
         'pontos': pontos,
+    })
+
+
+def manuais_list(request):
+    busca = request.GET.get('q', '').strip()
+    cat_filter = request.GET.get('cat', '').strip()
+    qs = Manual.objects.filter(ativo=1)
+    if busca:
+        qs = qs.filter(titulo__icontains=busca) | Manual.objects.filter(ativo=1, resumo__icontains=busca)
+    if cat_filter:
+        qs = qs.filter(categoria=cat_filter)
+    todos_manuais = qs.order_by('categoria', '-publicado_em')
+    categorias_disponiveis = list(Manual.objects.filter(ativo=1).values_list('categoria', flat=True).distinct().order_by('categoria'))
+    grupos = {}
+    for m in todos_manuais:
+        grupos.setdefault(m.categoria, []).append(m)
+    recentes = Manual.objects.filter(ativo=1).order_by('-publicado_em')[:5]
+    return render(request, 'manuais.html', {
+        'grupos': grupos,
+        'categorias': categorias_disponiveis,
+        'recentes': recentes,
+        'busca': busca,
+        'cat_filter': cat_filter,
+        'total': todos_manuais.count(),
+    })
+
+
+def manual_detail(request, manual_id):
+    manual = get_object_or_404(Manual, id=manual_id, ativo=1)
+    passos = manual.get_passos()
+    recentes = Manual.objects.filter(ativo=1).exclude(id=manual_id).order_by('-publicado_em')[:5]
+    relacionados = Manual.objects.filter(ativo=1, categoria=manual.categoria).exclude(id=manual_id).order_by('-publicado_em')[:4]
+    from django.db.models.functions import TruncMonth
+    from django.db.models import Count
+    arquivos = Manual.objects.filter(ativo=1).annotate(mes=TruncMonth('publicado_em')).values('mes').annotate(total=Count('id')).order_by('-mes')[:6]
+    return render(request, 'manual.html', {
+        'manual': manual,
+        'passos': passos,
+        'recentes': recentes,
+        'relacionados': relacionados,
+        'arquivos': arquivos,
     })
 
 

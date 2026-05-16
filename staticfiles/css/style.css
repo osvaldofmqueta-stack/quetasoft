@@ -3178,3 +3178,227 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 480px) {
   .payment-toast { left: 12px; right: 12px; width: auto; bottom: 16px; }
 }
+
+/* ============================================================
+   MANUAIS — PÁGINA DE LISTAGEM
+   ============================================================ */
+.manuais-page { padding-top: 76px; min-height: 100vh; background: #f8fafc; }
+
+.manuais-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e40af 100%);
+  padding: 60px 0 48px;
+  text-align: center;
+  color: #fff;
+}
+.manuais-hero-inner { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+.manuais-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #c7d2fe;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 16px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+.manuais-hero h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; margin-bottom: 14px; color: #fff; }
+.manuais-hero p { font-size: 17px; color: #c7d2fe; margin-bottom: 28px; }
+.manuais-search-form { display: flex; max-width: 480px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.manuais-search-input { flex: 1; border: none; outline: none; padding: 14px 20px; font-size: 15px; font-family: inherit; color: #1e293b; }
+.manuais-search-btn { background: #4f46e5; color: #fff; border: none; padding: 0 20px; cursor: pointer; display: flex; align-items: center; transition: background 0.2s; }
+.manuais-search-btn:hover { background: #4338ca; }
+
+.manuais-body { padding: 36px 24px 80px; max-width: 1100px; margin: 0 auto; }
+
+.manuais-cats-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.mcat-pill {
+  display: inline-block;
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.18s;
+}
+.mcat-pill:hover, .mcat-pill.active { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+
+.manuais-result-info { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+
+.manuais-group { margin-bottom: 48px; }
+.manuais-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+.mgrupo-icon { font-size: 22px; }
+.mgrupo-titulo { font-size: 20px; font-weight: 700; color: #1e293b; margin: 0; }
+.mgrupo-count { font-size: 12px; color: #94a3b8; background: #f1f5f9; padding: 3px 10px; border-radius: 999px; margin-left: auto; }
+
+.manuais-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; }
+
+.manual-card {
+  display: flex; flex-direction: column;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  text-decoration: none;
+  border: 1.5px solid #e8edf4;
+  transition: all 0.22s;
+  position: relative;
+}
+.manual-card:hover { border-color: #4f46e5; box-shadow: 0 8px 32px rgba(79,70,229,0.12); transform: translateY(-3px); }
+
+.mcard-cat-tag { font-size: 11px; font-weight: 700; color: #4f46e5; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.mcard-titulo { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.45; margin: 0 0 10px; }
+.mcard-resumo { font-size: 13px; color: #64748b; line-height: 1.55; flex: 1; margin-bottom: 16px; }
+.mcard-footer { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #94a3b8; gap: 8px; margin-top: auto; }
+.mcard-autor { display: flex; align-items: center; gap: 4px; }
+.mcard-ler { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600; color: #4f46e5; }
+
+.manuais-empty { text-align: center; padding: 80px 24px; color: #64748b; }
+.mempty-icon { font-size: 52px; margin-bottom: 16px; }
+.manuais-empty h3 { font-size: 20px; color: #1e293b; margin-bottom: 8px; }
+.manuais-empty a { color: #4f46e5; }
+
+/* ============================================================
+   MANUAL — PÁGINA DE DETALHE
+   ============================================================ */
+.manual-page { padding-top: 76px; min-height: 100vh; background: #f8fafc; }
+
+.manual-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  align-items: start;
+}
+
+.manual-article {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #e8edf4;
+  padding: 0 0 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.manual-breadcrumb {
+  padding: 20px 32px 0;
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.manual-breadcrumb a { color: #64748b; text-decoration: none; }
+.manual-breadcrumb a:hover { color: #4f46e5; }
+.manual-breadcrumb span { color: #cbd5e1; }
+
+.manual-titulo { font-size: clamp(22px, 3vw, 30px); font-weight: 800; color: #1e293b; line-height: 1.3; margin: 18px 32px 14px; }
+
+.manual-meta {
+  padding: 0 32px;
+  font-size: 13px; color: #64748b;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.manual-meta span { display: flex; align-items: center; gap: 4px; }
+.manual-meta span + span::before { content: '·'; color: #cbd5e1; margin-right: 2px; }
+.manual-cat-link { color: #4f46e5; text-decoration: none; font-weight: 600; }
+.manual-cat-link:hover { text-decoration: underline; }
+
+.manual-divider { margin: 20px 32px; border: none; border-top: 1.5px solid #e8edf4; }
+
+.manual-intro { font-size: 15px; color: #475569; line-height: 1.7; padding: 0 32px; margin-bottom: 24px; }
+
+.manual-passos-titulo { font-size: 20px; font-weight: 700; color: #1e293b; padding: 0 32px; margin-bottom: 16px; }
+
+.manual-passos-list { padding: 0 32px; margin: 0 0 24px; list-style: none; counter-reset: passos-counter; }
+.manual-passo {
+  counter-increment: passos-counter;
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 15px; color: #374151; line-height: 1.6;
+}
+.manual-passo::before {
+  content: counter(passos-counter);
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  background: #4f46e5;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+.manual-passo:last-child { border-bottom: none; }
+
+.manual-conteudo { padding: 0 32px; font-size: 15px; color: #374151; line-height: 1.75; }
+.manual-conteudo p { margin-bottom: 14px; }
+.manual-conteudo ul, .manual-conteudo ol { padding-left: 24px; margin-bottom: 14px; }
+.manual-conteudo li { margin-bottom: 6px; }
+
+.manual-img-wrap { padding: 8px 32px 0; }
+.manual-img { width: 100%; border-radius: 10px; border: 1.5px solid #e2e8f0; }
+
+.manual-relacionados { margin: 28px 32px 0; padding-top: 24px; border-top: 1.5px solid #f1f5f9; }
+.manual-relacionados h3 { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+.mrel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.mrel-item { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; text-decoration: none; transition: all 0.18s; }
+.mrel-item:hover { border-color: #4f46e5; background: #f0f0ff; }
+.mrel-cat { font-size: 11px; color: #4f46e5; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.mrel-titulo { font-size: 13px; color: #374151; font-weight: 500; line-height: 1.4; }
+
+.manual-cta-box {
+  margin: 28px 32px 0;
+  background: linear-gradient(135deg, #f0f0ff 0%, #e8effe 100%);
+  border: 1.5px solid #c7d2fe;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+}
+.mcta-icon { font-size: 32px; flex-shrink: 0; }
+.mcta-text { flex: 1; min-width: 160px; }
+.mcta-text strong { display: block; font-size: 15px; color: #1e293b; margin-bottom: 4px; }
+.mcta-text span { font-size: 13px; color: #64748b; }
+
+/* Sidebar do manual */
+.manual-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 96px; }
+
+.msb-block {
+  background: #fff;
+  border: 1.5px solid #e8edf4;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.msb-search-form { display: flex; gap: 0; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+.msb-search-input { flex: 1; border: none; outline: none; padding: 10px 14px; font-size: 14px; font-family: inherit; background: transparent; }
+.msb-search-btn { background: #4f46e5; color: #fff; border: none; padding: 0 14px; cursor: pointer; display: flex; align-items: center; transition: background 0.2s; }
+.msb-search-btn:hover { background: #4338ca; }
+
+.msb-title { font-size: 15px; font-weight: 700; color: #1e293b; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1.5px solid #f1f5f9; }
+
+.msb-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.msb-link { display: block; font-size: 13px; color: #475569; text-decoration: none; padding: 7px 0; border-bottom: 1px solid #f8fafc; line-height: 1.45; transition: color 0.15s; }
+.msb-link:hover { color: #4f46e5; }
+.msb-arq { display: flex; justify-content: space-between; align-items: center; }
+.msb-arq-count { font-size: 12px; color: #94a3b8; }
+
+.msb-cta { text-align: center; color: #475569; font-size: 14px; }
+.msb-cta strong { display: block; font-size: 16px; color: #1e293b; margin-bottom: 6px; }
+.msb-cta p { font-size: 13px; color: #64748b; margin: 0; }
+
+@media (max-width: 900px) {
+  .manual-layout { grid-template-columns: 1fr; padding: 24px 16px 60px; }
+  .manual-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+  .msb-block { flex: 1; min-width: 240px; }
+  .manuais-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+@media (max-width: 600px) {
+  .manual-titulo { font-size: 20px; margin: 14px 18px 10px; }
+  .manual-breadcrumb, .manual-meta, .manual-divider, .manual-intro, .manual-passos-titulo, .manual-passos-list, .manual-conteudo, .manual-img-wrap, .manual-relacionados, .manual-cta-box { padding-left: 18px; padding-right: 18px; margin-left: 0; margin-right: 0; }
+  .manual-layout { padding: 16px 12px 60px; }
+  .manuais-body { padding: 24px 12px 60px; }
+}

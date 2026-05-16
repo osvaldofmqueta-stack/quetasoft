@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Manuais — Super Escola{% endblock %}
+{% block description %}Centro de ajuda e manuais do Super Escola, organizados por categoria para facilitar a sua aprendizagem.{% endblock %}
+
+{% block body %}
+<header class="header scrolled" id="header">
+  <div class="container header-inner">
+    <a href="/" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+    <nav class="nav" id="nav">
+      <a href="/#funcionalidades" class="nav-link">Funcionalidades</a>
+      <a href="/#segmentos" class="nav-link">Segmentos</a>
+      <a href="/#depoimentos" class="nav-link">Depoimentos</a>
+      <a href="/#artigos" class="nav-link">Artigos</a>
+      <a href="/manuais/" class="nav-link" style="color:var(--primary)">Manuais</a>
+      <a href="/#faq" class="nav-link">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://wa.me/244926219731?text=Olá!+Vim+pelo+site+e+quero+saber+mais+sobre+o+Super+Escola." class="btn btn-outline" target="_blank">Fale Connosco</a>
+      <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+do+Super+Escola." class="btn btn-primary" target="_blank">Pedir Demonstração</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="manuais-page">
+  <div class="manuais-hero">
+    <div class="container">
+      <div class="manuais-hero-inner">
+        <span class="manuais-badge">📖 Centro de Ajuda</span>
+        <h1>Manuais do <strong>Super Escola</strong></h1>
+        <p>Encontre guias passo-a-passo para todas as funcionalidades do sistema.</p>
+        <form method="get" action="/manuais/" class="manuais-search-form">
+          <input type="text" name="q" value="{{ busca }}" placeholder="Pesquisar manuais…" class="manuais-search-input">
+          <button type="submit" class="manuais-search-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container manuais-body">
+    {% if categorias %}
+    <div class="manuais-cats-bar">
+      <a href="/manuais/" class="mcat-pill {% if not cat_filter %}active{% endif %}">Todos</a>
+      {% for cat in categorias %}
+      <a href="/manuais/?cat={{ cat|urlencode }}" class="mcat-pill {% if cat_filter == cat %}active{% endif %}">{{ cat }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if busca %}
+    <p class="manuais-result-info">{{ total }} resultado{{ total|pluralize:"s" }} para "<strong>{{ busca }}</strong>"</p>
+    {% endif %}
+
+    {% if grupos %}
+      {% for categoria, lista in grupos.items %}
+      <section class="manuais-group">
+        <div class="manuais-group-header">
+          <span class="mgrupo-icon">📂</span>
+          <h2 class="mgrupo-titulo">{{ categoria }}</h2>
+          <span class="mgrupo-count">{{ lista|length }} manual{{ lista|length|pluralize:"is" }}</span>
+        </div>
+        <div class="manuais-grid">
+          {% for m in lista %}
+          <a href="{% url 'manual_detail' m.id %}" class="manual-card">
+            <div class="mcard-cat-tag">{{ m.categoria }}</div>
+            <h3 class="mcard-titulo">{{ m.titulo }}</h3>
+            {% if m.resumo %}
+            <p class="mcard-resumo">{{ m.resumo_curto }}</p>
+            {% endif %}
+            <div class="mcard-footer">
+              <span class="mcard-autor">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                {{ m.autor }}
+              </span>
+              <span class="mcard-data">{{ m.publicado_em|date:"d M Y" }}</span>
+            </div>
+            <span class="mcard-ler">Ler manual →</span>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endfor %}
+    {% else %}
+      <div class="manuais-empty">
+        <div class="mempty-icon">📭</div>
+        {% if busca %}
+        <h3>Nenhum resultado para "{{ busca }}"</h3>
+        <p>Tente outras palavras-chave ou <a href="/manuais/">veja todos os manuais</a>.</p>
+        {% else %}
+        <h3>Ainda não há manuais publicados</h3>
+        <p>Em breve teremos guias detalhados para ajudá-lo a usar o Super Escola.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><span class="logo-icon">🎓</span><span class="logo-text">Super<strong>Escola</strong></span></a>
+      <p>O sistema de gestão académica que simplifica e profissionaliza a sua escola.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Produto</h4><a href="/#funcionalidades">Funcionalidades</a><a href="/#precos">Preços</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a href="{% url 'empresa' %}">Sobre nós</a><a href="{% url 'cv' %}">Desenvolvedor</a></div>
+      <div class="footer-col"><h4>Contacto</h4><a href="https://wa.me/244926219731" target="_blank">+244 926 219 731</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container"><p>© {% now "Y" %} Super Escola. Todos os direitos reservados.</p></div>
+  </div>
+</footer>
+{% endblock %}

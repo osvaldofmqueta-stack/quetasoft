@@ -480,6 +480,24 @@ body {
 }
 .btn-primary-sm:hover { background: var(--primary-dark); }
 
+.passo-row {
+  display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+}
+.passo-row .form-control { flex: 1; }
+.btn-rm-passo {
+  background: #fee2e2; color: #dc2626; border: none; border-radius: 6px;
+  width: 32px; height: 38px; font-size: 14px; cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-rm-passo:hover { background: #fca5a5; }
+.btn-add-passo {
+  background: none; border: 1.5px dashed #c7d2fe; color: #4f46e5;
+  font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px;
+  cursor: pointer; margin-top: 4px; font-family: inherit; width: 100%;
+  transition: background 0.15s;
+}
+.btn-add-passo:hover { background: #f0f0ff; }
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
   .admin-main { margin-left: 0; }
