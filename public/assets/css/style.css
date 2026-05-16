@@ -1588,7 +1588,7 @@ a { text-decoration: none; color: inherit; }
 /* ===================== APP CAROUSEL ===================== */
 .app-carousel { padding: 100px 0 80px; background: #f8fafc; overflow: hidden; }
 
-.carousel-wrapper { position: relative; margin-top: 60px; }
+.carousel-wrapper { position: relative; margin-top: 60px; overflow: hidden; }
 
 .carousel-track {
   display: flex;
