@@ -9,6 +9,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.replit.dev',
+    'https://*.janeway.replit.dev',
+    'https://*.repl.co',
+    'http://localhost:5000',
+    'http://0.0.0.0:5000',
+]
+
+# Também aceitar o domínio do Replit definido em variável de ambiente
+import os as _os
+_replit_domain = _os.environ.get('REPLIT_DEV_DOMAIN', '')
+if _replit_domain:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{_replit_domain}')
+
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
