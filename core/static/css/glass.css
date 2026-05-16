@@ -524,6 +524,61 @@ body::after {
   }
 }
 
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+
+/* --- Base states (hidden) --- */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+              transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+
+.anim-slide-left {
+  opacity: 0;
+  transform: translateX(-48px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+              transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+
+.anim-slide-right {
+  opacity: 0;
+  transform: translateX(48px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+
+.anim-scale-in {
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+              transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+
+/* --- Visible state (triggered by JS) --- */
+.anim-visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up,
+  .anim-slide-left,
+  .anim-slide-right,
+  .anim-scale-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* ---- Shine sweep animation on cards ---- */
 .feature-card,
 .testimonial-card,

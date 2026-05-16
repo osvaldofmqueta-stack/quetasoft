@@ -139,16 +139,145 @@ async function submitLead(e) {
   }
 }
 
-// Animate on scroll
-const observer = new IntersectionObserver((entries) => {
+// ===================== SCROLL ANIMATIONS =====================
+
+// Fade-up (cards, items)
+const fadeObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+      entry.target.classList.add('anim-visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+// Slide-in from left
+const slideLeftObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('anim-visible');
+      slideLeftObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+// Slide-in from right
+const slideRightObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('anim-visible');
+      slideRightObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+// Scale-in
+const scaleObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('anim-visible');
+      scaleObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.feature-card, .segment-card, .testimonial-card, .benefit-item').forEach(el => {
-  el.classList.add('animate-on-scroll');
-  observer.observe(el);
+function applyStagger(elements, baseClass, delay = 100) {
+  elements.forEach((el, i) => {
+    el.classList.add(baseClass);
+    el.style.transitionDelay = (i * delay) + 'ms';
+    fadeObserver.observe(el);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Feature cards — staggered fade-up
+  applyStagger(document.querySelectorAll('.feature-card'), 'anim-fade-up', 90);
+
+  // Segment cards — staggered fade-up
+  applyStagger(document.querySelectorAll('.segment-card'), 'anim-fade-up', 80);
+
+  // Testimonial cards — staggered scale-in
+  document.querySelectorAll('.testimonial-card').forEach((el, i) => {
+    el.classList.add('anim-scale-in');
+    el.style.transitionDelay = (i * 100) + 'ms';
+    scaleObserver.observe(el);
+  });
+
+  // Benefit items — staggered slide-left
+  document.querySelectorAll('.benefit-item').forEach((el, i) => {
+    el.classList.add('anim-slide-left');
+    el.style.transitionDelay = (i * 110) + 'ms';
+    slideLeftObserver.observe(el);
+  });
+
+  // Benefits visual — slide-right
+  document.querySelectorAll('.benefits-visual, .hero-visual').forEach(el => {
+    el.classList.add('anim-slide-right');
+    slideRightObserver.observe(el);
+  });
+
+  // Section headers — fade-up
+  document.querySelectorAll('.section-header').forEach(el => {
+    el.classList.add('anim-fade-up');
+    fadeObserver.observe(el);
+  });
+
+  // Blog cards — staggered fade-up
+  applyStagger(document.querySelectorAll('.blog-card'), 'anim-fade-up', 80);
+
+  // Pricing cards — staggered scale-in
+  document.querySelectorAll('.pricing-card').forEach((el, i) => {
+    el.classList.add('anim-scale-in');
+    el.style.transitionDelay = (i * 110) + 'ms';
+    scaleObserver.observe(el);
+  });
+
+  // Trial form — fade-up
+  document.querySelectorAll('.trial-form-wrap, .trial-text').forEach(el => {
+    el.classList.add('anim-fade-up');
+    fadeObserver.observe(el);
+  });
+
+  // CTA inner
+  document.querySelectorAll('.cta-inner').forEach(el => {
+    el.classList.add('anim-scale-in');
+    scaleObserver.observe(el);
+  });
+
+  // School logo strip items
+  applyStagger(document.querySelectorAll('.school-logo-item'), 'anim-fade-up', 60);
+});
+
+// ===================== STAT COUNTER =====================
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+function animateCounter(el) {
+  const text = el.textContent.trim();
+  const num = parseFloat(text.replace(/[^0-9.]/g, ''));
+  if (isNaN(num) || num === 0) return;
+  const prefix = text.match(/^[^0-9]*/)?.[0] || '';
+  const suffix = text.replace(/^[^0-9]*/, '').replace(/[0-9.]+/, '') || '';
+  const isDecimal = text.includes('.');
+  const duration = 1400;
+  const start = performance.now();
+
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const val = num * ease;
+    el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.round(val)) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
 });
