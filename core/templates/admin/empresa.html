@@ -62,6 +62,14 @@
       <div class="form-group"><label>LinkedIn</label><input name="linkedin" value="{{ co.linkedin|default:'' }}" placeholder="https://linkedin.com/..."></div>
     </div>
 
+    <div class="form-section">Configurações da landing page</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Estatística Hero — Escolas</label><input name="hero_escolas" value="{{ co.hero_escolas|default:'+500' }}" placeholder="+500"></div>
+      <div class="form-group"><label>Estatística Hero — Alunos geridos</label><input name="hero_alunos" value="{{ co.hero_alunos|default:'+10k' }}" placeholder="+10k"></div>
+      <div class="form-group"><label>Estatística Hero — Disponibilidade</label><input name="hero_disponibilidade" value="{{ co.hero_disponibilidade|default:'99.9%' }}" placeholder="99.9%"></div>
+      <div class="form-group"><label>URL do vídeo de demonstração (YouTube)</label><input name="demo_video_url" value="{{ co.demo_video_url|default:'' }}" placeholder="https://youtu.be/..."></div>
+    </div>
+
     <div style="margin-top:24px;">
       <button type="submit" class="btn-admin-primary">💾 Guardar dados da empresa</button>
     </div>

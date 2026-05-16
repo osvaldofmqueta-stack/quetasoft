@@ -13,8 +13,13 @@
       <a href="#funcionalidades" class="nav-link">Funcionalidades</a>
       <a href="#segmentos" class="nav-link">Segmentos</a>
       <a href="#depoimentos" class="nav-link">Depoimentos</a>
-      <a href="#artigos" class="nav-link">Artigos</a>
-      <a href="{% url 'manuais' %}" class="nav-link">Manuais</a>
+      <div class="nav-dropdown">
+        <button class="nav-link nav-ddtoggle">Recursos <span class="nav-caret">▾</span></button>
+        <div class="nav-ddmenu">
+          <a href="#artigos" class="nav-dditem">📝 Artigos</a>
+          <a href="{% url 'manuais' %}" class="nav-dditem">📖 Manuais</a>
+        </div>
+      </div>
       <a href="#faq" class="nav-link">FAQ</a>
     </nav>
     <div class="header-actions">
@@ -38,11 +43,11 @@
         <a href="#funcionalidades" class="btn btn-ghost btn-lg">Ver funcionalidades →</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><span class="stat-num">+500</span><span class="stat-label">Escolas ativas</span></div>
+        <div class="stat"><span class="stat-num">{{ hero_stat_escolas }}</span><span class="stat-label">Escolas ativas</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">+10k</span><span class="stat-label">Alunos geridos</span></div>
+        <div class="stat"><span class="stat-num">{{ hero_stat_alunos }}</span><span class="stat-label">Alunos geridos</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">99.9%</span><span class="stat-label">Disponibilidade</span></div>
+        <div class="stat"><span class="stat-num">{{ hero_stat_disponibilidade }}</span><span class="stat-label">Disponibilidade</span></div>
       </div>
     </div>
     <div class="hero-visual">
@@ -92,12 +97,60 @@
   <div class="container">
     <p class="clients-label">Já confiam no Super Escola</p>
     <div class="clients-logos">
-      <div class="client-logo">🏫 Colégio Estrela</div>
-      <div class="client-logo">📖 Academia Saber</div>
-      <div class="client-logo">🎵 Escola de Música Nota</div>
-      <div class="client-logo">💻 Centro TechLearn</div>
-      <div class="client-logo">🌍 Instituto Global</div>
-      <div class="client-logo">🎭 Arte & Cultura</div>
+      {% if escolas %}
+        {% for e in escolas %}
+        <div class="client-entry">
+          <div class="client-entry-av" style="background:{{ e.cor_avatar }};">
+            {% if e.foto_url %}<img src="{{ e.foto_url }}" alt="{{ e.nome_escola }}">{% else %}{{ e.iniciais }}{% endif %}
+          </div>
+          <span class="client-entry-name">{{ e.nome_escola }}</span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="client-logo">🏫 Colégio Estrela</div>
+        <div class="client-logo">📖 Academia Saber</div>
+        <div class="client-logo">🎵 Escola de Música Nota</div>
+        <div class="client-logo">💻 Centro TechLearn</div>
+        <div class="client-logo">🌍 Instituto Global</div>
+        <div class="client-logo">🎭 Arte &amp; Cultura</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="como-funciona">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Como funciona</div>
+      <h2 class="section-title">Comece a usar em <span class="gradient-text">3 passos simples</span></h2>
+      <p class="section-desc">Da demonstração ao sistema completo, a nossa equipa acompanha-o em cada etapa — sem complicações.</p>
+    </div>
+    <div class="como-steps">
+      <div class="como-step">
+        <div class="como-step-card">
+          <div class="como-step-num">💬</div>
+          <h3>Peça a demonstração</h3>
+          <p>Entre em contacto pelo WhatsApp ou preencha o formulário. Fazemos uma demonstração gratuita e personalizada para a sua escola, ao vivo.</p>
+        </div>
+      </div>
+      <div class="como-step">
+        <div class="como-step-card">
+          <div class="como-step-num">⚙️</div>
+          <h3>Instalamos e configuramos</h3>
+          <p>A nossa equipa configura e personaliza o sistema com os dados e identidade visual da sua escola em menos de 24 horas.</p>
+        </div>
+      </div>
+      <div class="como-step">
+        <div class="como-step-card">
+          <div class="como-step-num">🎓</div>
+          <h3>Comece a usar</h3>
+          <p>Formação completa da sua equipa incluída. Em pouco tempo, a sua escola já está a funcionar de forma 100% digital e organizada.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+gratuita+do+Super+Escola." class="btn btn-primary btn-lg" target="_blank">🚀 Quero começar agora</a>
     </div>
   </div>
 </section>
@@ -113,35 +166,145 @@
   </div>
   <div class="carousel-wrapper">
     <div class="carousel-track" id="carouselTrack">
+
+      <!-- Slide 01 — Login -->
       <div class="carousel-slide">
         <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-login"><div class="app-brasao">🇦🇴</div><div class="app-brand">SUPER ESCOLA</div><div class="app-brand-sub">Sistema de Gestão Académica</div><div class="app-login-form"><div class="app-input"><span class="app-input-icon">👤</span><span class="app-input-text">Utilizador</span></div><div class="app-input"><span class="app-input-icon">🔒</span><span class="app-input-text">Palavra-passe</span></div><div class="app-btn-login">ENTRAR</div></div></div></div></div></div>
         <div class="slide-info"><div class="slide-num">01 / 06</div><h3>Acesso seguro e rápido</h3><p>Login protegido com credenciais únicas para cada utilizador. Aceda de qualquer browser — computador, tablet ou telemóvel — sem instalar nada.</p><div class="slide-tags"><span class="tag">🔐 Login seguro</span><span class="tag">📱 Responsivo</span><span class="tag">☁️ Online 24/7</span></div></div>
       </div>
+
+      <!-- Slide 02 — Dashboard -->
       <div class="carousel-slide">
         <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📊 Dashboard</span><span style="color:#4a6fa5;font-size:11px;">Ano 2025/2026</span></div><div class="app-kpis"><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#7ec8e3;">248</div><div class="app-kpi-l">Alunos</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#4ade80;">18</div><div class="app-kpi-l">Turmas</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#f59e0b;">94%</div><div class="app-kpi-l">Pagamentos</div></div><div class="app-kpi" style="background:#1a3a5c;"><div class="app-kpi-n" style="color:#c084fc;">12</div><div class="app-kpi-l">Professores</div></div></div></div></div></div></div>
         <div class="slide-info"><div class="slide-num">02 / 06</div><h3>Dashboard em tempo real</h3><p>Tenha uma visão completa da sua escola num só ecrã. Alunos, turmas, pagamentos, atividade recente — tudo atualizado em tempo real.</p><div class="slide-tags"><span class="tag">📊 Gráficos</span><span class="tag">⚡ Tempo real</span><span class="tag">🔔 Atividade</span></div></div>
       </div>
+
+      <!-- Slide 03 — Alunos -->
       <div class="carousel-slide">
-        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">👥 Alunos</span></div></div></div></div></div>
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;">
+          <div class="app-screen">
+            <div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">👥 Alunos</span><span style="color:#4ade80;font-size:11px;">248 total</span></div>
+            <div class="app-search-bar"><span>🔍</span><span>Pesquisar aluno...</span></div>
+            <div class="app-list">
+              <div class="app-list-item"><div class="app-av" style="background:#4f46e5;">MA</div><div class="app-item-info"><span class="app-item-name">Maria Antónia</span><span class="app-item-sub">Turma 10ª A</span></div><span class="app-badge green">✓ Pago</span></div>
+              <div class="app-list-item"><div class="app-av" style="background:#0ea5e9;">JS</div><div class="app-item-info"><span class="app-item-name">João Santos</span><span class="app-item-sub">Turma 9ª B</span></div><span class="app-badge yellow">⏳ Pend.</span></div>
+              <div class="app-list-item"><div class="app-av" style="background:#10b981;">LC</div><div class="app-item-info"><span class="app-item-name">Luísa Carvalho</span><span class="app-item-sub">Turma 11ª A</span></div><span class="app-badge green">✓ Pago</span></div>
+              <div class="app-list-item"><div class="app-av" style="background:#f59e0b;">PF</div><div class="app-item-info"><span class="app-item-name">Pedro Ferreira</span><span class="app-item-sub">Turma 8ª C</span></div><span class="app-badge red">✗ Atraso</span></div>
+              <div class="app-list-item"><div class="app-av" style="background:#ec4899;">AN</div><div class="app-item-info"><span class="app-item-name">Ana Neves</span><span class="app-item-sub">Turma 10ª B</span></div><span class="app-badge green">✓ Pago</span></div>
+            </div>
+          </div>
+        </div></div></div>
         <div class="slide-info"><div class="slide-num">03 / 06</div><h3>Gestão de alunos simplificada</h3><p>Registo completo de cada aluno com ficha pessoal, histórico académico, documentos, encarregado de educação e estado da matrícula.</p><div class="slide-tags"><span class="tag">📋 Fichas completas</span><span class="tag">🔍 Pesquisa rápida</span><span class="tag">📁 Documentos</span></div></div>
       </div>
+
+      <!-- Slide 04 — Financeiro -->
       <div class="carousel-slide">
-        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">💰 Financeiro</span></div></div></div></div></div>
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;">
+          <div class="app-screen">
+            <div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">💰 Financeiro</span><span style="color:#4a6fa5;font-size:11px;">Maio 2026</span></div>
+            <div class="app-fin-kpis">
+              <div class="app-fin-kpi"><span style="color:#4ade80;font-size:14px;font-weight:800;">287.500 Kz</span><span style="color:#7ec8e3;font-size:9px;">Recebido</span></div>
+              <div class="app-fin-kpi"><span style="color:#f59e0b;font-size:14px;font-weight:800;">42.000 Kz</span><span style="color:#7ec8e3;font-size:9px;">Pendente</span></div>
+            </div>
+            <div style="padding:0 8px 6px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="color:#7ec8e3;font-size:9px;">Taxa de cobrança</span><span style="color:#4ade80;font-size:9px;font-weight:700;">87%</span></div>
+              <div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="height:5px;width:87%;background:linear-gradient(90deg,#4ade80,#22c55e);border-radius:3px;"></div></div>
+            </div>
+            <div class="app-list">
+              <div class="app-list-item"><div class="app-item-info"><span class="app-item-name">Maria Antónia</span><span class="app-item-sub">Mensalidade — Maio</span></div><span class="app-badge green">+15.000 Kz</span></div>
+              <div class="app-list-item"><div class="app-item-info"><span class="app-item-name">João Santos</span><span class="app-item-sub">Mensalidade — Maio</span></div><span class="app-badge green">+15.000 Kz</span></div>
+              <div class="app-list-item"><div class="app-item-info"><span class="app-item-name">Pedro Ferreira</span><span class="app-item-sub">Mensalidade — Abril</span></div><span class="app-badge red">Atrasado</span></div>
+            </div>
+          </div>
+        </div></div></div>
         <div class="slide-info"><div class="slide-num">04 / 06</div><h3>Controlo financeiro total</h3><p>Acompanhe mensalidades, pagamentos em atraso e cobranças pendentes em tempo real. Envie lembretes automáticos por WhatsApp.</p><div class="slide-tags"><span class="tag">💳 Cobranças</span><span class="tag">📈 Relatórios</span><span class="tag">💬 Lembretes</span></div></div>
       </div>
+
+      <!-- Slide 05 — Horários -->
       <div class="carousel-slide">
-        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📅 Horários</span></div></div></div></div></div>
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;">
+          <div class="app-screen">
+            <div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📅 Horários</span><span style="color:#4a6fa5;font-size:11px;">Turma 10ª A</span></div>
+            <div class="app-schedule">
+              <div class="app-sch-header"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span></div>
+              <div class="app-sch-row">
+                <div class="app-sch-cell purple">Mat.</div><div class="app-sch-cell blue">Port.</div><div class="app-sch-cell green">Ciên.</div><div class="app-sch-cell orange">Hist.</div><div class="app-sch-cell purple">Mat.</div>
+              </div>
+              <div class="app-sch-row">
+                <div class="app-sch-cell blue">Port.</div><div class="app-sch-cell green">Ciên.</div><div class="app-sch-cell purple">Mat.</div><div class="app-sch-cell blue">Port.</div><div class="app-sch-cell orange">Ed.Fís.</div>
+              </div>
+              <div class="app-sch-row">
+                <div class="app-sch-cell orange">Hist.</div><div class="app-sch-cell purple">Mat.</div><div class="app-sch-cell blue">Port.</div><div class="app-sch-cell green">Ciên.</div><div class="app-sch-cell blue">Port.</div>
+              </div>
+              <div class="app-sch-row">
+                <div class="app-sch-cell green">Ciên.</div><div class="app-sch-cell orange">Hist.</div><div class="app-sch-cell orange">Ed.Fís.</div><div class="app-sch-cell purple">Mat.</div><div class="app-sch-cell green">Ciên.</div>
+              </div>
+            </div>
+            <div style="margin:4px 8px;padding:5px 8px;background:rgba(74,222,128,0.08);border-radius:6px;"><span style="color:#4ade80;font-size:9px;">✓ Sem conflitos detectados</span></div>
+          </div>
+        </div></div></div>
         <div class="slide-info"><div class="slide-num">05 / 06</div><h3>Quadro de horários visual</h3><p>Monte e visualize os horários de todas as turmas e professores. O sistema deteta conflitos automaticamente e apresenta uma vista semanal clara.</p><div class="slide-tags"><span class="tag">📅 Vista semanal</span><span class="tag">⚠️ Anti-conflitos</span><span class="tag">📄 Exportar PDF</span></div></div>
       </div>
+
+      <!-- Slide 06 — Boletins -->
       <div class="carousel-slide">
-        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;"><div class="app-screen"><div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📝 Boletins</span></div></div></div></div></div>
+        <div class="slide-device"><div class="device-frame tablet"><div class="device-screen" style="background:#0D1F35;">
+          <div class="app-screen">
+            <div class="app-topbar"><span style="color:#7ec8e3;font-size:13px;font-weight:700;">📝 Boletim</span><span style="color:#4ade80;font-size:11px;">Maria Antónia</span></div>
+            <div class="app-boletim">
+              <div class="app-bol-row header"><span>Disciplina</span><span>1ºT</span><span>2ºT</span><span>Méd.</span></div>
+              <div class="app-bol-row"><span>Matemática</span><span>14</span><span>16</span><span style="color:#4ade80;font-weight:700;">15</span></div>
+              <div class="app-bol-row"><span>Português</span><span>17</span><span>18</span><span style="color:#4ade80;font-weight:700;">17.5</span></div>
+              <div class="app-bol-row"><span>Ciências</span><span>12</span><span>14</span><span style="color:#f59e0b;font-weight:700;">13</span></div>
+              <div class="app-bol-row"><span>História</span><span>16</span><span>15</span><span style="color:#4ade80;font-weight:700;">15.5</span></div>
+              <div class="app-bol-row"><span>Ed. Física</span><span>18</span><span>19</span><span style="color:#4ade80;font-weight:700;">18.5</span></div>
+            </div>
+            <div style="margin:5px 8px;padding:6px 8px;background:rgba(74,222,128,0.1);border-radius:6px;text-align:center;"><span style="color:#4ade80;font-size:10px;font-weight:700;">✓ APROVADO — Média Geral: 15.9</span></div>
+          </div>
+        </div></div></div>
         <div class="slide-info"><div class="slide-num">06 / 06</div><h3>Notas e boletins automáticos</h3><p>Lance notas por trimestre, acompanhe presenças e gere boletins em PDF personalizados com a identidade visual da sua escola.</p><div class="slide-tags"><span class="tag">📝 Lançamento de notas</span><span class="tag">📄 Boletim PDF</span><span class="tag">✅ Aprovação auto</span></div></div>
       </div>
+
     </div>
     <div class="carousel-controls">
       <button class="carousel-prev" onclick="moveCarousel(-1)" aria-label="Anterior">&#8592;</button>
       <div class="carousel-dots" id="carouselDots"></div>
       <button class="carousel-next" onclick="moveCarousel(1)" aria-label="Seguinte">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO DEMO -->
+<section class="video-demo">
+  <div class="container">
+    <div class="video-demo-inner">
+      <div class="video-demo-text">
+        <div class="section-badge">Veja ao vivo</div>
+        <h2>Veja o Super Escola<br>em ação — agora</h2>
+        <p>Em menos de 3 minutos percebe por que as escolas angolanas estão a abandonar as planilhas e a adotar o Super Escola.</p>
+        <div class="vd-benefits">
+          <div class="vd-benefit"><span class="vd-benefit-icon">✓</span> Dashboard completo e intuitivo</div>
+          <div class="vd-benefit"><span class="vd-benefit-icon">✓</span> Gestão de alunos, turmas e pagamentos</div>
+          <div class="vd-benefit"><span class="vd-benefit-icon">✓</span> Notificações automáticas por WhatsApp</div>
+          <div class="vd-benefit"><span class="vd-benefit-icon">✓</span> Funciona em qualquer dispositivo</div>
+        </div>
+        <div style="margin-top:28px;">
+          <a href="https://wa.me/244926219731?text=Olá!+Quero+ver+uma+demonstração+ao+vivo+do+Super+Escola." class="btn btn-primary" target="_blank">💬 Pedir demo ao vivo</a>
+        </div>
+      </div>
+      <div>
+        {% if demo_embed %}
+        <div class="video-embed-wrap">
+          <iframe src="{{ demo_embed }}" title="Demonstração Super Escola" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        {% else %}
+        <div class="video-placeholder">
+          <div class="video-placeholder-icon">🎬</div>
+          <p>Vídeo de demonstração<br>em breve.<br><br>Enquanto isso, peça uma<br>demonstração ao vivo!</p>
+          <a href="https://wa.me/244926219731?text=Olá!+Quero+uma+demonstração+gratuita+do+Super+Escola." class="btn btn-outline" target="_blank" style="color:#fff;border-color:rgba(255,255,255,0.3);">💬 Agendar demonstração</a>
+        </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
@@ -159,7 +322,7 @@
       <div class="feature-card feature-card--light"><div class="feature-icon">📅</div><h3>Quadro de Horários</h3><p>Organize os horários de turmas, professores e salas de forma simples e visual. Sem conflitos, sem dores de cabeça.</p><ul class="feature-list"><li>✓ Vista semanal e mensal</li><li>✓ Deteção de conflitos</li><li>✓ Exportação em PDF</li></ul></div>
       <div class="feature-card feature-card--accent"><div class="feature-icon">💰</div><h3>Módulo Financeiro</h3><p>Controle mensalidades, gere cobranças automáticas e acompanhe recebimentos em tempo real. Diga adeus às planilhas!</p><ul class="feature-list"><li>✓ Cobranças automáticas</li><li>✓ Relatórios financeiros</li><li>✓ Controlo de inadimplência</li></ul></div>
       <div class="feature-card feature-card--light"><div class="feature-icon">🔔</div><h3>Notificações</h3><p>Comunique com alunos e encarregados por WhatsApp, SMS, email ou push notification. Mensagens certas, no momento certo.</p><ul class="feature-list"><li>✓ WhatsApp integrado</li><li>✓ Envio em massa</li><li>✓ Automatizações</li></ul></div>
-      <div class="feature-card feature-card--dark"><div class="feature-icon">📊</div><h3>Relatórios & Dashboard</h3><p>Tome decisões com dados reais. Dashboards interativos com métricas de desempenho académico e financeiro da sua escola.</p><ul class="feature-list"><li>✓ Dashboard em tempo real</li><li>✓ Relatórios personalizados</li><li>✓ Exportação Excel/PDF</li></ul></div>
+      <div class="feature-card feature-card--dark"><div class="feature-icon">📊</div><h3>Relatórios &amp; Dashboard</h3><p>Tome decisões com dados reais. Dashboards interativos com métricas de desempenho académico e financeiro da sua escola.</p><ul class="feature-list"><li>✓ Dashboard em tempo real</li><li>✓ Relatórios personalizados</li><li>✓ Exportação Excel/PDF</li></ul></div>
       <div class="feature-card feature-card--light"><div class="feature-icon">🎓</div><h3>Portal do Aluno</h3><p>O aluno acede ao seu boletim, horários, mensagens e documentos diretamente pelo telemóvel — sem instalar nada.</p><ul class="feature-list"><li>✓ Acesso via browser</li><li>✓ Notas e presenças</li><li>✓ Comunicados</li></ul></div>
     </div>
   </div>
@@ -191,6 +354,53 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANTES VS. DEPOIS -->
+<section class="antes-depois">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">A diferença é clara</div>
+      <h2 class="section-title">Antes e depois do <span class="gradient-text">Super Escola</span></h2>
+      <p class="section-desc">Veja como a sua gestão escolar se transforma quando deixa as planilhas para trás.</p>
+    </div>
+    <div class="ad-grid">
+      <div class="ad-col ad-col--antes">
+        <div class="ad-header ad-header--antes">
+          <div class="ad-header-icon">📋</div>
+          <h3>Com Planilhas</h3>
+        </div>
+        <div class="ad-items">
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Dados espalhados por dezenas de ficheiros Excel e papéis</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Horas perdidas a atualizar listas de alunos manualmente</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Cobranças feitas à mão, com risco de erros e esquecimentos</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Comunicação com pais por mensagens avulsas no telemóvel</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Sem relatórios reais — gestão "no escuro"</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Horários construídos manualmente com risco de conflitos</div>
+          <div class="ad-item"><span class="ad-item-icon">❌</span> Boletins impressos e preenchidos à mão</div>
+        </div>
+      </div>
+      <div class="ad-vs">VS</div>
+      <div class="ad-col ad-col--depois">
+        <div class="ad-header ad-header--depois">
+          <div class="ad-header-icon">🚀</div>
+          <h3>Com Super Escola</h3>
+        </div>
+        <div class="ad-items">
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Toda a informação centralizada num único sistema seguro</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Fichas de alunos completas em segundos, actualizadas em tempo real</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Cobranças automáticas com alertas por WhatsApp para os pais</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Comunicados em massa para todos os encarregados num clique</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Dashboard com métricas reais de desempenho académico e financeiro</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Horários com deteção automática de conflitos</div>
+          <div class="ad-item"><span class="ad-item-icon">✅</span> Boletins em PDF gerados automaticamente por turma ou aluno</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="#pedido-gratuito" class="btn btn-primary btn-lg">🎓 Quero fazer esta transformação →</a>
     </div>
   </div>
 </section>
@@ -251,7 +461,7 @@
       <div class="segment-card"><div class="segment-icon">🎵</div><h3>Escolas de Arte</h3><p>Música, dança, teatro, artes plásticas. Gestão de turmas e horários flexíveis.</p></div>
       <div class="segment-card"><div class="segment-icon">💻</div><h3>Cursos Profissionais</h3><p>Informática, idiomas, formação profissional e cursos livres de curta duração.</p></div>
       <div class="segment-card"><div class="segment-icon">🏊</div><h3>Escolas Desportivas</h3><p>Natação, futebol, ginástica e desportos em geral com controlo de mensalidades.</p></div>
-      <div class="segment-card"><div class="segment-icon">👶</div><h3>Creches & Berçários</h3><p>Comunicação diária com os pais, relatórios de desenvolvimento e gestão de vagas.</p></div>
+      <div class="segment-card"><div class="segment-icon">👶</div><h3>Creches &amp; Berçários</h3><p>Comunicação diária com os pais, relatórios de desenvolvimento e gestão de vagas.</p></div>
       <div class="segment-card"><div class="segment-icon">🌍</div><h3>Escolas de Idiomas</h3><p>Controlo de turmas por nível, progresso dos alunos e certificações.</p></div>
     </div>
   </div>
@@ -299,7 +509,7 @@
 <section class="pricing" id="precos">
   <div class="container">
     <div class="section-header">
-      <span class="section-tag">Planos & Preços</span>
+      <span class="section-tag">Planos &amp; Preços</span>
       <h2 class="section-title">Pagamento único. Sem mensalidades.</h2>
       <p class="section-subtitle">Escolha o pacote que melhor se adapta ao tamanho da sua escola. Instalação completa e suporte incluídos.</p>
     </div>
@@ -464,7 +674,7 @@
       </div>
     </div>
     <div class="footer-links">
-      <div class="footer-col"><h4>Produto</h4><a href="#funcionalidades">Funcionalidades</a><a href="#segmentos">Segmentos</a><a href="#depoimentos">Depoimentos</a><a href="#artigos">Artigos</a><a href="#faq">FAQ</a><a href="{% url 'manuais' %}">Manuais</a></div>
+      <div class="footer-col"><h4>Produto</h4><a href="#funcionalidades">Funcionalidades</a><a href="#segmentos">Segmentos</a><a href="#depoimentos">Depoimentos</a><a href="#artigos">Artigos</a><a href="{% url 'manuais' %}">Manuais</a><a href="#faq">FAQ</a></div>
       <div class="footer-col"><h4>Empresa</h4><a href="{% url 'empresa' %}">Sobre nós</a><a href="{% url 'cv' %}">Desenvolvedor</a></div>
       <div class="footer-col"><h4>Contacto</h4><a href="https://wa.me/244926219731" target="_blank">+244 926 219 731</a><a href="mailto:geral@superescola.ao">geral@superescola.ao</a></div>
     </div>

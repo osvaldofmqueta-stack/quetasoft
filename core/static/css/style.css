@@ -3402,3 +3402,122 @@ a { text-decoration: none; color: inherit; }
   .manual-layout { padding: 16px 12px 60px; }
   .manuais-body { padding: 24px 12px 60px; }
 }
+
+/* ============================================================
+   NAV DROPDOWN — RECURSOS
+   ============================================================ */
+.nav-dropdown { position: relative; display: inline-flex; align-items: center; }
+.nav-ddtoggle { background: none; border: none; cursor: pointer; font-size: 15px; color: #e2e8f0; font-family: inherit; padding: 4px 8px; display: flex; align-items: center; gap: 4px; transition: color 0.2s; line-height: 1; }
+.scrolled .nav-ddtoggle { color: #374151; }
+.nav-ddtoggle:hover { color: #fff; }
+.scrolled .nav-ddtoggle:hover { color: #4f46e5; }
+.nav-caret { font-size: 11px; transition: transform 0.2s; display: inline-block; }
+.nav-dropdown:hover .nav-caret { transform: rotate(180deg); }
+.nav-ddmenu { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%); background: #fff; border-radius: 12px; padding: 6px; min-width: 170px; box-shadow: 0 8px 32px rgba(0,0,0,0.14); border: 1px solid #e2e8f0; opacity: 0; visibility: hidden; transition: opacity 0.18s, visibility 0.18s, top 0.18s; z-index: 200; }
+.nav-dropdown:hover .nav-ddmenu { opacity: 1; visibility: visible; top: calc(100% + 8px); }
+.nav-dditem { display: block; padding: 9px 14px; color: #374151; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 500; transition: background 0.15s; }
+.nav-dditem:hover { background: #f0f0ff; color: #4f46e5; }
+
+/* ============================================================
+   CLIENTS STRIP — WITH REAL ESCOLA DATA
+   ============================================================ */
+.client-entry { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; background: #f1f5f9; transition: background 0.2s; white-space: nowrap; }
+.client-entry:hover { background: #e0e7ff; }
+.client-entry-av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0; overflow: hidden; }
+.client-entry-av img { width: 100%; height: 100%; object-fit: cover; }
+.client-entry-name { font-size: 13px; font-weight: 600; color: #374151; }
+
+/* ============================================================
+   COMO FUNCIONA — 3 PASSOS
+   ============================================================ */
+.como-funciona { padding: 80px 0; background: #fff; }
+.como-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 52px; position: relative; }
+.como-steps::before { content: ''; position: absolute; top: 36px; left: calc(16.67% + 28px); right: calc(16.67% + 28px); height: 2px; background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%); z-index: 0; pointer-events: none; }
+.como-step { text-align: center; padding: 0 32px 32px; position: relative; z-index: 1; transition: all 0.22s; }
+.como-step-num { width: 72px; height: 72px; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 24px; box-shadow: 0 8px 24px rgba(79,70,229,0.3); border: 4px solid #fff; position: relative; }
+.como-step h3 { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+.como-step p { font-size: 15px; color: #64748b; line-height: 1.65; max-width: 260px; margin: 0 auto; }
+.como-step-card { background: #f8fafc; border: 1.5px solid #e8edf4; border-radius: 18px; padding: 28px 24px; transition: all 0.22s; margin: 0 8px; }
+.como-step-card:hover { border-color: #4f46e5; box-shadow: 0 8px 32px rgba(79,70,229,0.1); transform: translateY(-4px); }
+@media (max-width: 768px) {
+  .como-steps { grid-template-columns: 1fr; gap: 20px; }
+  .como-steps::before { display: none; }
+  .como-step { padding: 0; }
+  .como-step-card { margin: 0; }
+}
+
+/* ============================================================
+   VIDEO DEMO SECTION
+   ============================================================ */
+.video-demo { padding: 80px 0; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); overflow: hidden; position: relative; }
+.video-demo::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(124,58,237,0.15) 0%, transparent 60%); pointer-events: none; }
+.video-demo-inner { display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; align-items: center; position: relative; }
+.video-demo-text .section-badge { background: rgba(199,210,254,0.15); color: #c7d2fe; border-color: rgba(199,210,254,0.25); margin-bottom: 20px; }
+.video-demo-text h2 { font-size: clamp(24px, 3.5vw, 38px); font-weight: 800; color: #fff; margin: 0 0 16px; line-height: 1.2; }
+.video-demo-text p { font-size: 16px; color: #a5b4fc; margin-bottom: 28px; line-height: 1.7; }
+.vd-benefits { display: flex; flex-direction: column; gap: 12px; }
+.vd-benefit { display: flex; align-items: center; gap: 10px; color: #c7d2fe; font-size: 14px; }
+.vd-benefit-icon { width: 22px; height: 22px; background: rgba(99,102,241,0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; }
+.video-embed-wrap { border-radius: 16px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.5); aspect-ratio: 16/9; background: #0d1f35; }
+.video-embed-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+.video-placeholder { aspect-ratio: 16/9; background: rgba(255,255,255,0.04); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed rgba(255,255,255,0.15); gap: 14px; text-align: center; padding: 32px; }
+.video-placeholder-icon { font-size: 52px; opacity: 0.6; }
+.video-placeholder p { color: rgba(255,255,255,0.4); font-size: 14px; line-height: 1.6; max-width: 280px; }
+.video-placeholder .btn { opacity: 0.9; }
+@media (max-width: 900px) {
+  .video-demo-inner { grid-template-columns: 1fr; gap: 36px; }
+}
+
+/* ============================================================
+   ANTES vs. DEPOIS
+   ============================================================ */
+.antes-depois { padding: 80px 0; background: #f8fafc; }
+.ad-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: start; margin-top: 48px; }
+.ad-col { border-radius: 20px; padding: 32px 28px; }
+.ad-col--antes { background: #fff; border: 1.5px solid #fecaca; }
+.ad-col--depois { background: linear-gradient(135deg, #f0f0ff 0%, #e8effe 100%); border: 1.5px solid #a5b4fc; }
+.ad-vs { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: #1e293b; color: #fff; border-radius: 50%; font-size: 13px; font-weight: 800; margin: 56px 16px 0; flex-shrink: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.ad-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; }
+.ad-header--antes { border-bottom: 1.5px solid #fecaca; }
+.ad-header--depois { border-bottom: 1.5px solid #a5b4fc; }
+.ad-header-icon { font-size: 32px; }
+.ad-col--antes .ad-header h3 { font-size: 18px; font-weight: 700; color: #dc2626; margin: 0; }
+.ad-col--depois .ad-header h3 { font-size: 18px; font-weight: 700; color: #4f46e5; margin: 0; }
+.ad-items { display: flex; flex-direction: column; gap: 10px; }
+.ad-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: #374151; }
+.ad-item-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+@media (max-width: 768px) {
+  .ad-grid { grid-template-columns: 1fr; gap: 16px; }
+  .ad-vs { margin: 0 auto; }
+}
+
+/* ============================================================
+   APP MOCK STYLES FOR CAROUSEL SLIDES 3-6
+   ============================================================ */
+.app-search-bar { margin: 5px 8px; padding: 5px 8px; background: rgba(255,255,255,0.05); border-radius: 6px; display: flex; align-items: center; gap: 5px; font-size: 10px; color: #4a6fa5; border: 1px solid rgba(255,255,255,0.07); }
+.app-list { display: flex; flex-direction: column; margin: 2px 0; }
+.app-list-item { display: flex; align-items: center; gap: 7px; padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.app-av { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.app-item-info { flex: 1; display: flex; flex-direction: column; gap: 1px; overflow: hidden; }
+.app-item-name { font-size: 11px; font-weight: 600; color: #e2e8f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-item-sub { font-size: 9px; color: #4a6fa5; }
+.app-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+.app-badge.green { background: rgba(74,222,128,0.15); color: #4ade80; }
+.app-badge.yellow { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.app-badge.red { background: rgba(239,68,68,0.15); color: #f87171; }
+.app-fin-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 5px 8px; }
+.app-fin-kpi { background: rgba(255,255,255,0.04); border-radius: 7px; padding: 7px 8px; display: flex; flex-direction: column; gap: 2px; }
+.app-schedule { margin: 5px 8px; }
+.app-sch-header { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 3px; }
+.app-sch-header span { text-align: center; font-size: 9px; font-weight: 700; color: #7ec8e3; }
+.app-sch-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 2px; }
+.app-sch-cell { text-align: center; font-size: 9px; font-weight: 600; padding: 5px 2px; border-radius: 4px; }
+.app-sch-cell.purple { background: rgba(124,58,237,0.3); color: #c4b5fd; }
+.app-sch-cell.blue { background: rgba(14,165,233,0.3); color: #7dd3fc; }
+.app-sch-cell.green { background: rgba(16,185,129,0.3); color: #6ee7b7; }
+.app-sch-cell.orange { background: rgba(245,158,11,0.3); color: #fcd34d; }
+.app-boletim { margin: 4px 8px; }
+.app-bol-row { display: grid; grid-template-columns: 1fr 28px 28px 32px; gap: 2px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
+.app-bol-row.header span { font-size: 9px; font-weight: 700; color: #7ec8e3; }
+.app-bol-row span { font-size: 10px; color: #e2e8f0; text-align: right; }
+.app-bol-row span:first-child { text-align: left; color: #cbd5e1; font-size: 10px; }

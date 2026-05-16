@@ -7,6 +7,7 @@ from .models import Lead, Escola, Post, Pagamento, Setting, Manual
 
 
 def index(request):
+    import re as _re
     escolas = Escola.objects.filter(ativo=1).order_by('ordem', 'id')
     posts = Post.objects.filter(ativo=1).order_by('-publicado_em')[:9]
     total_installs = Pagamento.objects.count()
@@ -17,12 +18,26 @@ def index(request):
         if p['pago_em']:
             p['pago_em'] = str(p['pago_em'])
     categorias = ['Todos', 'Finanças', 'Gestão Escolar', 'Pedagógico', 'Tecnologia Educacional', 'Vendas', 'Outros']
+    co = Setting.get('company', {})
+    hero_stat_escolas = co.get('hero_escolas', '+500')
+    hero_stat_alunos = co.get('hero_alunos', '+10k')
+    hero_stat_disponibilidade = co.get('hero_disponibilidade', '99.9%')
+    demo_video_url = co.get('demo_video_url', '')
+    demo_embed = ''
+    if demo_video_url:
+        m = _re.search(r'(?:youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]{11})', demo_video_url)
+        if m:
+            demo_embed = f'https://www.youtube.com/embed/{m.group(1)}?rel=0'
     return render(request, 'index.html', {
         'escolas': escolas,
         'posts': posts,
         'total_installs': total_installs,
         'toast_payments_json': json.dumps(toast_payments, ensure_ascii=False),
         'categorias': categorias,
+        'hero_stat_escolas': hero_stat_escolas,
+        'hero_stat_alunos': hero_stat_alunos,
+        'hero_stat_disponibilidade': hero_stat_disponibilidade,
+        'demo_embed': demo_embed,
     })
 
 

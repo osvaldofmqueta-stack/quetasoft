@@ -407,6 +407,10 @@ def empresa_edit(request):
             'missao': request.POST.get('missao', '').strip(),
             'visao': request.POST.get('visao', '').strip(),
             'valores': request.POST.get('valores', '').strip(),
+            'hero_escolas': request.POST.get('hero_escolas', '+500').strip(),
+            'hero_alunos': request.POST.get('hero_alunos', '+10k').strip(),
+            'hero_disponibilidade': request.POST.get('hero_disponibilidade', '99.9%').strip(),
+            'demo_video_url': request.POST.get('demo_video_url', '').strip(),
         }
         Setting.save_setting('company', co)
         msg_type, msg_text = 'success', 'Dados da empresa actualizados com sucesso!'
