@@ -8,6 +8,7 @@
       <a href="#funcionalidades" class="nav-link">Funcionalidades</a>
       <a href="#segmentos" class="nav-link">Segmentos</a>
       <a href="#depoimentos" class="nav-link">Depoimentos</a>
+      <a href="#artigos" class="nav-link">Artigos</a>
       <a href="#faq" class="nav-link">FAQ</a>
     </nav>
     <div class="header-actions">

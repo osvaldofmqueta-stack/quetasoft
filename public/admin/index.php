@@ -73,6 +73,7 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
       </a>
       <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
       <a href="/admin/schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
+      <a href="/admin/posts.php" class="snav-item">📝 Artigos do Blog</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>

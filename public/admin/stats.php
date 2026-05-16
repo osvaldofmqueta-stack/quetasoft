@@ -75,6 +75,7 @@ $recentes = $db->query("SELECT * FROM leads ORDER BY criado_em DESC LIMIT 5")->f
       <a href="/admin/index.php" class="snav-item">📋 Pedidos / Leads</a>
       <a href="/admin/stats.php" class="snav-item active">📊 Estatísticas</a>
       <a href="/admin/schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
+      <a href="/admin/posts.php" class="snav-item">📝 Artigos do Blog</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>

@@ -17,6 +17,7 @@
         <a href="#funcionalidades">Funcionalidades</a>
         <a href="#segmentos">Segmentos</a>
         <a href="#depoimentos">Depoimentos</a>
+        <a href="#artigos">Artigos</a>
         <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
