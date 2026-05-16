@@ -48,6 +48,40 @@ function toggleFaq(btn) {
   if (!isOpen) item.classList.add('open');
 }
 
+// Lead form submission
+async function submitLead(e) {
+  e.preventDefault();
+  const form = document.getElementById('trialForm');
+  const btn = document.getElementById('submitBtn');
+  const success = document.getElementById('formSuccess');
+  const error = document.getElementById('formError');
+
+  btn.disabled = true;
+  btn.textContent = 'A enviar...';
+  error.style.display = 'none';
+
+  const data = new FormData(form);
+  try {
+    const res = await fetch('/api/submit-lead.php', { method: 'POST', body: data });
+    const json = await res.json();
+    if (json.success) {
+      form.querySelectorAll('input, textarea, button').forEach(el => el.style.display = 'none');
+      form.querySelector('h3').style.display = 'none';
+      success.style.display = 'block';
+    } else {
+      error.textContent = json.message || 'Erro ao enviar. Tente novamente.';
+      error.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '🚀 Quero a minha demonstração gratuita';
+    }
+  } catch {
+    error.textContent = 'Erro de ligação. Verifique a internet e tente novamente.';
+    error.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '🚀 Quero a minha demonstração gratuita';
+  }
+}
+
 // Animate on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

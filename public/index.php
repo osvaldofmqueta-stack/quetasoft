@@ -22,6 +22,7 @@
 <?php include 'components/testimonials.php'; ?>
 <?php include 'components/segments.php'; ?>
 <?php include 'components/faq.php'; ?>
+<?php include 'components/trial.php'; ?>
 <?php include 'components/cta.php'; ?>
 <?php include 'components/footer.php'; ?>
 
