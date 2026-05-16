@@ -71,6 +71,7 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
       <a href="index.php?estado=cancelado" class="snav-item <?= $estado === 'cancelado' ? 'active' : '' ?>">
         🔴 Cancelados <span class="badge badge-red"><?= $totais['cancelado'] ?? 0 ?></span>
       </a>
+      <a href="stats.php" class="snav-item">📊 Estatísticas</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>

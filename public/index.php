@@ -16,6 +16,7 @@
 <?php include 'components/header.php'; ?>
 <?php include 'components/hero.php'; ?>
 <?php include 'components/clients.php'; ?>
+<?php include 'components/carousel.php'; ?>
 <?php include 'components/showcase.php'; ?>
 <?php include 'components/features.php'; ?>
 <?php include 'components/benefits.php'; ?>

@@ -31,6 +31,59 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// Carousel
+let carouselIndex = 0;
+let carouselTimer = null;
+
+function initCarousel() {
+  const track = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  if (!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+
+  dotsWrap.innerHTML = '';
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goToSlide(i);
+    dotsWrap.appendChild(d);
+  });
+
+  goToSlide(0);
+  startCarouselTimer();
+}
+
+function goToSlide(index) {
+  const track = document.getElementById('carouselTrack');
+  if (!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  carouselIndex = (index + slides.length) % slides.length;
+  track.style.transform = `translateX(-${carouselIndex * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === carouselIndex);
+  });
+  document.querySelectorAll('.carousel-slide').forEach((s, i) => {
+    s.classList.toggle('active', i === carouselIndex);
+  });
+}
+
+function moveCarousel(dir) {
+  goToSlide(carouselIndex + dir);
+  resetCarouselTimer();
+}
+
+function startCarouselTimer() {
+  carouselTimer = setInterval(() => goToSlide(carouselIndex + 1), 5000);
+}
+
+function resetCarouselTimer() {
+  clearInterval(carouselTimer);
+  startCarouselTimer();
+}
+
+document.addEventListener('DOMContentLoaded', initCarousel);
+
 // Showcase tab switching
 function switchTab(btn, id) {
   document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
