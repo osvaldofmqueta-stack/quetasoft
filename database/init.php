@@ -142,6 +142,55 @@ function getDb(): PDO {
     try { $db->exec("ALTER TABLE posts ADD COLUMN intro TEXT DEFAULT ''"); } catch(Exception $e) {}
     try { $db->exec("ALTER TABLE posts ADD COLUMN pontos TEXT DEFAULT '[]'"); } catch(Exception $e) {}
 
+    // Default company data
+    $has_company = $db->query("SELECT COUNT(*) FROM settings WHERE chave='company'")->fetchColumn();
+    if (!$has_company) {
+        $company = [
+            'nome' => 'Super Escola',
+            'slogan' => 'A gestão escolar moderna para Angola',
+            'logo_url' => '',
+            'descricao' => 'A Super Escola é uma plataforma de gestão académica criada para simplificar e profissionalizar a administração de escolas e institutos em Angola. Desenvolvemos ferramentas que permitem gerir matrículas, turmas, notas, cobranças e comunicações — tudo num só lugar, acessível de qualquer dispositivo.',
+            'morada' => 'Luanda, Angola',
+            'telefone' => '+244 926 219 731',
+            'email' => 'geral@superescola.ao',
+            'website' => '',
+            'facebook' => '',
+            'instagram' => '',
+            'linkedin' => '',
+            'ano_fundacao' => '2022',
+            'missao' => 'Simplificar a gestão escolar através da tecnologia, tornando cada escola mais eficiente, mais organizada e mais próxima das famílias.',
+            'visao' => 'Ser a plataforma de gestão escolar mais utilizada em Angola, contribuindo para a melhoria da qualidade da educação no país.',
+            'valores' => 'Inovação, Simplicidade, Fiabilidade, Impacto, Proximidade',
+        ];
+        $db->prepare("INSERT OR IGNORE INTO settings (chave, valor) VALUES (?, ?)")
+           ->execute(['company', json_encode($company, JSON_UNESCAPED_UNICODE)]);
+    }
+
+    // Default developer data
+    $has_dev = $db->query("SELECT COUNT(*) FROM settings WHERE chave='developer'")->fetchColumn();
+    if (!$has_dev) {
+        $developer = [
+            'nome' => 'Desenvolvedor Super Escola',
+            'cargo' => 'Desenvolvedor Full Stack',
+            'foto_url' => '',
+            'bio' => 'Desenvolvedor especializado em sistemas de gestão escolar e plataformas web para o mercado angolano. Criador do Super Escola, a solução que moderniza a administração de escolas em Angola. Apaixonado por criar ferramentas que simplificam o dia a dia de educadores e gestores.',
+            'localizacao' => 'Luanda, Angola',
+            'whatsapp' => '+244 926 219 731',
+            'email' => 'dev@superescola.ao',
+            'linkedin' => '',
+            'github' => '',
+            'skills' => ['PHP', 'JavaScript', 'MySQL / SQLite', 'HTML & CSS', 'Bootstrap', 'Git', 'Linux', 'REST APIs'],
+            'experiencias' => [
+                ['cargo' => 'Desenvolvedor Full Stack', 'empresa' => 'Super Escola', 'periodo' => '2022 – Presente', 'descricao' => 'Desenvolvimento e manutenção da plataforma de gestão escolar Super Escola, usada por escolas em toda Angola.'],
+            ],
+            'projetos' => [
+                ['nome' => 'Super Escola', 'url' => '', 'descricao' => 'Plataforma de gestão académica completa para escolas e institutos angolanos. Matrículas, notas, cobranças e WhatsApp num só lugar.'],
+            ],
+        ];
+        $db->prepare("INSERT OR IGNORE INTO settings (chave, valor) VALUES (?, ?)")
+           ->execute(['developer', json_encode($developer, JSON_UNESCAPED_UNICODE)]);
+    }
+
     return $db;
 }
 
