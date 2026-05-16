@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'toggle') {
         $id = (int)$_POST['id'];
         $db->prepare("UPDATE escolas SET ativo = 1 - ativo WHERE id=?")->execute([$id]);
-        header('Location: schools.php'); exit;
+        header('Location: /admin/schools.php'); exit;
     }
 }
 
@@ -106,13 +106,13 @@ $escolas = $db->query("SELECT * FROM escolas ORDER BY ordem ASC, id ASC")->fetch
   <aside class="sidebar">
     <div class="sidebar-logo">🎓 <strong>Super</strong>Escola</div>
     <nav class="sidebar-nav">
-      <a href="index.php" class="snav-item">📋 Pedidos / Leads</a>
-      <a href="stats.php" class="snav-item">📊 Estatísticas</a>
-      <a href="schools.php" class="snav-item active">🏫 Escolas & Testemunhos</a>
+      <a href="/admin/index.php" class="snav-item">📋 Pedidos / Leads</a>
+      <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
+      <a href="/admin/schools.php" class="snav-item active">🏫 Escolas & Testemunhos</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
-      <a href="logout.php" class="snav-item snav-logout">🚪 Sair</a>
+      <a href="/admin/logout.php" class="snav-item snav-logout">🚪 Sair</a>
     </div>
   </aside>
 

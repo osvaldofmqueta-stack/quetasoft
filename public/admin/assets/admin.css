@@ -460,6 +460,26 @@ body {
 .alert-error { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
 .alert-success { background: rgba(16,185,129,0.08); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
 
+/* ---- BTN PRIMARY SM ---- */
+.btn-primary-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+.btn-primary-sm:hover { background: var(--primary-dark); }
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
   .admin-main { margin-left: 0; }

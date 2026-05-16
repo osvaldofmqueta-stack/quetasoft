@@ -8,19 +8,26 @@ require_once '../../database/init.php';
 $db = getDb();
 
 $id = (int)($_GET['id'] ?? 0);
+
+if (isset($_GET['acao']) && $_GET['acao'] === 'apagar') {
+    $db->prepare("DELETE FROM leads WHERE id = ?")->execute([$id]);
+    header('Location: /admin/index.php');
+    exit;
+}
+
 $lead = $db->prepare("SELECT * FROM leads WHERE id = ?");
 $lead->execute([$id]);
 $lead = $lead->fetch();
 
 if (!$lead) {
-    header('Location: index.php');
+    header('Location: /admin/index.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estado = $_POST['estado'] ?? $lead['estado'];
     $db->prepare("UPDATE leads SET estado = ? WHERE id = ?")->execute([$estado, $id]);
-    header('Location: lead.php?id=' . $id . '&saved=1');
+    header('Location: /admin/lead.php?id=' . $id . '&saved=1');
     exit;
 }
 
@@ -40,18 +47,20 @@ $labels = ['novo' => '🔵 Novo', 'contactado' => '🟡 Contactado', 'convertido
   <aside class="sidebar">
     <div class="sidebar-logo">🎓 <strong>Super</strong>Escola</div>
     <nav class="sidebar-nav">
-      <a href="index.php" class="snav-item active">📋 Pedidos / Leads</a>
+      <a href="/admin/index.php" class="snav-item active">📋 Pedidos / Leads</a>
+      <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
+      <a href="/admin/schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
-      <a href="logout.php" class="snav-item snav-logout">🚪 Sair</a>
+      <a href="/admin/logout.php" class="snav-item snav-logout">🚪 Sair</a>
     </div>
   </aside>
 
   <main class="admin-main">
     <header class="admin-header">
       <div>
-        <a href="index.php" class="back-link">← Voltar à lista</a>
+        <a href="/admin/index.php" class="back-link">← Voltar à lista</a>
         <h1 class="admin-title">Pedido #<?= $lead['id'] ?> — <?= htmlspecialchars($lead['nome']) ?></h1>
       </div>
     </header>

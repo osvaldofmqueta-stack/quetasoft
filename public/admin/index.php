@@ -40,7 +40,7 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
     if ($acao === 'apagar') {
         $db->prepare("DELETE FROM leads WHERE id = ?")->execute([$id]);
     }
-    header('Location: index.php' . ($_GET['estado'] ? '?estado=' . $_GET['estado'] : ''));
+    header('Location: /admin/index.php' . ($_GET['estado'] ? '?estado=' . $_GET['estado'] : ''));
     exit;
 }
 ?>
@@ -58,25 +58,25 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
   <aside class="sidebar">
     <div class="sidebar-logo">🎓 <strong>Super</strong>Escola</div>
     <nav class="sidebar-nav">
-      <a href="index.php" class="snav-item active">📋 Pedidos / Leads</a>
-      <a href="index.php?estado=novo" class="snav-item <?= $estado === 'novo' ? 'active' : '' ?>">
+      <a href="/admin/index.php" class="snav-item active">📋 Pedidos / Leads</a>
+      <a href="/admin/index.php?estado=novo" class="snav-item <?= $estado === 'novo' ? 'active' : '' ?>">
         🔵 Novos <span class="badge badge-blue"><?= $totais['novo'] ?? 0 ?></span>
       </a>
-      <a href="index.php?estado=contactado" class="snav-item <?= $estado === 'contactado' ? 'active' : '' ?>">
+      <a href="/admin/index.php?estado=contactado" class="snav-item <?= $estado === 'contactado' ? 'active' : '' ?>">
         🟡 Contactados <span class="badge badge-yellow"><?= $totais['contactado'] ?? 0 ?></span>
       </a>
-      <a href="index.php?estado=convertido" class="snav-item <?= $estado === 'convertido' ? 'active' : '' ?>">
+      <a href="/admin/index.php?estado=convertido" class="snav-item <?= $estado === 'convertido' ? 'active' : '' ?>">
         🟢 Convertidos <span class="badge badge-green"><?= $totais['convertido'] ?? 0 ?></span>
       </a>
-      <a href="index.php?estado=cancelado" class="snav-item <?= $estado === 'cancelado' ? 'active' : '' ?>">
+      <a href="/admin/index.php?estado=cancelado" class="snav-item <?= $estado === 'cancelado' ? 'active' : '' ?>">
         🔴 Cancelados <span class="badge badge-red"><?= $totais['cancelado'] ?? 0 ?></span>
       </a>
-      <a href="stats.php" class="snav-item">📊 Estatísticas</a>
-      <a href="schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
+      <a href="/admin/stats.php" class="snav-item">📊 Estatísticas</a>
+      <a href="/admin/schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
-      <a href="logout.php" class="snav-item snav-logout">🚪 Sair</a>
+      <a href="/admin/logout.php" class="snav-item snav-logout">🚪 Sair</a>
     </div>
   </aside>
 
