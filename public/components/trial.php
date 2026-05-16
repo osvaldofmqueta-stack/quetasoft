@@ -11,6 +11,13 @@
           <div class="trial-promise"><span class="tp-icon">✓</span><span>Configuração e formação incluídas</span></div>
           <div class="trial-promise"><span class="tp-icon">✓</span><span>Resposta em menos de 24 horas</span></div>
         </div>
+        <div class="trial-system-link">
+          <p class="tsl-label">Já tem acesso? Entre directamente no sistema:</p>
+          <a href="http://157.230.121.98/login" target="_blank" class="tsl-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+            Aceder ao Super Escola
+          </a>
+        </div>
       </div>
 
       <div class="trial-form-wrap">
@@ -47,7 +54,16 @@
           <div class="form-success" id="formSuccess" style="display:none">
             <div class="success-icon">🎉</div>
             <h4>Pedido enviado com sucesso!</h4>
-            <p>A nossa equipa irá entrar em contacto em breve pelo WhatsApp ou email. Obrigado!</p>
+            <p>A nossa equipa irá entrar em contacto em breve pelo WhatsApp ou email.</p>
+            <div class="success-actions">
+              <a href="http://157.230.121.98/login" target="_blank" class="success-system-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+                Aceder agora ao sistema
+              </a>
+              <a href="https://wa.me/244926219731?text=Olá!+Acabei+de+preencher+o+formulário+no+site+Super+Escola+e+gostaria+de+saber+mais." target="_blank" class="success-wa-btn">
+                💬 Falar no WhatsApp
+              </a>
+            </div>
           </div>
           <div class="form-error" id="formError" style="display:none"></div>
         </form>

@@ -21,6 +21,7 @@
 <?php include 'components/features.php'; ?>
 <?php include 'components/benefits.php'; ?>
 <?php include 'components/testimonials.php'; ?>
+<?php include 'components/download.php'; ?>
 <?php include 'components/segments.php'; ?>
 <?php include 'components/faq.php'; ?>
 <?php include 'components/trial.php'; ?>

@@ -1,47 +1,62 @@
+<?php
+require_once __DIR__ . '/../../database/init.php';
+$db_t = getDb();
+$escolas = $db_t->query("SELECT * FROM escolas WHERE ativo=1 ORDER BY ordem ASC, id ASC")->fetchAll();
+?>
 <section class="testimonials" id="depoimentos">
   <div class="container">
     <div class="section-header">
-      <div class="section-badge">Depoimentos</div>
-      <h2 class="section-title">O que dizem os nossos clientes</h2>
+      <div class="section-badge">Escolas que já aderiram</div>
+      <h2 class="section-title">O que dizem os nossos <span class="gradient-text">diretores</span></h2>
+      <p class="section-desc">Mais de 50 escolas em Angola já confiam no Super Escola para gerir o seu dia-a-dia académico.</p>
     </div>
+
+    <!-- School logos strip -->
+    <div class="school-logos-strip">
+      <?php foreach ($escolas as $e): ?>
+      <div class="school-logo-item">
+        <div class="school-logo-av" style="background:<?= htmlspecialchars($e['cor_avatar']) ?>;">
+          <?php if (!empty($e['foto_url'])): ?>
+            <img src="<?= htmlspecialchars($e['foto_url']) ?>" alt="<?= htmlspecialchars($e['nome_escola']) ?>">
+          <?php else: ?>
+            <?= htmlspecialchars($e['iniciais']) ?>
+          <?php endif; ?>
+        </div>
+        <span class="school-logo-name"><?= htmlspecialchars($e['nome_escola']) ?></span>
+        <span class="school-logo-city"><?= htmlspecialchars($e['cidade']) ?></span>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <!-- Testimonials grid -->
     <div class="testimonials-grid">
-
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"O Super Escola transformou completamente a nossa gestão. Antes perdíamos horas com planilhas, agora temos tudo automatizado e os encarregados ficam muito mais satisfeitos."</p>
+      <?php foreach ($escolas as $i => $e): ?>
+      <div class="testimonial-card <?= $i === 1 ? 'testimonial-card--featured' : '' ?>">
+        <div class="testimonial-stars">
+          <?= str_repeat('★', (int)$e['estrelas']) ?><?= str_repeat('☆', 5 - (int)$e['estrelas']) ?>
+        </div>
+        <p class="testimonial-text"><?= htmlspecialchars($e['depoimento']) ?></p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">MD</div>
+          <div class="testimonial-avatar-wrap">
+            <?php if (!empty($e['foto_url'])): ?>
+              <img class="testimonial-photo" src="<?= htmlspecialchars($e['foto_url']) ?>" alt="<?= htmlspecialchars($e['nome_diretor']) ?>">
+            <?php else: ?>
+              <div class="testimonial-avatar" style="background:<?= htmlspecialchars($e['cor_avatar']) ?>;">
+                <?= htmlspecialchars($e['iniciais']) ?>
+              </div>
+            <?php endif; ?>
+          </div>
           <div>
-            <strong>Maria Domingos</strong>
-            <span>Diretora — Colégio Estrela, Luanda</span>
+            <strong><?= htmlspecialchars($e['nome_diretor']) ?></strong>
+            <span><?= htmlspecialchars($e['cargo']) ?> — <?= htmlspecialchars($e['nome_escola']) ?>, <?= htmlspecialchars($e['cidade']) ?></span>
           </div>
         </div>
       </div>
+      <?php endforeach; ?>
+    </div>
 
-      <div class="testimonial-card testimonial-card--featured">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Implementamos o sistema em 2 dias e a equipa ficou a usar sem dificuldades logo na primeira semana. O suporte é excelente e sempre disponível quando precisamos."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">JP</div>
-          <div>
-            <strong>João Pedro</strong>
-            <span>Gestor — Academia Saber, Benguela</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"A funcionalidade de cobranças automáticas por WhatsApp reduziu a nossa inadimplência em mais de 50%. Não consigo imaginar gerir a escola sem o Super Escola."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">AS</div>
-          <div>
-            <strong>Ana Sofia</strong>
-            <span>Diretora Financeira — Instituto Global</span>
-          </div>
-        </div>
-      </div>
-
+    <div class="testimonials-cta">
+      <p>A sua escola ainda não está aqui? <a href="#pedido-gratuito" class="link-highlight">Junte-se a nós →</a></p>
     </div>
   </div>
 </section>

@@ -72,6 +72,7 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
         🔴 Cancelados <span class="badge badge-red"><?= $totais['cancelado'] ?? 0 ?></span>
       </a>
       <a href="stats.php" class="snav-item">📊 Estatísticas</a>
+      <a href="schools.php" class="snav-item">🏫 Escolas & Testemunhos</a>
     </nav>
     <div class="sidebar-footer">
       <a href="/" class="snav-item" target="_blank">🌐 Ver site</a>
