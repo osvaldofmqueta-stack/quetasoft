@@ -513,25 +513,46 @@
       <h2 class="section-title">Pagamento único. Sem mensalidades.</h2>
       <p class="section-subtitle">Escolha o pacote que melhor se adapta ao tamanho da sua escola. Instalação completa e suporte incluídos.</p>
     </div>
+    <!-- Seletor de moeda -->
+    <div class="pricing-currency-toggle">
+      <button class="pcur-btn active" onclick="setPricingCurrency('kz')" id="pcur-kz">🇦🇴 Kwanza (Kz)</button>
+      <button class="pcur-btn" onclick="setPricingCurrency('usd')" id="pcur-usd">🇺🇸 Dólar (USD)</button>
+    </div>
+
     <div class="pricing-grid">
       <div class="pricing-card">
         <div class="pricing-header"><div class="pricing-icon">🏫</div><h3 class="pricing-name">Básico</h3><p class="pricing-desc">Ideal para escolas pequenas a começar a digitalizar</p></div>
-        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">299</span><span class="pricing-period">pagamento único</span></div>
+        <div class="pricing-price-wrap">
+          <span class="pricing-currency price-kz">Kz</span><span class="pricing-price price-kz">180.000</span>
+          <span class="pricing-currency price-usd" style="display:none">$</span><span class="pricing-price price-usd" style="display:none">299</span>
+          <span class="pricing-period">pagamento único</span>
+        </div>
         <ul class="pricing-features"><li><span class="pf-check">✓</span> 1 campus / filial</li><li><span class="pf-check">✓</span> Até 300 alunos</li><li><span class="pf-check">✓</span> Matrículas e pagamentos</li><li><span class="pf-check">✓</span> Cobranças automáticas WhatsApp</li><li><span class="pf-check">✓</span> Gestão de turmas e notas</li><li><span class="pf-check">✓</span> Suporte por email (48h)</li><li class="pf-no"><span class="pf-cross">✗</span> Portal do encarregado</li><li class="pf-no"><span class="pf-cross">✗</span> Relatórios avançados</li></ul>
-        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Básico+($299)." target="_blank" class="pricing-btn btn btn-outline">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Básico+(180.000+Kz)." target="_blank" class="pricing-btn btn btn-outline price-wa-kz">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Básico+($299)." target="_blank" class="pricing-btn btn btn-outline price-wa-usd" style="display:none">Adquirir agora</a>
       </div>
       <div class="pricing-card pricing-popular">
         <div class="pricing-badge">⭐ Mais popular</div>
         <div class="pricing-header"><div class="pricing-icon">🎓</div><h3 class="pricing-name">Profissional</h3><p class="pricing-desc">Para escolas em crescimento com múltiplas turmas</p></div>
-        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">499</span><span class="pricing-period">pagamento único</span></div>
+        <div class="pricing-price-wrap">
+          <span class="pricing-currency price-kz">Kz</span><span class="pricing-price price-kz">299.000</span>
+          <span class="pricing-currency price-usd" style="display:none">$</span><span class="pricing-price price-usd" style="display:none">499</span>
+          <span class="pricing-period">pagamento único</span>
+        </div>
         <ul class="pricing-features"><li><span class="pf-check">✓</span> Até 3 campus / filiais</li><li><span class="pf-check">✓</span> Alunos ilimitados</li><li><span class="pf-check">✓</span> Tudo do Básico incluído</li><li><span class="pf-check">✓</span> Portal do encarregado</li><li><span class="pf-check">✓</span> Relatórios e estatísticas</li><li><span class="pf-check">✓</span> Calendário académico</li><li><span class="pf-check">✓</span> Suporte prioritário (24h)</li><li class="pf-no"><span class="pf-cross">✗</span> Treinamento presencial</li></ul>
-        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Profissional+($499)." target="_blank" class="pricing-btn btn btn-primary">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Profissional+(299.000+Kz)." target="_blank" class="pricing-btn btn btn-primary price-wa-kz">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Profissional+($499)." target="_blank" class="pricing-btn btn btn-primary price-wa-usd" style="display:none">Adquirir agora</a>
       </div>
       <div class="pricing-card">
         <div class="pricing-header"><div class="pricing-icon">🏆</div><h3 class="pricing-name">Completo</h3><p class="pricing-desc">Para grupos escolares e instituições de grande porte</p></div>
-        <div class="pricing-price-wrap"><span class="pricing-currency">$</span><span class="pricing-price">799</span><span class="pricing-period">pagamento único</span></div>
+        <div class="pricing-price-wrap">
+          <span class="pricing-currency price-kz">Kz</span><span class="pricing-price price-kz">479.000</span>
+          <span class="pricing-currency price-usd" style="display:none">$</span><span class="pricing-price price-usd" style="display:none">799</span>
+          <span class="pricing-period">pagamento único</span>
+        </div>
         <ul class="pricing-features"><li><span class="pf-check">✓</span> Filiais ilimitadas</li><li><span class="pf-check">✓</span> Alunos ilimitados</li><li><span class="pf-check">✓</span> Tudo do Profissional</li><li><span class="pf-check">✓</span> Personalização da marca</li><li><span class="pf-check">✓</span> Treinamento completo da equipa</li><li><span class="pf-check">✓</span> API de integração</li><li><span class="pf-check">✓</span> Suporte dedicado WhatsApp 24/7</li><li><span class="pf-check">✓</span> Actualizações gratuitas 1 ano</li></ul>
-        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Completo+($799)." target="_blank" class="pricing-btn btn btn-outline">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Completo+(479.000+Kz)." target="_blank" class="pricing-btn btn btn-outline price-wa-kz">Adquirir agora</a>
+        <a href="https://wa.me/244926219731?text=Olá!+Tenho+interesse+no+Pacote+Completo+($799)." target="_blank" class="pricing-btn btn btn-outline price-wa-usd" style="display:none">Adquirir agora</a>
       </div>
     </div>
     <div class="pricing-footer">
@@ -541,7 +562,8 @@
         <span class="ptrust-item">🛠 <strong>Instalação em 24h</strong> após confirmação</span>
         <span class="ptrust-item">📞 <strong>Suporte local</strong> em Angola</span>
       </div>
-      <p class="pricing-note">Preços em USD. Aceitamos transferência bancária, TPA, Multicaixa e referência. <a href="https://wa.me/244926219731" target="_blank">Fale connosco</a> para condições especiais.</p>
+      <p class="pricing-note price-note-kz">Preços em Kwanzas (Kz). Aceitamos TPA, Multicaixa, transferência bancária e referência. <a href="https://wa.me/244926219731" target="_blank">Fale connosco</a> para condições especiais.</p>
+      <p class="pricing-note price-note-usd" style="display:none">Preços em USD. Aceitamos transferência bancária internacional. <a href="https://wa.me/244926219731" target="_blank">Fale connosco</a> para condições especiais.</p>
     </div>
   </div>
 </section>

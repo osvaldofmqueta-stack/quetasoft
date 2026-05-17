@@ -281,3 +281,16 @@ function animateCounter(el) {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
 });
+
+// ===================== PRICING CURRENCY TOGGLE =====================
+window.setPricingCurrency = function(cur) {
+  const isKz = cur === 'kz';
+  document.querySelectorAll('.price-kz').forEach(el => el.style.display = isKz ? '' : 'none');
+  document.querySelectorAll('.price-usd').forEach(el => el.style.display = isKz ? 'none' : '');
+  document.querySelectorAll('.price-wa-kz').forEach(el => el.style.display = isKz ? '' : 'none');
+  document.querySelectorAll('.price-wa-usd').forEach(el => el.style.display = isKz ? 'none' : '');
+  document.querySelectorAll('.price-note-kz').forEach(el => el.style.display = isKz ? '' : 'none');
+  document.querySelectorAll('.price-note-usd').forEach(el => el.style.display = isKz ? 'none' : '');
+  document.getElementById('pcur-kz')?.classList.toggle('active', isKz);
+  document.getElementById('pcur-usd')?.classList.toggle('active', !isKz);
+};
